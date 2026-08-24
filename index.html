@@ -4195,6 +4195,7 @@ function buildPrepCardHtml(o){
   const hasBeenPrinted = o.status!=='جديد';
   const isFullyDone = o.status!=='جديد' && o.status!=='قيد التجهيز';
   const readyToCheck = o.status==='قيد التجهيز';
+  const isLocked = LOCKED_STATUSES.includes(o.status);
   const borderColor = hasBeenPrinted ? orderStatusColorVar(o.status) : 'transparent';
   const isSelected = selectedPrepCardId===o.id;
   return `<div class="prep-card" id="prep-card-${o.id}" onclick="selectPrepCard(${o.id})" style="display:flex;background:#fff;border-radius:14px;border:2.5px solid ${borderColor};outline:${isSelected?'3px solid #1E1B3A':'none'};outline-offset:1px;box-shadow:0 6px 14px -10px rgba(30,20,90,.2);margin-bottom:10px;overflow:hidden;cursor:pointer;">
@@ -4218,14 +4219,14 @@ function buildPrepCardHtml(o){
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
           طباعة
         </button>
-        ${currentRole!=='prep' ? `<button onclick="editPrepOrder(${o.id})" style="width:100%;margin-top:4px;padding:6px 4px;border-radius:9px;background:transparent;border:1.2px solid rgba(255,255,255,.5);color:#fff;font-weight:700;font-size:9.5px;display:flex;align-items:center;justify-content:center;gap:4px;">
+        ${(currentRole!=='prep' && !isLocked) ? `<button onclick="editPrepOrder(${o.id})" style="width:100%;margin-top:4px;padding:6px 4px;border-radius:9px;background:transparent;border:1.2px solid rgba(255,255,255,.5);color:#fff;font-weight:700;font-size:9.5px;display:flex;align-items:center;justify-content:center;gap:4px;">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
           تعديل الطلب
         </button>` : ''}
-        <label style="display:flex;align-items:center;gap:4px;cursor:pointer;margin-top:4px;">
+        ${!isLocked ? `<label style="display:flex;align-items:center;gap:4px;cursor:pointer;margin-top:4px;">
           <input type="checkbox" ${isFullyDone?'checked':''} ${readyToCheck?'':'disabled'} onchange="togglePrepChecked(${o.id},this.checked)" style="width:14px;height:14px;accent-color:#fff;flex-shrink:0;">
           <span style="font-size:10.5px;font-weight:800;color:#fff;">تم تجهيز الطلب</span>
-        </label>
+        </label>` : ''}
       </div>
     </div>`;
 }
