@@ -652,6 +652,7 @@ a{color:inherit;text-decoration:none;}
       <button class="back-btn" onclick="navigate('home')">←</button>
       <h1>المستودع</h1>
       <div class="sub-actions" style="display:flex;gap:8px;">
+        <input type="file" id="warehouse-restore-input" accept="application/json" class="hidden" onchange="importWarehouseBackup(event)">
         <button class="icon-btn" onclick="openProductForm()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
       </div>
     </div>
@@ -665,6 +666,10 @@ a{color:inherit;text-decoration:none;}
         <input id="wh-search" placeholder="ابحث عن منتج بالاسم أو الرمز..." oninput="renderWarehouse()">
       </div>
       <div id="wh-list"></div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
+        <button onclick="exportWarehouseBackup()" style="width:100%;padding:14px;border-radius:14px;background:#fff;border:1.5px solid var(--border);color:var(--primary);font-weight:800;font-size:13.5px;">نسخة احتياطية للمستودع</button>
+        <button onclick="document.getElementById('warehouse-restore-input').click()" style="width:100%;padding:14px;border-radius:14px;background:#fff;border:1.5px solid var(--border);color:var(--primary);font-weight:800;font-size:13.5px;">استعادة نسخة احتياطية للمستودع</button>
+      </div>
     </div>
   </div>
 
@@ -4707,14 +4712,55 @@ function saveStoreName(){
   }).catch(()=>showToast('تعذر تحديث بيانات المتجر'));
 }
 function exportBackup(){
-  const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/octet-stream'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
   a.download = 'hammoudeh-backup-' + new Date().toISOString().slice(0,10) + '.json';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  a.rel = 'noopener';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{ document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
   showToast('تم تنزيل النسخة الاحتياطية');
+}
+function exportWarehouseBackup(){
+  const payload = { products: state.products, categories: state.categories, exportedAt: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/octet-stream'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Products.json';
+  a.rel = 'noopener';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{ document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+  showToast('تم تنزيل نسخة احتياطية للمستودع');
+}
+function importWarehouseBackup(ev){
+  const file = ev.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      if(!Array.isArray(data.products)){ showToast('ملف النسخة الاحتياطية غير صالح'); return; }
+      showConfirm('استعادة نسخة المستودع', `سيتم استبدال جميع المنتجات والفئات الحالية بـ ${data.products.length} منتج من الملف. هل تريد المتابعة؟`, async ()=>{
+        closeModal('modal-confirm');
+        try{
+          const batch = db.batch();
+          data.products.forEach(p=>{ const {id, ...rest} = p; batch.set(db.collection('products').doc(String(id)), rest); });
+          batch.set(db.collection('settings').doc('categories'), {list:data.categories||[]});
+          await batch.commit();
+          showToast('تم استعادة نسخة المستودع بنجاح');
+          navigate('warehouse');
+        }catch(err){ showToast('تعذر استعادة النسخة الاحتياطية'); }
+      });
+    }catch(err){ showToast('تعذر قراءة الملف'); }
+  };
+  reader.readAsText(file);
+  ev.target.value = '';
 }
 function importBackup(ev){
   const file = ev.target.files[0];
