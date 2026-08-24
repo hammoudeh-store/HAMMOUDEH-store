@@ -1400,6 +1400,22 @@ a{color:inherit;text-decoration:none;}
   </div>
 </div>
 
+<div id="modal-reset-password" class="overlay hidden">
+  <div class="modal-sheet">
+    <div class="modal-head"><h3>تأكيد الهوية</h3><button class="modal-close" onclick="closeModal('modal-reset-password')">✕</button></div>
+    <p style="margin-bottom:16px;color:var(--muted);font-size:13.5px;">لأمان إضافي، الرجاء إدخال كلمة مرور المدير لتأكيد حذف جميع البيانات نهائياً.</p>
+    <div class="form-row">
+      <label>كلمة المرور</label>
+      <div class="field-input">
+        <input type="password" id="reset-password-input" placeholder="أدخل كلمة المرور" onkeydown="if(event.key==='Enter'){event.preventDefault();verifyPasswordAndReset();}">
+        <span class="toggle-eye" onclick="togglePw('reset-password-input',this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
+      </div>
+    </div>
+    <div id="reset-password-error" class="hidden" style="color:var(--red);font-size:12.5px;font-weight:700;margin:-8px 0 14px;"></div>
+    <button class="btn-fill danger" style="width:100%;" onclick="verifyPasswordAndReset()">تأكيد الحذف النهائي</button>
+  </div>
+</div>
+
 <div id="modal-delivery-check" class="overlay hidden">
   <div class="modal-sheet">
     <div class="modal-head"><h3 id="delivery-check-title">تأكيد التسليم</h3><button class="modal-close" onclick="closeModal('modal-delivery-check')">✕</button></div>
@@ -4790,21 +4806,44 @@ function importBackup(ev){
   ev.target.value = '';
 }
 function confirmResetApp(){
-  showConfirm('إعادة ضبط النظام', 'سيتم حذف جميع البيانات (المنتجات، الطلبات، الشركات) نهائياً. هذا الإجراء لا يمكن التراجع عنه.', async ()=>{
+  showConfirm('إعادة ضبط النظام', 'سيتم حذف جميع البيانات (المنتجات، الطلبات، الشركات) نهائياً. هذا الإجراء لا يمكن التراجع عنه.', ()=>{
     closeModal('modal-confirm');
-    try{
-      const collections = ['products','companies','orders','notifications'];
-      for(const col of collections){
-        const snap = await db.collection(col).get();
-        const batch = db.batch();
-        snap.docs.forEach(d=>batch.delete(d.ref));
-        await batch.commit();
-      }
-      await db.collection('settings').doc('categories').set({list:[]});
-      showToast('تمت إعادة ضبط النظام');
-      navigate('home');
-    }catch(err){ showToast('تعذر إعادة ضبط النظام'); }
+    document.getElementById('reset-password-input').value = '';
+    document.getElementById('reset-password-error').classList.add('hidden');
+    openModal('modal-reset-password');
   });
+}
+async function verifyPasswordAndReset(){
+  const password = document.getElementById('reset-password-input').value;
+  const errEl = document.getElementById('reset-password-error');
+  errEl.classList.add('hidden');
+  if(!password){
+    errEl.textContent = 'الرجاء إدخال كلمة المرور';
+    errEl.classList.remove('hidden');
+    return;
+  }
+  try{
+    const user = auth.currentUser;
+    const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+    await user.reauthenticateWithCredential(credential);
+  }catch(err){
+    errEl.textContent = 'كلمة المرور غير صحيحة، الرجاء المحاولة مرة أخرى';
+    errEl.classList.remove('hidden');
+    return;
+  }
+  closeModal('modal-reset-password');
+  try{
+    const collections = ['products','companies','orders','notifications'];
+    for(const col of collections){
+      const snap = await db.collection(col).get();
+      const batch = db.batch();
+      snap.docs.forEach(d=>batch.delete(d.ref));
+      await batch.commit();
+    }
+    await db.collection('settings').doc('categories').set({list:[]});
+    showToast('تمت إعادة ضبط النظام');
+    navigate('home');
+  }catch(err){ showToast('تعذر إعادة ضبط النظام'); }
 }
 
 /* ============================================================
