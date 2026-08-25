@@ -375,10 +375,10 @@ a{color:inherit;text-decoration:none;}
 .wb-head .bn{font-size:22px;font-weight:900;}
 .wb-box{border:1.5px dashed #ccc;border-radius:14px;padding:16px;margin-bottom:14px;}
 .wb-row{display:flex;justify-content:space-between;padding:6px 0;font-size:16.5px;}
-.wb2-row{display:flex;flex-direction:row-reverse;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1.5px dashed #ddd;font-size:13px;}
+.wb2-row{display:flex;flex-direction:row-reverse;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1.5px dashed #ddd;font-size:14.5px;}
 .wb2-row:last-child{border-bottom:none;}
-.wb2-val{font-weight:700;color:#1E1B3A;}
-.wb2-label{display:flex;align-items:center;gap:5px;font-weight:800;color:#1E1B3A;flex-shrink:0;white-space:nowrap;}
+.wb2-val{font-weight:700;color:#1E1B3A;flex:1;text-align:right;}
+.wb2-label{display:flex;align-items:center;gap:5px;font-weight:800;color:#1E1B3A;flex-shrink:0;white-space:nowrap;width:92px;justify-content:flex-start;}
 .wb-actions{display:flex;gap:10px;margin-top:10px;}
 @media print{
   @page{ size: A5; margin: 8mm; }
@@ -656,7 +656,7 @@ a{color:inherit;text-decoration:none;}
         <button class="icon-btn" onclick="openProductForm()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></button>
       </div>
     </div>
-    <div class="content">
+    <div class="content" style="padding-bottom:120px;">
       <div class="stats-row" style="grid-template-columns:1fr 1fr;">
         <div class="stat-box stat-blue"><div class="num" id="wh-total">0</div><div class="lbl">إجمالي المنتجات</div></div>
         <div class="stat-box stat-purple"><div class="num" id="wh-cats">0</div><div class="lbl">عدد الفئات</div></div>
@@ -666,10 +666,10 @@ a{color:inherit;text-decoration:none;}
         <input id="wh-search" placeholder="ابحث عن منتج بالاسم أو الرمز..." oninput="renderWarehouse()">
       </div>
       <div id="wh-list"></div>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
-        <button onclick="exportWarehouseBackup()" style="width:100%;padding:14px;border-radius:14px;background:#fff;border:1.5px solid var(--border);color:var(--primary);font-weight:800;font-size:13.5px;">نسخة احتياطية للمستودع</button>
-        <button onclick="document.getElementById('warehouse-restore-input').click()" style="width:100%;padding:14px;border-radius:14px;background:#fff;border:1.5px solid var(--border);color:var(--primary);font-weight:800;font-size:13.5px;">استعادة نسخة احتياطية للمستودع</button>
-      </div>
+    </div>
+    <div style="position:fixed;bottom:78px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;padding:10px 18px;box-shadow:0 -8px 18px -14px rgba(30,20,90,.2);z-index:25;display:flex;flex-direction:column;gap:8px;">
+      <button onclick="exportWarehouseBackup()" style="width:100%;padding:14px;border-radius:14px;background:#fff;border:1.5px solid var(--border);color:var(--primary);font-weight:800;font-size:13.5px;">نسخة احتياطية للمستودع</button>
+      <button onclick="document.getElementById('warehouse-restore-input').click()" style="width:100%;padding:14px;border-radius:14px;background:#fff;border:1.5px solid var(--border);color:var(--primary);font-weight:800;font-size:13.5px;">استعادة نسخة احتياطية للمستودع</button>
     </div>
   </div>
 
@@ -833,7 +833,15 @@ a{color:inherit;text-decoration:none;}
         <span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
         <input id="of-product-search" placeholder="ابحث عن منتج بالاسم..." oninput="renderProductGallery()">
       </div>
-      <div id="of-product-gallery" class="product-gallery"></div>
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div id="of-product-gallery" class="product-gallery" style="flex:1;min-width:0;margin:0;padding:2px 2px 10px 0;"></div>
+        <div onclick="openProductForm()" style="flex-shrink:0;width:108px;text-align:center;cursor:pointer;">
+          <div style="width:108px;height:108px;border-radius:16px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;border:2px dashed var(--primary);">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <div class="gallery-name" style="color:var(--primary);">منتج جديد</div>
+        </div>
+      </div>
       <div style="margin-top:16px;">
         <div style="font-weight:800;font-size:13.5px;margin-bottom:10px;">المنتجات المختارة</div>
         <div id="of-selected-list"></div>
@@ -1778,6 +1786,7 @@ function rerenderActiveView(){
     else if(!document.getElementById('view-customers').classList.contains('hidden')) renderCustomers();
     else if(!document.getElementById('view-order-detail').classList.contains('hidden') && window._currentOrderId) viewOrder(window._currentOrderId);
     else if(!document.getElementById('view-prep-orders').classList.contains('hidden')) refreshPrepOrdersTracking();
+    else if(!document.getElementById('view-order-form').classList.contains('hidden')) renderProductGallery();
   }catch(e){ /* view not ready yet */ }
 }
 async function getNextId(counterName, startAt){
@@ -2760,6 +2769,7 @@ async function saveProduct(){
   if(pmVariantPriceRequired && pmVariants.some(v=>!v.price)){ showToast('الرجاء إدخال سعر لكل الخيارات'); return; }
   if(!pmImageData){ showToast('الرجاء إضافة صورة للمنتج'); return; }
   const id = document.getElementById('pm-id').value;
+  let savedProductId = id;
   try{
     let fullCode;
     const existing = id ? state.products.find(p=>String(p.id)===String(id)) : null;
@@ -2780,9 +2790,23 @@ async function saveProduct(){
     }else{
       const newId = await getNextId('product', 1);
       await db.collection('products').doc(String(newId)).set(data);
+      savedProductId = newId;
       showToast('تمت إضافة المنتج');
     }
     closeModal('modal-product');
+    const orderFormVisible = !document.getElementById('view-order-form').classList.contains('hidden');
+    if(orderFormVisible){
+      renderProductGallery();
+      setTimeout(()=>{
+        const tile = document.querySelector(`#of-product-gallery .gallery-item[onclick="toggleGalleryProduct(${savedProductId})"]`);
+        if(tile){
+          tile.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+          tile.style.outline = '3px solid #1E1B3A';
+          tile.style.borderRadius = '16px';
+          setTimeout(()=>{ tile.style.outline = 'none'; }, 1800);
+        }
+      }, 150);
+    }
   }catch(err){
     showToast('تعذر حفظ المنتج');
   }
@@ -4317,7 +4341,8 @@ function buildPrepCardHtml(o){
             <div style="width:92px;height:92px;border-radius:12px;overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;">
               ${img?`<img src="${img}" style="width:100%;height:100%;object-fit:cover;">`:'<span style="font-size:28px;">🧸</span>'}
             </div>
-            <div style="font-size:10.5px;font-weight:700;margin-top:5px;max-width:92px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(it.name)}${it.variant?' - '+escapeHtml(it.variant):''}</div>
+            <div style="font-size:10.5px;font-weight:700;margin-top:5px;max-width:92px;white-space:normal;word-wrap:break-word;line-height:1.3;">${escapeHtml(it.name)}</div>
+            ${it.variant?`<div style="font-size:10px;font-weight:800;color:var(--purple2);max-width:92px;white-space:normal;word-wrap:break-word;line-height:1.3;">${escapeHtml(it.variant)}</div>`:''}
             <div style="font-size:13px;font-weight:900;color:var(--red);margin-top:2px;">× ${it.qty}</div>
           </div>`;
         }).join('')}
@@ -4444,7 +4469,7 @@ function buildWaybillContentHtml(o){
     <div class="wb2-row"><span class="wb2-val">${escapeHtml(o.phone)}</span><span class="wb2-label">${ic.phone}رقم الهاتف</span></div>
     ${o.phone2?`<div class="wb2-row"><span class="wb2-val">${escapeHtml(o.phone2)}</span><span class="wb2-label">${ic.phone}رقم الهاتف البديل</span></div>`:''}
     ${o.notes?`<div class="wb2-row"><span class="wb2-val">${escapeHtml(o.notes)}</span><span class="wb2-label">${ic.notes}ملاحظات</span></div>`:''}
-    <div style="display:flex;flex-direction:row-reverse;align-items:center;justify-content:space-between;border-top:2px solid #1E1B3A;border-bottom:2px solid #1E1B3A;padding:14px 2px;margin:18px 0;">
+    <div style="display:flex;align-items:center;justify-content:space-between;border-top:2px solid #1E1B3A;border-bottom:2px solid #1E1B3A;padding:14px 2px;margin:18px 0;">
       <div style="font-weight:800;font-size:13.5px;color:#1E1B3A;">قيمة الطلب شامل التوصيل</div>
       <div style="display:flex;align-items:center;gap:8px;font-size:${o.paymentStatus==='مدفوع مسبقاً'?'17':'23'}px;font-weight:900;color:${o.paymentStatus==='مدفوع مسبقاً'?'#2E9E4F':'#1E1B3A'};">${o.paymentStatus==='مدفوع مسبقاً'?'مدفوع مسبقاً ✓':`${ic.card}${fmt(o.total)} ${state.settings.currency}`}</div>
     </div>
