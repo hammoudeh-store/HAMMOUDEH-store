@@ -792,7 +792,7 @@ a{color:inherit;text-decoration:none;}
             <option value="">اختر المحافظة</option>
           </select></div>
         </div>
-        <div class="form-row"><label>المنطقة</label>
+        <div class="form-row"><label style="display:flex;align-items:center;justify-content:space-between;">المنطقة<button type="button" onclick="openAddAreaInlineModal('of')" style="width:20px;height:20px;border-radius:50%;background:var(--primary-light);color:var(--primary);font-weight:900;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">+</button></label>
           <div class="field-input" style="padding:4px 6px;gap:4px;"><span class="field-icon-badge" style="width:28px;height:28px;border-radius:8px;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:#8355F0;"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 7 12 8 12s8-6.75 8-12c0-4.42-3.58-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></span><select id="of-area" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;-webkit-appearance:none;appearance:none;padding:0;">
             <option value="">اختر المنطقة</option>
           </select></div>
@@ -950,7 +950,7 @@ a{color:inherit;text-decoration:none;}
             <option value="">اختر المحافظة</option>
           </select></div>
         </div>
-        <div class="form-row"><label>المنطقة</label>
+        <div class="form-row"><label style="display:flex;align-items:center;justify-content:space-between;">المنطقة<button type="button" onclick="openAddAreaInlineModal('qd')" style="width:20px;height:20px;border-radius:50%;background:var(--primary-light);color:var(--primary);font-weight:900;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">+</button></label>
           <div class="field-input" style="padding:5px 8px;gap:5px;"><span class="field-icon-badge" style="width:24px;height:24px;border-radius:7px;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" style="fill:#8355F0;"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 7 12 8 12s8-6.75 8-12c0-4.42-3.58-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></span><select id="qd-area" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;-webkit-appearance:none;appearance:none;padding:0;">
             <option value="">اختر المنطقة</option>
           </select></div>
@@ -1239,19 +1239,22 @@ a{color:inherit;text-decoration:none;}
     <div class="form-row">
       <label style="display:flex;align-items:center;gap:8px;cursor:pointer;" for="pm-has-variants">
         <input type="checkbox" id="pm-has-variants" style="width:18px;height:18px;accent-color:var(--primary);flex-shrink:0;" onchange="toggleVariantsSection()">
-        <span style="font-weight:700;font-size:13.5px;">منتج متعدد الأشكال و الألوان</span>
+        <span style="font-weight:700;font-size:13.5px;">منتج متعدد الألوان والأشكال والأحجام</span>
       </label>
       <div id="pm-variants-wrap" class="hidden" style="margin-top:12px;">
-        <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;">
+        <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center;">
           <div id="pm-variant-image-box" onclick="document.getElementById('pm-variant-image-input').click()" style="width:46px;height:46px;border-radius:12px;border:1.5px dashed var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;background:#fff;">
             <img id="pm-variant-image-preview" class="hidden" style="width:100%;height:100%;object-fit:cover;">
             <span id="pm-variant-image-placeholder" style="font-size:17px;">📷</span>
           </div>
           <input type="file" id="pm-variant-image-input" accept="image/*" class="hidden" onchange="handleVariantImageUpload(event)">
-          <input id="pm-variant-input" placeholder="مثال: أحمر" style="flex:1;border:1.5px solid var(--border);border-radius:12px;padding:11px 14px;font-family:'Tajawal',sans-serif;font-size:14px;" onkeydown="if(event.key==='Enter'){event.preventDefault();addVariantChip();}">
+          <input id="pm-variant-input" placeholder="مثال: أحمر" style="flex:1;border:1.5px solid var(--border);border-radius:12px;padding:11px 14px;font-family:'Tajawal',sans-serif;font-size:14px;" onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('pm-variant-price-input').focus();}">
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:6px;align-items:center;">
+          <input id="pm-variant-price-input" type="number" min="0" step="0.01" placeholder="سعر هذا الخيار (اختياري)" style="flex:1;border:1.5px solid var(--border);border-radius:12px;padding:11px 14px;font-family:'Tajawal',sans-serif;font-size:14px;" onkeydown="if(event.key==='Enter'){event.preventDefault();addVariantChip();}">
           <button type="button" onclick="addVariantChip()" style="flex-shrink:0;width:44px;align-self:stretch;border-radius:12px;background:var(--primary-light);color:var(--primary);font-weight:800;font-size:18px;">+</button>
         </div>
-        <div style="font-size:11px;color:var(--muted);margin:-8px 0 12px;">اختياري: أضف صورة توضّح الشكل أو اللون قبل الضغط على +</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">اختياري: أضف صورة وسعر خاص لهذا الخيار — إذا تُرك السعر فاضي، بيُستخدم سعر المنتج الأساسي</div>
         <div id="pm-variants-list" style="display:flex;flex-wrap:wrap;gap:12px;"></div>
       </div>
     </div>
@@ -1312,6 +1315,18 @@ a{color:inherit;text-decoration:none;}
     <div class="form-row"><label>رمز الفئة (3 حروف إنجليزية)</label><input id="cat-new-code" maxlength="3" placeholder="مثال: TOY" style="text-transform:uppercase;"></div>
     <button class="btn-fill" style="width:100%;margin-bottom:16px;" onclick="addCategory()">+ إضافة الفئة</button>
     <div id="categories-list"></div>
+  </div>
+</div>
+
+<div id="modal-add-area-inline" class="overlay hidden">
+  <div class="modal-sheet">
+    <div class="modal-head"><h3>إضافة منطقة جديدة</h3><button class="modal-close" onclick="closeModal('modal-add-area-inline')">✕</button></div>
+    <div id="add-area-inline-gov-name" style="font-size:13px;color:var(--muted);font-weight:700;margin-bottom:14px;"></div>
+    <div class="form-row">
+      <label>اسم المنطقة</label>
+      <input id="add-area-inline-input" placeholder="مثال: حي النزهة" onkeydown="if(event.key==='Enter'){event.preventDefault();saveAreaInline();}">
+    </div>
+    <button class="btn-fill" style="width:100%;" onclick="saveAreaInline()">حفظ المنطقة</button>
   </div>
 </div>
 
@@ -1613,6 +1628,46 @@ function seedGovernoratesAndAreas(){
   b.commit().then(()=>{
     db.collection('settings').doc('counters').set({governorate:govId, area:areaId}, {merge:true}).catch(()=>{});
   }).catch(()=>{});
+}
+let addAreaInlinePrefix = 'of';
+function openAddAreaInlineModal(prefix){
+  addAreaInlinePrefix = prefix;
+  const govSel = document.getElementById(prefix+'-governorate');
+  const govName = govSel.value;
+  if(!govName){
+    showToast('الرجاء اختيار المحافظة أولاً');
+    return;
+  }
+  document.getElementById('add-area-inline-gov-name').textContent = `سيتم إضافة المنطقة ضمن محافظة: ${govName}`;
+  document.getElementById('add-area-inline-input').value = '';
+  openModal('modal-add-area-inline');
+}
+async function saveAreaInline(){
+  const prefix = addAreaInlinePrefix;
+  const govSel = document.getElementById(prefix+'-governorate');
+  const govName = govSel.value;
+  const govObj = state.governorates.find(g=>g.name===govName);
+  if(!govObj){ showToast('تعذر تحديد المحافظة'); return; }
+  const name = document.getElementById('add-area-inline-input').value.trim();
+  if(!name){ showToast('الرجاء إدخال اسم المنطقة'); return; }
+  const existing = (state.areas||[]).find(a=>a.governorateId===govObj.id && a.name===name);
+  if(existing){
+    showToast('هذه المنطقة مدخلة مسبقاً ضمن هذه المحافظة');
+    return;
+  }
+  try{
+    const newId = await getNextId('area', 1);
+    await db.collection('areas').doc(String(newId)).set({name, status:'نشطة', notes:'', governorateId:govObj.id});
+    closeModal('modal-add-area-inline');
+    showToast('تمت إضافة المنطقة بنجاح');
+    const areaSel = document.getElementById(prefix+'-area');
+    const areas = getAreasForGovName(govName, true).map(a=>a.name);
+    if(!areas.includes(name)) areas.push(name);
+    areaSel.innerHTML = '<option value="">اختر المنطقة</option>' + areas.map(a=>`<option value="${a}">${a}</option>`).join('');
+    areaSel.value = name;
+  }catch(err){
+    showToast('تعذر إضافة المنطقة');
+  }
 }
 function getActiveGovernorates(){
   return (state.governorates||[]).filter(g=>g.status!=='غير نشطة');
@@ -2359,7 +2414,7 @@ function renderWarehouse(){
       <div class="product-info">
         <div class="pname">${escapeHtml(p.name)}${variantBadge}</div>
         <div class="pmeta">${escapeHtml(p.category||'بدون فئة')} ${p.code?'· '+escapeHtml(p.code):''}</div>
-        <div class="pprice">${fmt(p.price)} ${state.settings.currency}</div>
+        <div class="pprice">${p.price!=null?`${fmt(p.price)} ${state.settings.currency}`:'أسعار متعددة'}</div>
       </div>
     </div>`;
   }).join('');
@@ -2553,6 +2608,10 @@ function openProductForm(id){
     document.getElementById('pm-has-variants').checked = pmVariants.length>0;
     toggleVariantsSection();
     resetVariantImagePicker();
+    pmVariantPriceRequired = pmVariants.length>0 && !!pmVariants[0].price;
+    pmVariantPriceForbidden = pmVariants.length>0 && !pmVariants[0].price;
+    updateBasePriceFieldState();
+    if(pmVariantPriceRequired && p.price) document.getElementById('pm-price').value = '';
     renderVariantChips();
   }else{
     document.getElementById('pm-title').textContent = 'إضافة منتج';
@@ -2568,12 +2627,28 @@ function openProductForm(id){
     document.getElementById('pm-has-variants').checked = false;
     toggleVariantsSection();
     resetVariantImagePicker();
+    pmVariantPriceRequired = false;
+    pmVariantPriceForbidden = false;
+    updateBasePriceFieldState();
     renderVariantChips();
   }
   openModal('modal-product');
 }
 let pmVariants = [];
 let pmVariantTempImage = '';
+let pmVariantPriceRequired = false;
+let pmVariantPriceForbidden = false;
+function updateBasePriceFieldState(){
+  const priceInp = document.getElementById('pm-price');
+  if(pmVariantPriceRequired){
+    priceInp.value = '';
+    priceInp.disabled = true;
+    priceInp.placeholder = 'لم يحدد بعد';
+  }else{
+    priceInp.disabled = false;
+    priceInp.placeholder = '0.00';
+  }
+}
 function toggleVariantsSection(){
   const on = document.getElementById('pm-has-variants').checked;
   document.getElementById('pm-variants-wrap').classList.toggle('hidden', !on);
@@ -2609,6 +2684,7 @@ function resetVariantImagePicker(){
   document.getElementById('pm-variant-image-preview').classList.add('hidden');
   document.getElementById('pm-variant-image-placeholder').classList.remove('hidden');
   document.getElementById('pm-variant-image-input').value = '';
+  document.getElementById('pm-variant-price-input').value = '';
 }
 function renderVariantChips(){
   const wrap = document.getElementById('pm-variants-list');
@@ -2623,20 +2699,42 @@ function renderVariantChips(){
         <button type="button" onclick="removeVariantChip(${idx})" style="position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:11px;line-height:1;display:flex;align-items:center;justify-content:center;">✕</button>
       </div>
       <div style="font-size:11px;font-weight:700;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;">${escapeHtml(v.name)}</div>
+      ${v.price?`<div style="font-size:10px;font-weight:800;color:var(--primary);">${fmt(v.price)} ${state.settings.currency}</div>`:''}
     </div>`).join('');
 }
 function addVariantChip(){
   const inp = document.getElementById('pm-variant-input');
+  const priceInp = document.getElementById('pm-variant-price-input');
   const val = inp.value.trim();
+  const priceVal = parseFloat(priceInp.value);
+  const hasPrice = priceVal>0;
   if(!val){ showToast('الرجاء إدخال اسم الشكل أو اللون'); return; }
   if(pmVariants.some(v=>v.name===val)){ showToast('هذا الخيار مضاف بالفعل'); return; }
-  pmVariants.push({name:val, image:pmVariantTempImage});
+  if(pmVariantPriceRequired && !hasPrice){ showToast('الرجاء إدخال سعر لهذا الخيار — أصبح إلزامياً بعد تحديد سعر الخيار الأول'); return; }
+  if(pmVariantPriceForbidden && hasPrice){ showToast('لا يمكن إضافة سعر لهذا الخيار — لم يتم تحديد سعر للخيار الأول، سيتم استخدام سعر المنتج الأساسي لجميع الخيارات'); return; }
+  pmVariants.push({name:val, image:pmVariantTempImage, price: hasPrice ? priceVal : null});
+  if(pmVariants.length===1){
+    if(hasPrice){
+      pmVariantPriceRequired = true;
+      pmVariantPriceForbidden = false;
+    }else{
+      pmVariantPriceForbidden = true;
+      pmVariantPriceRequired = false;
+    }
+    updateBasePriceFieldState();
+  }
   inp.value = '';
+  priceInp.value = '';
   resetVariantImagePicker();
   renderVariantChips();
 }
 function removeVariantChip(idx){
   pmVariants.splice(idx,1);
+  if(pmVariants.length===0){
+    pmVariantPriceRequired = false;
+    pmVariantPriceForbidden = false;
+    updateBasePriceFieldState();
+  }
   renderVariantChips();
 }
 async function getNextCategoryProductNumber(catCode){
@@ -2658,7 +2756,8 @@ async function saveProduct(){
   const catName = catEl.dataset.name;
   if(!catCode){ showToast('الرجاء اختيار فئة المنتج'); return; }
   const price = parseFloat(document.getElementById('pm-price').value);
-  if(!price || price<=0){ showToast('الرجاء إدخال سعر صحيح'); return; }
+  if(!pmVariantPriceRequired && (!price || price<=0)){ showToast('الرجاء إدخال سعر صحيح'); return; }
+  if(pmVariantPriceRequired && pmVariants.some(v=>!v.price)){ showToast('الرجاء إدخال سعر لكل الخيارات'); return; }
   if(!pmImageData){ showToast('الرجاء إضافة صورة للمنتج'); return; }
   const id = document.getElementById('pm-id').value;
   try{
@@ -2673,7 +2772,7 @@ async function saveProduct(){
     const data = {
       name, code:fullCode, category:catName, categoryCode:catCode,
       barcode: document.getElementById('pm-barcode').value.trim(),
-      price, image: pmImageData, fragile: document.getElementById('pm-fragile').checked, variants: pmVariants.slice()
+      price: (pmVariantPriceRequired ? null : price), image: pmImageData, fragile: document.getElementById('pm-fragile').checked, variants: pmVariants.slice()
     };
     if(id){
       await db.collection('products').doc(String(id)).update(data);
@@ -3264,6 +3363,8 @@ async function saveInstantDelivery(){
   const channelOther = document.getElementById('qd-channel-other').value.trim();
   const rows = quickOrderRows.filter(r=>r.productId && r.qty>0);
   if(!phone){ showToast('الرجاء إدخال رقم الهاتف'); return; }
+  if(!isValidPhoneLength(phone)){ showToast('رقم الهاتف ناقص — يجب أن يتكون من 10 أرقام على الأقل'); return; }
+  if(phone2 && !isValidPhoneLength(phone2)){ showToast('رقم الهاتف البديل ناقص — يجب أن يتكون من 10 أرقام على الأقل'); return; }
   if(!quickChannel){ showToast('الرجاء اختيار قناة الطلب'); return; }
   if(quickChannel==='Other' && !channelOther){ showToast('الرجاء إدخال تفاصيل قناة الطلب'); return; }
   if(quickChannel==='Messenger' && !channelOther){ showToast('الرجاء إدخال اسم أو رابط حساب الماسنجر'); return; }
@@ -3514,11 +3615,13 @@ function openVariantPickerModal(pid){
   document.getElementById('vp-options').innerHTML = prod.variants.map((v,idx)=>{
     const name = typeof v==='string' ? v : v.name;
     const image = typeof v==='string' ? '' : (v.image||'');
+    const price = typeof v==='string' ? null : (v.price||null);
     return `<button type="button" onclick="selectVariantAndAdd(${idx})" style="display:flex;flex-direction:column;align-items:center;gap:6px;width:78px;padding:10px 6px;border-radius:14px;border:1.5px solid var(--border);background:#fff;">
       <div style="width:52px;height:52px;border-radius:12px;overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         ${image?`<img src="${image}" style="width:100%;height:100%;object-fit:cover;">`:`<span style="font-size:20px;">🎨</span>`}
       </div>
       <span style="font-weight:700;font-size:12.5px;">${escapeHtml(name)}</span>
+      ${price?`<span style="font-weight:800;font-size:11px;color:var(--primary);">${fmt(price)} ${state.settings.currency}</span>`:''}
     </button>`;
   }).join('');
   openModal('modal-variant-picker');
@@ -3529,12 +3632,13 @@ function selectVariantAndAdd(variantIdx){
   const v = prod.variants[variantIdx];
   const variantName = typeof v==='string' ? v : v.name;
   const variantImage = typeof v==='string' ? '' : (v.image||'');
+  const variantPrice = typeof v==='string' ? null : (v.price||null);
   const existing = orderFormRows.find(r=>String(r.productId)===String(pid) && r.variant===variantName);
   if(existing){
     existing.qty += 1;
   }else{
     orderFormRows = orderFormRows.filter(r=>r.productId);
-    orderFormRows.push({productId:pid, qty:1, fragile: !!(prod && prod.fragile), variant:variantName, variantImage});
+    orderFormRows.push({productId:pid, qty:1, fragile: !!(prod && prod.fragile), variant:variantName, variantImage, variantPrice});
   }
   closeModal('modal-variant-picker');
   renderProductGallery();
@@ -3553,13 +3657,14 @@ function renderSelectedProductsList(){
       const p = state.products.find(x=>String(x.id)===String(row.productId));
       if(!p) return '';
       const rowIdx = orderFormRows.indexOf(row);
-      const total = p.price*row.qty;
+      const effPrice = row.variantPrice || p.price;
+      const total = effPrice*row.qty;
       const displayImg = row.variantImage || p.image;
       return `<div class="selected-product-row">
         ${displayImg?`<img class="spr-img" src="${displayImg}">`:`<div class="spr-img" style="display:flex;align-items:center;justify-content:center;">🧸</div>`}
         <div class="spr-info">
           <div class="spr-name">${escapeHtml(p.name)}${row.variant?` <span style="color:var(--purple2);font-weight:700;">— ${escapeHtml(row.variant)}</span>`:''}</div>
-          <div class="spr-price">${fmt(p.price)} × ${row.qty} = ${fmt(total)} ${state.settings.currency}</div>
+          <div class="spr-price">${fmt(effPrice)} × ${row.qty} = ${fmt(total)} ${state.settings.currency}</div>
           ${p.fragile?'<div style="display:flex;align-items:center;gap:5px;margin-top:5px;font-size:11px;color:var(--red);font-weight:700;">⚠️ قابل للكسر</div>':''}
         </div>
         <div class="of-qty"><button onclick="changeRowQtyById(${rowIdx},1)">+</button><span>${row.qty}</span><button onclick="changeRowQtyById(${rowIdx},-1)">−</button></div>
@@ -3569,7 +3674,7 @@ function renderSelectedProductsList(){
   }
   const itemsTotal = rows.reduce((s,row)=>{
     const p = state.products.find(x=>String(x.id)===String(row.productId));
-    return s + (p ? p.price*row.qty : 0);
+    return s + (p ? (row.variantPrice||p.price)*row.qty : 0);
   },0);
   const discount = parseFloat(document.getElementById('of-discount').value)||0;
   const delivery = parseFloat(document.getElementById('of-delivery').value)||0;
@@ -3603,6 +3708,8 @@ async function saveOrderFormPage(){
   const channelOther = document.getElementById('of-channel-other').value.trim();
   const validRows = orderFormRows.filter(r=>r.productId && r.qty>0);
   if(!phone){ showToast('الرجاء إدخال رقم الهاتف'); return; }
+  if(!isValidPhoneLength(phone)){ showToast('رقم الهاتف ناقص — يجب أن يتكون من 10 أرقام على الأقل'); return; }
+  if(phone2 && !isValidPhoneLength(phone2)){ showToast('رقم الهاتف البديل ناقص — يجب أن يتكون من 10 أرقام على الأقل'); return; }
   if(!orderFormChannel){ showToast('الرجاء اختيار قناة الطلب'); return; }
   if(orderFormChannel==='Other' && !channelOther){ showToast('الرجاء إدخال تفاصيل قناة الطلب'); return; }
   if(orderFormChannel==='Messenger' && !channelOther){ showToast('الرجاء إدخال اسم أو رابط حساب الماسنجر'); return; }
@@ -3610,7 +3717,7 @@ async function saveOrderFormPage(){
   if(validRows.length===0){ showToast('الرجاء اختيار منتج واحد على الأقل'); return; }
   const items = validRows.map(r=>{
     const p = state.products.find(x=>String(x.id)===String(r.productId));
-    return {productId:p.id, name:p.name, price:p.price, qty:r.qty, fragile: !!p.fragile, variant: r.variant||null, variantImage: r.variantImage||null};
+    return {productId:p.id, name:p.name, price: r.variantPrice||p.price, qty:r.qty, fragile: !!p.fragile, variant: r.variant||null, variantImage: r.variantImage||null};
   });
   const itemsTotal = items.reduce((s,it)=>s+it.price*it.qty,0);
   const discount = parseFloat(document.getElementById('of-discount').value)||0;
@@ -4108,6 +4215,9 @@ function selectPrepCard(id){
   document.querySelectorAll('.prep-card').forEach(c=>{
     c.style.outline = (c.id === 'prep-card-'+selectedPrepCardId) ? '3px solid #1E1B3A' : 'none';
   });
+}
+function isValidPhoneLength(phone){
+  return (phone||'').replace(/\D/g,'').length >= 10;
 }
 function todayISODate(){
   return new Date().toISOString().slice(0,10);
