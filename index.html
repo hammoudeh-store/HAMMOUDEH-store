@@ -17,14 +17,14 @@
   --green-bg:#E7F7EC;
   --blue:#2F80ED;
   --blue-bg:#E9F1FE;
-  --orange:#F5A524;
-  --orange-bg:#FDF2E0;
+  --orange:#FF8C00;
+  --orange-bg:#FFF1DB;
   --purple2:#8355F0;
   --purple2-bg:#F1ECFE;
   --red:#E5484D;
   --red-bg:#FCEBEC;
-  --yellow:#C9960C;
-  --yellow-bg:#FBF1D2;
+  --yellow:#8A6D00;
+  --yellow-bg:#FFF9D6;
   --black-status:#1E1B3A;
   --black-status-bg:#E9E9EF;
   --text:#1E1B3A;
@@ -429,6 +429,10 @@ a{color:inherit;text-decoration:none;}
 .product-gallery{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 10px;}
 .product-gallery::-webkit-scrollbar{display:none;}
 .gallery-item{flex-shrink:0;width:108px;text-align:center;cursor:pointer;}
+.prep-items-scroll::-webkit-scrollbar{height:5px;}
+.prep-items-scroll::-webkit-scrollbar-track{background:var(--bg);border-radius:10px;}
+.prep-items-scroll::-webkit-scrollbar-thumb{background:#fff;border:1px solid var(--border);border-radius:10px;}
+.prep-items-scroll{scrollbar-color:#fff var(--bg);}
 .gallery-item-img{width:108px;height:108px;border-radius:16px;overflow:hidden;background:var(--bg);border:2.5px solid transparent;position:relative;}
 .gallery-item-img img{width:100%;height:100%;object-fit:cover;display:block;}
 .gallery-item.selected .gallery-item-img{border-color:var(--primary);}
@@ -570,6 +574,7 @@ a{color:inherit;text-decoration:none;}
     </div>
     <div id="menu-dropdown" class="menu-dropdown hidden">
       <button onclick="toggleMenu(true);openPrepOrdersScreen();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>طلبات اليوم</button>
+      <button onclick="toggleMenu(true);openLowStockScreen();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.1-2.8-2.8L7 14.1"/></svg>قائمة المخزون المنخفضة</button>
       <button onclick="navigate('settings')" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>الإعدادات</button>
       <button class="danger" onclick="logout()" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>تسجيل الخروج</button>
     </div>
@@ -814,10 +819,27 @@ a{color:inherit;text-decoration:none;}
       <div class="form-row">
         <label for="of-deferred-check" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
           <input type="checkbox" id="of-deferred-check" style="width:18px;height:18px;accent-color:var(--primary);flex-shrink:0;" onchange="syncDeferredUI()">
-          <span style="font-weight:700;font-size:13.5px;">طلب مؤجل تسليمه لغاية</span>
+          <span style="font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:6px;">طلب مؤجل تسليمه لغاية<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
         </label>
         <div id="of-deferred-date-wrap" class="hidden" style="margin-top:10px;">
           <div class="field-input"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/></svg></span><input type="date" id="of-deferred-date"></div>
+        </div>
+      </div>
+      <div class="form-row">
+        <label for="of-giftwrap-check" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" id="of-giftwrap-check" style="width:18px;height:18px;accent-color:var(--primary);flex-shrink:0;" onchange="syncGiftWrapUI()">
+          <span style="font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:6px;">خدمة تغليف هدايا<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></span>
+        </label>
+        <div id="of-giftwrap-type-wrap" class="hidden" style="margin-top:10px;">
+          <div class="field-input" style="padding:4px 6px;"><select id="of-giftwrap-type" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;-webkit-appearance:none;appearance:none;padding:8px 6px;" onchange="syncGiftWrapUI()">
+            <option value="تغليف ولادي">تغليف ولادي</option>
+            <option value="تغليف بناتي">تغليف بناتي</option>
+            <option value="تغليف ولادي وبناتي">تغليف ولادي وبناتي</option>
+            <option value="تغليف آخر">تغليف آخر</option>
+          </select></div>
+          <div id="of-giftwrap-other-wrap" class="hidden" style="margin-top:10px;">
+            <div class="field-input"><input id="of-giftwrap-other" placeholder="أدخل تفاصيل التغليف"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -1173,10 +1195,47 @@ a{color:inherit;text-decoration:none;}
     </div>
   </div>
 
+  <div id="view-low-stock" class="view hidden">
+    <div class="subheader">
+      <button class="back-btn" onclick="navigate('home')">←</button>
+      <h1>قائمة المخزون المنخفضة</h1>
+      <div class="sub-actions"></div>
+    </div>
+    <div class="content" style="padding-bottom:40px;">
+      <div id="low-stock-selected-wrap" class="hidden" style="background:#fff;border-radius:16px;padding:14px;margin-bottom:16px;box-shadow:0 6px 16px -10px rgba(30,20,90,.25);">
+        <div style="font-weight:800;font-size:14px;margin-bottom:10px;">المنتجات المطلوب شراؤها</div>
+        <div id="low-stock-selected-list"></div>
+      </div>
+      <button onclick="openAddCustomLowStockItem()" style="width:100%;padding:13px;border-radius:14px;background:#fff;border:1.5px dashed var(--primary);color:var(--primary);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:14px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        إضافة منتج غير موجود بالمستودع
+      </button>
+      <div id="low-stock-custom-wrap" class="hidden" style="background:#fff;border-radius:16px;padding:14px;margin-bottom:16px;box-shadow:0 6px 16px -10px rgba(30,20,90,.25);">
+        <div class="form-row">
+          <label>اسم المنتج</label>
+          <input id="low-stock-custom-name" placeholder="اكتب اسم المنتج المطلوب شراؤه">
+        </div>
+        <div class="form-row">
+          <label>الكمية</label>
+          <input id="low-stock-custom-qty" type="number" min="1" placeholder="أدخل الكمية">
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="cancelAddCustomLowStockItem()" style="flex:1;padding:11px;border-radius:11px;background:var(--bg);color:var(--text);font-weight:700;font-size:13px;">إلغاء</button>
+          <button onclick="confirmAddCustomLowStockItem()" style="flex:1;padding:11px;border-radius:11px;background:var(--primary);color:#fff;font-weight:800;font-size:13px;">إضافة</button>
+        </div>
+      </div>
+      <div class="search-bar" style="margin-bottom:14px;">
+        <span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+        <input id="low-stock-search" placeholder="ابحث عن منتج بالاسم أو الرمز..." oninput="renderLowStockScreen()">
+      </div>
+      <div id="low-stock-product-list"></div>
+    </div>
+  </div>
+
   <div id="view-waybill" class="view hidden">
     <div class="wb-head">
       <div class="bn">HAMMOUDEH — Baby & Toys</div>
-      <div style="color:#888;font-size:12.5px;">بوليصة شحن</div>
+      <div style="color:#1E1B3A;font-size:18px;font-weight:800;margin-top:2px;">بوليصة شحن</div>
     </div>
     <div id="waybill-content"></div>
     <div class="wb-actions no-print">
@@ -2144,9 +2203,9 @@ function statusPillHtml(status, orderType, extraStyle){
 }
 function orderStatusColorVar(status){
   if(status==='مؤجل') return '#8355F0';
-  if(status==='جديد') return '#C9960C';
+  if(status==='جديد') return '#D9A600';
   if(status==='قيد التسليم') return '#2F80ED';
-  if(status==='قيد التجهيز') return '#F5A524';
+  if(status==='قيد التجهيز') return '#FF8C00';
   if(status==='تم التسليم') return '#2E9E4F';
   if(status==='ملغي') return '#E5484D';
   if(status==='مكتمل') return '#1E1B3A';
@@ -3172,6 +3231,12 @@ function syncDeferredUI(){
     document.getElementById('of-deferred-date').value = tomorrow.toISOString().slice(0,10);
   }
 }
+function syncGiftWrapUI(){
+  const cb = document.getElementById('of-giftwrap-check');
+  document.getElementById('of-giftwrap-type-wrap').classList.toggle('hidden', !cb.checked);
+  const typeSel = document.getElementById('of-giftwrap-type');
+  document.getElementById('of-giftwrap-other-wrap').classList.toggle('hidden', !(cb.checked && typeSel.value==='تغليف آخر'));
+}
 function renderChannelRow(){
   const wrap = document.getElementById('of-channel-row');
   wrap.innerHTML = ORDER_CHANNELS.map(c=>{
@@ -3480,6 +3545,10 @@ function openOrderFormPage(editId){
     deferredDateWrap.classList.add('hidden');
     document.getElementById('of-deferred-date').value = '';
   }
+  document.getElementById('of-giftwrap-check').checked = !!(editingOrder && editingOrder.giftWrap);
+  document.getElementById('of-giftwrap-type').value = (editingOrder && editingOrder.giftWrapType) ? editingOrder.giftWrapType : 'تغليف ولادي';
+  document.getElementById('of-giftwrap-other').value = (editingOrder && editingOrder.giftWrapOther) ? editingOrder.giftWrapOther : '';
+  syncGiftWrapUI();
   document.getElementById('of-discount').value = editingOrder ? (editingOrder.discount||0) : 0;
   document.getElementById('of-delivery').value = editingOrder ? (editingOrder.delivery||0) : 0;
   const govSel = document.getElementById('of-governorate');
@@ -3752,6 +3821,9 @@ async function saveOrderFormPage(){
   const isDeferred = document.getElementById('of-deferred-check').checked;
   const deferredDate = document.getElementById('of-deferred-date').value;
   if(isDeferred && !deferredDate){ showToast('الرجاء اختيار تاريخ التسليم للطلب المؤجل'); return; }
+  const giftWrap = document.getElementById('of-giftwrap-check').checked;
+  const giftWrapType = giftWrap ? document.getElementById('of-giftwrap-type').value : null;
+  const giftWrapOther = (giftWrap && giftWrapType==='تغليف آخر') ? document.getElementById('of-giftwrap-other').value.trim() : '';
 
   if(editingOrderId){
     const existing = state.orders.find(o=>o.id===editingOrderId);
@@ -3762,7 +3834,7 @@ async function saveOrderFormPage(){
       city:governorate, address,
       channel: orderFormChannel, channelOther: channelOtherVal,
       paymentStatus: orderFormPaymentStatus,
-      items, total, discount, delivery, companyId: (document.getElementById('of-company').value ? Number(document.getElementById('of-company').value) : null),
+      items, total, discount, delivery, giftWrap, giftWrapType, giftWrapOther, companyId: (document.getElementById('of-company').value ? Number(document.getElementById('of-company').value) : null),
       notes: document.getElementById('of-notes').value.trim()
     };
     if(existing.status==='مؤجل' && isDeferred){
@@ -3799,7 +3871,7 @@ async function saveOrderFormPage(){
     city:governorate, address,
     channel: orderFormChannel, channelOther: channelOtherVal,
     paymentStatus: orderFormPaymentStatus,
-    items, total, discount, delivery, companyId: (document.getElementById('of-company').value ? Number(document.getElementById('of-company').value) : null), status: isDeferred ? 'مؤجل' : 'جديد',
+    items, total, discount, delivery, giftWrap, giftWrapType, giftWrapOther, companyId: (document.getElementById('of-company').value ? Number(document.getElementById('of-company').value) : null), status: isDeferred ? 'مؤجل' : 'جديد',
     notes: document.getElementById('of-notes').value.trim(),
     createdAtStr: todayStr(), createdAtTs: now.getTime()
   };
@@ -3888,6 +3960,7 @@ function viewOrder(id){
       <div class="detail-line"><span class="k">المنطقة</span><span class="v">${escapeHtml(o.area||o.address||'-')}</span></div>
       ${o.landmark?`<div class="detail-line"><span class="k">معلم قريب</span><span class="v">${escapeHtml(o.landmark)}</span></div>`:''}
       <div class="detail-line"><span class="k">شركة التوصيل</span><span class="v">${company?escapeHtml(company.name):'بدون'}</span></div>
+      ${o.giftWrap?`<div class="detail-line"><span class="k">خدمة تغليف هدايا</span><span class="v" style="color:var(--primary);">${escapeHtml(o.giftWrapType||'')}${(o.giftWrapType==='تغليف آخر' && o.giftWrapOther)?' — '+escapeHtml(o.giftWrapOther):''}</span></div>`:''}
     </div>
     <div class="detail-box">
       <h4>المنتجات</h4>
@@ -4279,6 +4352,140 @@ function viewPrepHistoryForDate(date){
   prepViewDate = date || null;
   renderPrepOrdersScreen();
 }
+let lowStockList = {};
+let lowStockPendingKey = null;
+function loadLowStockList(){
+  try{
+    const raw = localStorage.getItem('hammoudeh_low_stock_list');
+    lowStockList = raw ? JSON.parse(raw) : {};
+  }catch(e){ lowStockList = {}; }
+}
+function saveLowStockList(){
+  try{ localStorage.setItem('hammoudeh_low_stock_list', JSON.stringify(lowStockList)); }catch(e){}
+}
+function openLowStockScreen(){
+  loadLowStockList();
+  lowStockPendingKey = null;
+  showView('view-low-stock');
+  const searchEl = document.getElementById('low-stock-search');
+  if(searchEl) searchEl.value = '';
+  renderLowStockScreen();
+}
+function lowStockEntryLabel(key, entry){
+  if(entry.isCustom) return entry.customName;
+  const p = state.products.find(x=>String(x.id)===String(entry.productId));
+  if(!p) return '';
+  return p.name + (entry.variant ? ' — ' + entry.variant : '');
+}
+function renderLowStockScreen(){
+  const q = (document.getElementById('low-stock-search').value||'').trim().toLowerCase();
+  const list = state.products.filter(p=> !q || p.name.toLowerCase().includes(q) || (p.code||'').toLowerCase().includes(q));
+
+  const selectedKeys = Object.keys(lowStockList);
+  const selectedWrap = document.getElementById('low-stock-selected-wrap');
+  const selectedListEl = document.getElementById('low-stock-selected-list');
+  if(selectedKeys.length===0){
+    selectedWrap.classList.add('hidden');
+  }else{
+    selectedWrap.classList.remove('hidden');
+    selectedListEl.innerHTML = selectedKeys.map(key=>{
+      const entry = lowStockList[key];
+      const p = entry.isCustom ? null : state.products.find(x=>String(x.id)===String(entry.productId));
+      const img = p && p.image;
+      const label = lowStockEntryLabel(key, entry);
+      if(!label) return '';
+      return `<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);">
+        <div style="width:42px;height:42px;border-radius:9px;overflow:hidden;background:var(--bg);flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          ${img?`<img src="${img}" style="width:100%;height:100%;object-fit:cover;">`:`<span style="font-size:16px;">${entry.isCustom?'📝':'🧸'}</span>`}
+        </div>
+        <div style="flex:1;min-width:0;font-size:12.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(label)}</div>
+        <div style="font-size:14px;font-weight:900;color:var(--primary);flex-shrink:0;">${entry.qty}</div>
+        <button onclick="removeLowStockItem('${key}')" style="color:var(--red);flex-shrink:0;padding:4px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      </div>`;
+    }).join('');
+  }
+
+  document.getElementById('low-stock-product-list').innerHTML = list.map(p=>{
+    const hasVariants = p.variants && p.variants.length>0;
+    const isPending = lowStockPendingKey===('p'+p.id);
+    const existingEntries = Object.keys(lowStockList).filter(k=>lowStockList[k].productId===p.id && !lowStockList[k].isCustom);
+    return `<div style="background:#fff;border-radius:14px;padding:10px;margin-bottom:10px;box-shadow:0 4px 12px -8px rgba(30,20,90,.2);">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:52px;height:52px;border-radius:10px;overflow:hidden;background:var(--bg);flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          ${p.image?`<img src="${p.image}" style="width:100%;height:100%;object-fit:cover;">`:'<span style="font-size:20px;">🧸</span>'}
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:700;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(p.name)}</div>
+          <div style="font-size:11px;color:var(--muted);">${p.code||''}</div>
+        </div>
+        <button onclick="selectLowStockProduct(${p.id})" style="padding:8px 14px;border-radius:9px;background:var(--primary-light);color:var(--primary);font-weight:800;font-size:12px;white-space:nowrap;flex-shrink:0;">+ إضافة</button>
+      </div>
+      ${existingEntries.length>0 ? `<div style="margin-top:9px;padding-top:9px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:6px;">
+        ${existingEntries.map(key=>{
+          const entry = lowStockList[key];
+          return `<div style="display:flex;align-items:center;gap:8px;">
+            <span style="flex:1;font-size:11.5px;font-weight:700;color:var(--purple2);">${entry.variant?escapeHtml(entry.variant):'بدون خيار محدد'}</span>
+            <span style="font-weight:900;font-size:13px;color:var(--primary);">${entry.qty}</span>
+            <button onclick="removeLowStockItem('${key}')" style="color:var(--red);padding:2px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+          </div>`;
+        }).join('')}
+      </div>` : ''}
+      ${isPending ? `<div style="margin-top:9px;padding-top:9px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+        ${hasVariants ? `<select id="low-stock-variant-select-${p.id}" style="flex:1;padding:8px;border:1.5px solid var(--primary);border-radius:8px;font-family:'Tajawal',sans-serif;font-size:12px;">
+          ${p.variants.map(v=>{const vn = typeof v==='string'?v:v.name; return `<option value="${escapeHtml(vn)}">${escapeHtml(vn)}</option>`;}).join('')}
+        </select>` : ''}
+        <input type="number" id="low-stock-qty-input-p${p.id}" min="1" placeholder="الكمية" onkeydown="if(event.key==='Enter'){event.preventDefault();confirmLowStockQty(${p.id});}" style="width:64px;padding:7px;border:1.5px solid var(--primary);border-radius:8px;text-align:center;font-weight:800;font-family:'Tajawal',sans-serif;flex-shrink:0;">
+        <button onclick="confirmLowStockQty(${p.id})" style="padding:8px;border-radius:8px;background:var(--green);color:#fff;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></button>
+      </div>` : ''}
+    </div>`;
+  }).join('');
+  if(lowStockPendingKey!==null){
+    setTimeout(()=>{ const inp = document.getElementById('low-stock-qty-input-'+lowStockPendingKey); if(inp) inp.focus(); }, 30);
+  }
+}
+function selectLowStockProduct(id){
+  lowStockPendingKey = 'p'+id;
+  renderLowStockScreen();
+}
+function confirmLowStockQty(id){
+  const inp = document.getElementById('low-stock-qty-input-p'+id);
+  const val = parseInt(inp.value);
+  if(!val || val<=0){ showToast('الرجاء إدخال كمية صحيحة'); return; }
+  const p = state.products.find(x=>String(x.id)===String(id));
+  const variantSel = document.getElementById('low-stock-variant-select-'+id);
+  const variant = variantSel ? variantSel.value : null;
+  const key = variant ? (id+'::'+variant) : String(id);
+  lowStockList[key] = {productId:id, variant:variant||null, qty:val};
+  lowStockPendingKey = null;
+  saveLowStockList();
+  renderLowStockScreen();
+}
+function removeLowStockItem(key){
+  delete lowStockList[key];
+  saveLowStockList();
+  renderLowStockScreen();
+}
+function openAddCustomLowStockItem(){
+  lowStockPendingKey = 'custom';
+  document.getElementById('low-stock-custom-wrap').classList.remove('hidden');
+  setTimeout(()=>{ const inp = document.getElementById('low-stock-custom-name'); if(inp) inp.focus(); }, 30);
+}
+function cancelAddCustomLowStockItem(){
+  document.getElementById('low-stock-custom-wrap').classList.add('hidden');
+  document.getElementById('low-stock-custom-name').value = '';
+  document.getElementById('low-stock-custom-qty').value = '';
+}
+function confirmAddCustomLowStockItem(){
+  const name = document.getElementById('low-stock-custom-name').value.trim();
+  const qty = parseInt(document.getElementById('low-stock-custom-qty').value);
+  if(!name){ showToast('الرجاء إدخال اسم المنتج'); return; }
+  if(!qty || qty<=0){ showToast('الرجاء إدخال كمية صحيحة'); return; }
+  const key = 'custom_'+Date.now();
+  lowStockList[key] = {isCustom:true, customName:name, qty:qty};
+  saveLowStockList();
+  cancelAddCustomLowStockItem();
+  renderLowStockScreen();
+}
 function openPrepOrdersScreen(){
   window._printReturnToPrep = false;
   prepViewDate = null;
@@ -4325,43 +4532,114 @@ function renderPrepOrdersScreen(){
   </button>`;
   wrap.innerHTML = printAllBtn + orders.map(o=>buildPrepCardHtml(o)).join('') + `<button onclick="finishPrepOrders()" style="width:100%;padding:17px;border-radius:14px;background:var(--primary);color:#fff;font-weight:900;font-size:16px;margin-top:6px;">تم الانتهاء من تجهيز الطلبات</button>`;
 }
+let openPrepMenuId = null;
+function togglePrepMenu(id){
+  if(openPrepMenuId!==null){
+    const prev = document.getElementById('prep-menu-'+openPrepMenuId);
+    if(prev) prev.classList.add('hidden');
+  }
+  if(openPrepMenuId===id){
+    openPrepMenuId = null;
+    return;
+  }
+  const menu = document.getElementById('prep-menu-'+id);
+  if(!menu) return;
+  menu.classList.remove('hidden');
+  openPrepMenuId = id;
+}
+function closePrepMenu(id){
+  const menu = document.getElementById('prep-menu-'+id);
+  if(menu) menu.classList.add('hidden');
+  openPrepMenuId = null;
+}
+document.addEventListener('click', ()=>{
+  if(openPrepMenuId!==null){
+    const menu = document.getElementById('prep-menu-'+openPrepMenuId);
+    if(menu) menu.classList.add('hidden');
+    openPrepMenuId = null;
+  }
+});
 function buildPrepCardHtml(o){
   const hasBeenPrinted = o.status!=='جديد';
   const isFullyDone = o.status!=='جديد' && o.status!=='قيد التجهيز';
   const readyToCheck = o.status==='قيد التجهيز';
   const isLocked = LOCKED_STATUSES.includes(o.status);
-  const borderColor = hasBeenPrinted ? orderStatusColorVar(o.status) : 'transparent';
+  const statusColor = orderStatusColorVar(o.status);
+  const statusLight = statusColor + '1f';
   const isSelected = selectedPrepCardId===o.id;
-  return `<div class="prep-card" id="prep-card-${o.id}" onclick="selectPrepCard(${o.id})" style="display:flex;background:#fff;border-radius:14px;border:2.5px solid ${borderColor};outline:${isSelected?'3px solid #1E1B3A':'none'};outline-offset:1px;box-shadow:0 6px 14px -10px rgba(30,20,90,.2);margin-bottom:10px;overflow:hidden;cursor:pointer;">
-      <div style="flex:1;min-width:0;display:flex;gap:8px;overflow-x:auto;padding:10px;align-items:center;">
+  const showEdit = (currentRole!=='prep' && !isLocked);
+  const statusBarText = o.status==='جديد' ? 'جديد' : (o.status==='قيد التجهيز' ? 'جاري تجهيز الطلب' : 'تم تجهيز الطلب وتسليمه لشركة التوصيل');
+  const giftIconsHtml = o.giftWrap ? (o.giftWrapType==='تغليف ولادي وبناتي' ? `
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6FA5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4FA3F7" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
+    ` : `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="${o.giftWrapType==='تغليف بناتي'?'#FF6FA5':(o.giftWrapType==='تغليف ولادي'?'#4FA3F7':'#1E1B3A')}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>`) : '';
+  return `<div class="prep-card" id="prep-card-${o.id}" onclick="selectPrepCard(${o.id})" style="outline:${isSelected?'3px solid #1E1B3A':'none'};outline-offset:2px;margin-bottom:16px;cursor:pointer;border-radius:16px;overflow:hidden;box-shadow:0 4px 18px rgba(30,20,90,.25);border-right:6px solid ${statusColor};background:#fff;">
+      <div style="background:#fff;margin:10px 10px 0 10px;border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;border:1.5px solid var(--border);">
+        <div style="display:flex;align-items:flex-start;gap:6px;">
+          <div style="position:relative;">
+            <button onclick="event.stopPropagation();togglePrepMenu(${o.id})" style="padding:3px 5px;display:flex;flex-direction:column;align-items:center;gap:2.5px;">
+              <span style="width:3.5px;height:3.5px;border-radius:50%;background:#1E1B3A;display:block;"></span>
+              <span style="width:3.5px;height:3.5px;border-radius:50%;background:#1E1B3A;display:block;"></span>
+              <span style="width:3.5px;height:3.5px;border-radius:50%;background:#1E1B3A;display:block;"></span>
+            </button>
+            <div id="prep-menu-${o.id}" class="hidden" onclick="event.stopPropagation()" style="position:absolute;top:100%;right:0;background:#fff;border-radius:10px;box-shadow:0 8px 20px -6px rgba(30,20,90,.35);z-index:20;min-width:140px;overflow:hidden;border:1px solid var(--border);">
+              ${showEdit ? `<button onclick="closePrepMenu(${o.id});editPrepOrder(${o.id})" style="width:100%;padding:10px 12px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--text);border-bottom:1px solid var(--border);">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                تعديل
+              </button>` : ''}
+              <button onclick="closePrepMenu(${o.id});printPrepOrder(${o.id})" style="width:100%;padding:10px 12px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--text);border-bottom:1px solid var(--border);">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                طباعة
+              </button>
+              ${!isLocked ? (isFullyDone ? `<button disabled style="width:100%;padding:10px 12px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--muted);">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                الطلب جاهز للتسليم
+              </button>` : `<button ${readyToCheck?`onclick="closePrepMenu(${o.id});togglePrepChecked(${o.id}, true)"`:'disabled'} style="width:100%;padding:10px 12px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:${readyToCheck?'var(--text)':'var(--muted)'};">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                تم تجهيز الطلب
+              </button>`) : ''}
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:8.5px;font-weight:700;color:#1E1B3A;">رقم الطلب</div>
+            <div style="font-size:23px;font-weight:900;color:${statusColor};line-height:1.15;">#${o.id}</div>
+            <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:2px;">
+              <span style="font-size:8.5px;font-weight:800;color:#1E1B3A;">${o.createdAtStr}</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${statusColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/></svg>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:8px;font-weight:700;color:#1E1B3A;">عدد العناصر</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;margin-top:2px;">
+            <span style="font-size:15px;font-weight:900;color:${statusColor};">${o.items.length}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="${statusColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4M18 2l-1.5 4"/><path d="M3.5 8h17l-1.2 12.2a2 2 0 0 1-2 1.8H6.7a2 2 0 0 1-2-1.8L3.5 8z"/><path d="M8 11a4 4 0 0 0 8 0"/></svg>
+          </div>
+          ${o.giftWrap ? `<div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-top:4px;">${giftIconsHtml}</div>` : ''}
+        </div>
+        <button onclick="event.stopPropagation();printPrepOrder(${o.id})" style="padding:8px 12px;border-radius:9px;background:${statusLight};color:${statusColor};font-weight:800;font-size:10.5px;display:flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;">
+          طباعة<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        </button>
+      </div>
+      <div class="prep-items-scroll" style="display:flex;overflow-x:auto;overflow-y:hidden;gap:10px;padding:12px;background:var(--bg);border-radius:14px;margin:12px 10px 12px 10px;">
         ${o.items.map(it=>{
           const prod = state.products.find(p=>String(p.id)===String(it.productId));
           const img = it.variantImage || (prod && prod.image);
-          return `<div style="flex-shrink:0;text-align:center;">
-            <div style="width:92px;height:92px;border-radius:12px;overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;">
-              ${img?`<img src="${img}" style="width:100%;height:100%;object-fit:cover;">`:'<span style="font-size:28px;">🧸</span>'}
+          return `<div style="flex-shrink:0;width:110px;background:#fff;border-radius:14px;box-shadow:0 4px 10px -8px rgba(30,20,90,.3);padding:9px;text-align:center;">
+            <div style="position:relative;width:100%;height:92px;border-radius:11px;overflow:hidden;background:var(--bg);display:flex;align-items:center;justify-content:center;">
+              ${img?`<img src="${img}" style="width:100%;height:100%;object-fit:cover;">`:'<span style="font-size:24px;">🧸</span>'}
+              <div style="position:absolute;top:5px;left:5px;min-width:24px;height:24px;padding:0 5px;border-radius:12px;background:var(--purple2);color:#fff;font-size:12.5px;font-weight:900;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 2px 6px -1px rgba(0,0,0,.35);"><span style="padding-top:1px;">${it.qty}</span></div>
             </div>
-            <div style="font-size:10.5px;font-weight:700;margin-top:5px;max-width:92px;white-space:normal;word-wrap:break-word;line-height:1.3;">${escapeHtml(it.name)}</div>
-            ${it.variant?`<div style="font-size:10px;font-weight:800;color:var(--purple2);max-width:92px;white-space:normal;word-wrap:break-word;line-height:1.3;">${escapeHtml(it.variant)}</div>`:''}
-            <div style="font-size:13px;font-weight:900;color:var(--red);margin-top:2px;">× ${it.qty}</div>
+            <div style="font-size:10px;font-weight:700;line-height:1.3;margin-top:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${escapeHtml(it.name)}</div>
+            ${it.variant?`<div style="font-size:9px;font-weight:800;color:var(--purple2);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(it.variant)}</div>`:''}
           </div>`;
         }).join('')}
       </div>
-      <div style="width:25%;flex-shrink:0;background:${orderStatusColorVar(o.status)};color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;gap:5px;">
-        <div style="font-size:19px;font-weight:900;color:#fff;">#${o.id}</div>
-        <div style="font-size:9.5px;color:rgba(255,255,255,.85);font-weight:700;">${o.createdAtStr}</div>
-        <button onclick="printPrepOrder(${o.id})" style="width:100%;margin-top:4px;padding:7px 4px;border-radius:9px;background:${hasBeenPrinted?'var(--green)':'rgba(255,255,255,.22)'};color:#fff;font-weight:800;font-size:10.5px;display:flex;align-items:center;justify-content:center;gap:4px;">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-          طباعة
-        </button>
-        ${(currentRole!=='prep' && !isLocked) ? `<button onclick="editPrepOrder(${o.id})" style="width:100%;margin-top:4px;padding:6px 4px;border-radius:9px;background:transparent;border:1.2px solid rgba(255,255,255,.5);color:#fff;font-weight:700;font-size:9.5px;display:flex;align-items:center;justify-content:center;gap:4px;">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          تعديل الطلب
-        </button>` : ''}
-        ${!isLocked ? `<label style="display:flex;align-items:center;gap:4px;cursor:pointer;margin-top:4px;">
-          <input type="checkbox" ${isFullyDone?'checked':''} ${readyToCheck?'':'disabled'} onchange="togglePrepChecked(${o.id},this.checked)" style="width:14px;height:14px;accent-color:#fff;flex-shrink:0;">
-          <span style="font-size:10.5px;font-weight:800;color:#fff;">تم تجهيز الطلب</span>
-        </label>` : ''}
+      <div style="background:#fff;margin:0 10px 10px 10px;border-radius:12px;padding:11px 12px;display:flex;align-items:center;justify-content:space-between;border:1.5px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:11px;font-weight:800;color:${statusColor};">${statusBarText}</span>
+          <span style="color:${statusColor};display:flex;align-items:center;">${orderStatusIcon(o.status)}</span>
+        </div>
       </div>
     </div>`;
 }
@@ -4426,8 +4704,8 @@ function finishPrepOrders(){
     const card = document.getElementById('prep-card-'+notPrepared.id);
     if(card){
       card.scrollIntoView({behavior:'smooth', block:'center'});
-      card.style.borderColor = 'var(--red)';
-      setTimeout(()=>{ if(card.id) card.style.borderColor = 'transparent'; }, 1200);
+      card.style.boxShadow = '0 0 0 3px var(--red), 0 4px 18px rgba(30,20,90,.25)';
+      setTimeout(()=>{ if(card.id) card.style.boxShadow = ''; }, 1200);
     }
     return;
   }
