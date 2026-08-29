@@ -3991,7 +3991,7 @@ async function saveOrderFormPage(){
       updateData.staleStatusNotified = false;
     }
     try{
-      if(!window._editReturnToPrep && prepOrdersSnapshot && prepOrdersSnapshot.includes(existing.id)){
+      if(!window._editReturnToPrep && ['جديد','قيد التجهيز','قيد التسليم'].includes(existing.status)){
         const diffMessages = buildPrepEditDiffMessages(existing, updateData);
         if(diffMessages.length>0){
           logPrepActivity(`تعديل الطلب #${existing.id}: ${diffMessages.join('، ')}`, existing.id);
