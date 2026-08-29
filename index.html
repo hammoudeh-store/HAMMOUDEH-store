@@ -1207,6 +1207,16 @@ a{color:inherit;text-decoration:none;}
       </div>
     </div>
     <div class="content" style="padding-bottom:40px;">
+      <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden;">
+        <button onclick="togglePrepActivityLog()" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span style="font-weight:800;font-size:13.5px;">سجل عمليات التجهيز</span>
+          </div>
+          <svg id="prep-activity-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .2s;"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div id="prep-activity-log-wrap" class="hidden" style="max-height:260px;overflow-y:auto;border-top:1px solid var(--border);padding:8px 14px;"></div>
+      </div>
       <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:10px 14px;margin-bottom:14px;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/></svg>
         <span style="font-size:12.5px;font-weight:700;color:var(--muted);white-space:nowrap;">عرض طلبات تاريخ:</span>
@@ -1214,6 +1224,18 @@ a{color:inherit;text-decoration:none;}
         <button onclick="document.getElementById('prep-date-picker').value='';viewPrepHistoryForDate('');" style="flex-shrink:0;color:var(--muted);font-size:11px;font-weight:700;">اليوم</button>
       </div>
       <div id="prep-orders-content"></div>
+    </div>
+  </div>
+
+  <div id="modal-prep-action-notice" class="overlay hidden" style="align-items:flex-end;">
+    <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;min-height:50vh;max-height:80vh;display:flex;flex-direction:column;padding:22px;box-sizing:border-box;">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div id="prep-action-notice-text" style="font-size:15.5px;font-weight:800;color:var(--text);line-height:1.7;"></div>
+      </div>
+      <button onclick="closeModal('modal-prep-action-notice')" style="width:100%;padding:15px;border-radius:14px;background:var(--primary);color:#fff;font-weight:900;font-size:15px;">تم</button>
     </div>
   </div>
 
@@ -2352,6 +2374,96 @@ function updateNotifPermissionUI(){
   if(!el || typeof Notification==='undefined') return;
   const map = {granted:'مفعّلة ✅', denied:'مرفوضة — فعّلها من إعدادات المتصفح', default:'غير مفعّلة بعد'};
   el.textContent = map[Notification.permission] || '';
+}
+function buildPrepEditDiffMessages(existing, updated){
+  const msgs = [];
+  if((existing.customerName||'') !== (updated.customerName||'')){
+    msgs.push(`تغيير الاسم من "${existing.customerName||'بدون اسم'}" إلى "${updated.customerName||'بدون اسم'}"`);
+  }
+  if((existing.phone||'') !== (updated.phone||'')){
+    msgs.push(`تغيير رقم الهاتف من ${existing.phone||'-'} إلى ${updated.phone||'-'}`);
+  }
+  if((existing.phone2||'') !== (updated.phone2||'')){
+    msgs.push(`تغيير الهاتف البديل من ${existing.phone2||'-'} إلى ${updated.phone2||'-'}`);
+  }
+  if((existing.governorate||existing.city||'') !== (updated.governorate||'') || (existing.area||'') !== (updated.area||'')){
+    msgs.push(`تغيير المنطقة من "${[existing.governorate||existing.city, existing.area].filter(Boolean).join(' - ')||'-'}" إلى "${[updated.governorate, updated.area].filter(Boolean).join(' - ')||'-'}"`);
+  }
+  if((existing.landmark||'') !== (updated.landmark||'')){
+    msgs.push(`تغيير أقرب معلم من "${existing.landmark||'-'}" إلى "${updated.landmark||'-'}"`);
+  }
+  if((existing.notes||'') !== (updated.notes||'')){
+    msgs.push(`تغيير الملاحظات`);
+  }
+  if(!!existing.giftWrap !== !!updated.giftWrap || (existing.giftWrapType||'')!==(updated.giftWrapType||'')){
+    msgs.push(updated.giftWrap ? `تفعيل خدمة التغليف (${updated.giftWrapType||''})` : `إلغاء خدمة التغليف`);
+  }
+  const oldItems = existing.items||[];
+  const newItems = updated.items||[];
+  const key = it => `${it.productId}::${it.variant||''}`;
+  newItems.forEach(ni=>{
+    const oi = oldItems.find(o=>key(o)===key(ni));
+    if(!oi){
+      msgs.push(`إضافة منتج: ${ni.name}${ni.variant?' ('+ni.variant+')':''} (الكمية: ${ni.qty})`);
+    }else if(oi.qty !== ni.qty){
+      msgs.push(`تغيير كمية ${ni.name}${ni.variant?' ('+ni.variant+')':''} من ${oi.qty} إلى ${ni.qty}`);
+    }
+  });
+  oldItems.forEach(oi=>{
+    const ni = newItems.find(n=>key(n)===key(oi));
+    if(!ni){
+      msgs.push(`حذف منتج: ${oi.name}${oi.variant?' ('+oi.variant+')':''}`);
+    }
+  });
+  return msgs;
+}
+function logPrepActivity(message, orderId){
+  const now = new Date();
+  const roleLabel = currentRole==='admin' ? 'مدير' : (currentRole==='sales' ? 'موظف مبيعات' : 'غير معروف');
+  db.collection('activityLog').add({
+    message, orderId: orderId!=null?orderId:null,
+    userEmail: currentUserEmail || '-',
+    userRole: roleLabel,
+    context: 'prep',
+    createdAtTs: now.getTime(),
+    createdAtStr: todayStr(),
+    timeStr: now.toLocaleTimeString('ar-JO', {hour:'2-digit', minute:'2-digit'})
+  }).catch(()=>{});
+  showPrepActionNotice(message);
+}
+function showPrepActionNotice(message){
+  document.getElementById('prep-action-notice-text').textContent = message;
+  openModal('modal-prep-action-notice');
+}
+function togglePrepActivityLog(){
+  const wrap = document.getElementById('prep-activity-log-wrap');
+  const chevron = document.getElementById('prep-activity-chevron');
+  const isHidden = wrap.classList.contains('hidden');
+  if(isHidden){
+    renderPrepActivityLog();
+    wrap.classList.remove('hidden');
+    chevron.style.transform = 'rotate(180deg)';
+  }else{
+    wrap.classList.add('hidden');
+    chevron.style.transform = '';
+  }
+}
+function renderPrepActivityLog(){
+  const wrap = document.getElementById('prep-activity-log-wrap');
+  if(!wrap) return;
+  const entries = (state.activityLog||[]).filter(l=>l.context==='prep').slice().sort((a,b)=>(b.createdAtTs||0)-(a.createdAtTs||0));
+  if(entries.length===0){
+    wrap.innerHTML = `<div style="text-align:center;padding:16px;color:var(--muted);font-size:12px;font-weight:700;">لا توجد عمليات تجهيز مسجلة بعد</div>`;
+    return;
+  }
+  wrap.innerHTML = entries.map(l=>`
+    <div ${l.orderId?`onclick="viewOrder(${l.orderId})"`:''} style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid var(--border);${l.orderId?'cursor:pointer;':''}">
+      <div style="flex:1;min-width:0;text-align:right;">
+        <div style="font-weight:700;font-size:12px;">${escapeHtml(l.message)}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px;">${escapeHtml(l.userRole||'')} · ${l.createdAtStr} ${l.timeStr||''}</div>
+      </div>
+    </div>
+  `).join('');
 }
 function logActivity(message, orderId){
   const now = new Date();
@@ -3879,6 +3991,12 @@ async function saveOrderFormPage(){
       updateData.staleStatusNotified = false;
     }
     try{
+      if(window._editReturnToPrep){
+        const diffMessages = buildPrepEditDiffMessages(existing, updateData);
+        if(diffMessages.length>0){
+          logPrepActivity(`تعديل الطلب #${existing.id}: ${diffMessages.join('، ')}`, existing.id);
+        }
+      }
       await db.collection('orders').doc(String(existing.id)).update(updateData);
       logActivity(`تم تعديل الطلب #${existing.id} — أصبحت قيمة الطلب ${fmt(total)} ${state.settings.currency} (كانت ${fmt(prevTotal)} ${state.settings.currency})`, existing.id);
       showToast('تم حفظ التعديلات بنجاح');
@@ -4543,6 +4661,8 @@ function openPrepOrdersScreen(){
   }
 }
 function renderPrepOrdersScreen(){
+  const logWrap = document.getElementById('prep-activity-log-wrap');
+  if(logWrap && !logWrap.classList.contains('hidden')) renderPrepActivityLog();
   const wrap = document.getElementById('prep-orders-content');
   if(prepViewDate){
     const archived = loadPrepHistoryForDate(prepViewDate);
@@ -4732,9 +4852,11 @@ function printPrepOrder(id){
   if(o.status==='جديد'){
     db.collection('orders').doc(String(id)).update({status:'قيد التجهيز', statusUpdatedAtTs:Date.now(), staleStatusNotified:false}).then(()=>{
       logActivity(`تم تغيير حالة الطلب #${id} إلى: قيد التجهيز (عند طباعة البوليصة)`, id);
+      logPrepActivity(`تم طباعة بوليصة الطلب #${id}`, id);
       doPrint();
     }).catch(()=>showToast('تعذر تحديث الحالة'));
   }else{
+    logPrepActivity(`تم إعادة طباعة بوليصة الطلب #${id}`, id);
     doPrint();
   }
 }
@@ -4744,6 +4866,7 @@ function togglePrepChecked(id, checked){
   if(!checked) return;
   db.collection('orders').doc(String(id)).update({status:'قيد التسليم', statusUpdatedAtTs:Date.now(), staleStatusNotified:false}).then(()=>{
     logActivity(`تم تغيير حالة الطلب #${id} إلى: قيد التسليم`, id);
+    logPrepActivity(`تم تجهيز الطلب #${id} وتسليمه لشركة التوصيل`, id);
     renderPrepOrdersScreen();
   }).catch(()=>showToast('تعذر تحديث الحالة'));
 }
