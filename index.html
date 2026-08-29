@@ -3991,7 +3991,7 @@ async function saveOrderFormPage(){
       updateData.staleStatusNotified = false;
     }
     try{
-      if(window._editReturnToPrep){
+      if(!window._editReturnToPrep && prepOrdersSnapshot && prepOrdersSnapshot.includes(existing.id)){
         const diffMessages = buildPrepEditDiffMessages(existing, updateData);
         if(diffMessages.length>0){
           logPrepActivity(`تعديل الطلب #${existing.id}: ${diffMessages.join('، ')}`, existing.id);
@@ -4852,11 +4852,9 @@ function printPrepOrder(id){
   if(o.status==='جديد'){
     db.collection('orders').doc(String(id)).update({status:'قيد التجهيز', statusUpdatedAtTs:Date.now(), staleStatusNotified:false}).then(()=>{
       logActivity(`تم تغيير حالة الطلب #${id} إلى: قيد التجهيز (عند طباعة البوليصة)`, id);
-      logPrepActivity(`تم طباعة بوليصة الطلب #${id}`, id);
       doPrint();
     }).catch(()=>showToast('تعذر تحديث الحالة'));
   }else{
-    logPrepActivity(`تم إعادة طباعة بوليصة الطلب #${id}`, id);
     doPrint();
   }
 }
@@ -4866,7 +4864,6 @@ function togglePrepChecked(id, checked){
   if(!checked) return;
   db.collection('orders').doc(String(id)).update({status:'قيد التسليم', statusUpdatedAtTs:Date.now(), staleStatusNotified:false}).then(()=>{
     logActivity(`تم تغيير حالة الطلب #${id} إلى: قيد التسليم`, id);
-    logPrepActivity(`تم تجهيز الطلب #${id} وتسليمه لشركة التوصيل`, id);
     renderPrepOrdersScreen();
   }).catch(()=>showToast('تعذر تحديث الحالة'));
 }
