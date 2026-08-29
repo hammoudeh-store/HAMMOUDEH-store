@@ -17,6 +17,8 @@
   --green-bg:#E7F7EC;
   --blue:#2F80ED;
   --blue-bg:#E9F1FE;
+  --teal:#0D9488;
+  --teal-bg:#DFF5F3;
   --orange:#FF8C00;
   --orange-bg:#FFF1DB;
   --purple2:#8355F0;
@@ -237,6 +239,7 @@ a{color:inherit;text-decoration:none;}
 .st-جديد{background:var(--yellow-bg);color:var(--yellow);}
 .st-قيد-التسليم{background:var(--blue-bg);color:var(--blue);}
 .st-قيد-التجهيز{background:var(--orange-bg);color:var(--orange);}
+.st-تم-التجهيز{background:var(--teal-bg);color:var(--teal);}
 .st-تم-التسليم{background:var(--green-bg);color:var(--green);}
 .st-ملغي{background:var(--red-bg);color:var(--red);}
 .st-مكتمل{background:var(--black-status-bg);color:var(--black-status);}
@@ -1207,16 +1210,6 @@ a{color:inherit;text-decoration:none;}
       </div>
     </div>
     <div class="content" style="padding-bottom:40px;">
-      <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden;">
-        <button onclick="togglePrepActivityLog()" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:12px 14px;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            <span style="font-weight:800;font-size:13.5px;">سجل عمليات التجهيز</span>
-          </div>
-          <svg id="prep-activity-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .2s;"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div id="prep-activity-log-wrap" class="hidden" style="max-height:260px;overflow-y:auto;border-top:1px solid var(--border);padding:8px 14px;"></div>
-      </div>
       <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:10px 14px;margin-bottom:14px;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/></svg>
         <span style="font-size:12.5px;font-weight:700;color:var(--muted);white-space:nowrap;">عرض طلبات تاريخ:</span>
@@ -1224,18 +1217,6 @@ a{color:inherit;text-decoration:none;}
         <button onclick="document.getElementById('prep-date-picker').value='';viewPrepHistoryForDate('');" style="flex-shrink:0;color:var(--muted);font-size:11px;font-weight:700;">اليوم</button>
       </div>
       <div id="prep-orders-content"></div>
-    </div>
-  </div>
-
-  <div id="modal-prep-action-notice" class="overlay hidden" style="align-items:flex-end;">
-    <div style="background:#fff;border-radius:20px 20px 0 0;width:100%;min-height:50vh;max-height:80vh;display:flex;flex-direction:column;padding:22px;box-sizing:border-box;">
-      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;">
-        <div style="width:56px;height:56px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-        </div>
-        <div id="prep-action-notice-text" style="font-size:15.5px;font-weight:800;color:var(--text);line-height:1.7;"></div>
-      </div>
-      <button onclick="closeModal('modal-prep-action-notice')" style="width:100%;padding:15px;border-radius:14px;background:var(--primary);color:#fff;font-weight:900;font-size:15px;">تم</button>
     </div>
   </div>
 
@@ -1992,6 +1973,24 @@ function applyRolePermissions(){
   document.querySelectorAll('[data-role="admin-only"]').forEach(el=>{
     el.style.display = isAdmin ? '' : 'none';
   });
+  document.querySelectorAll('.bottom-nav').forEach(nav=>{
+    const customers = nav.querySelector('[data-nav="customers"]');
+    const orders = nav.querySelector('[data-nav="orders"]');
+    const center = nav.querySelector('.nav-item-center');
+    const companies = nav.querySelector('[data-nav="companies"]');
+    const warehouse = nav.querySelector('[data-nav="warehouse"]');
+    if(isAdmin){
+      if(customers) customers.style.order = 1;
+      if(orders) orders.style.order = 2;
+      if(center) center.style.order = 3;
+      if(companies) companies.style.order = 4;
+      if(warehouse) warehouse.style.order = 5;
+    }else{
+      if(customers) customers.style.order = 1;
+      if(center) center.style.order = 2;
+      if(orders) orders.style.order = 3;
+    }
+  });
   const isPrep = currentRole==='prep';
   const logoutBtn = document.getElementById('prep-logout-btn');
   const backBtn = document.getElementById('prep-back-btn');
@@ -2241,6 +2240,7 @@ function orderStatusIcon(status){
   if(status==='جديد') return '<svg width="9" height="9" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/></svg>';
   if(status==='قيد التسليم') return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="13" height="9"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="6" cy="19" r="1.8"/><circle cx="17.5" cy="19" r="1.8"/></svg>';
   if(status==='قيد التجهيز') return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8L12 3 3 8l9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>';
+  if(status==='تم التجهيز') return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 7.3L12 3 3.5 7.3 12 11.6l8.5-4.3z"/><path d="M3.5 7.3v9.4L12 21l8.5-4.3V7.3"/><path d="M8 9.5l8-4"/><path d="M9 15l2 2 4-4.5"/></svg>';
   if(status==='تم التسليم') return '<svg width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.5 12.5l3 3 6-6.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   if(status==='ملغي') return '<svg width="13" height="13" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
   if(status==='مكتمل') return '<svg width="9" height="9" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/></svg>';
@@ -2260,6 +2260,7 @@ function orderStatusColorVar(status){
   if(status==='جديد') return '#D9A600';
   if(status==='قيد التسليم') return '#2F80ED';
   if(status==='قيد التجهيز') return '#FF8C00';
+  if(status==='تم التجهيز') return '#0D9488';
   if(status==='تم التسليم') return '#2E9E4F';
   if(status==='ملغي') return '#E5484D';
   if(status==='مكتمل') return '#1E1B3A';
@@ -2374,96 +2375,6 @@ function updateNotifPermissionUI(){
   if(!el || typeof Notification==='undefined') return;
   const map = {granted:'مفعّلة ✅', denied:'مرفوضة — فعّلها من إعدادات المتصفح', default:'غير مفعّلة بعد'};
   el.textContent = map[Notification.permission] || '';
-}
-function buildPrepEditDiffMessages(existing, updated){
-  const msgs = [];
-  if((existing.customerName||'') !== (updated.customerName||'')){
-    msgs.push(`تغيير الاسم من "${existing.customerName||'بدون اسم'}" إلى "${updated.customerName||'بدون اسم'}"`);
-  }
-  if((existing.phone||'') !== (updated.phone||'')){
-    msgs.push(`تغيير رقم الهاتف من ${existing.phone||'-'} إلى ${updated.phone||'-'}`);
-  }
-  if((existing.phone2||'') !== (updated.phone2||'')){
-    msgs.push(`تغيير الهاتف البديل من ${existing.phone2||'-'} إلى ${updated.phone2||'-'}`);
-  }
-  if((existing.governorate||existing.city||'') !== (updated.governorate||'') || (existing.area||'') !== (updated.area||'')){
-    msgs.push(`تغيير المنطقة من "${[existing.governorate||existing.city, existing.area].filter(Boolean).join(' - ')||'-'}" إلى "${[updated.governorate, updated.area].filter(Boolean).join(' - ')||'-'}"`);
-  }
-  if((existing.landmark||'') !== (updated.landmark||'')){
-    msgs.push(`تغيير أقرب معلم من "${existing.landmark||'-'}" إلى "${updated.landmark||'-'}"`);
-  }
-  if((existing.notes||'') !== (updated.notes||'')){
-    msgs.push(`تغيير الملاحظات`);
-  }
-  if(!!existing.giftWrap !== !!updated.giftWrap || (existing.giftWrapType||'')!==(updated.giftWrapType||'')){
-    msgs.push(updated.giftWrap ? `تفعيل خدمة التغليف (${updated.giftWrapType||''})` : `إلغاء خدمة التغليف`);
-  }
-  const oldItems = existing.items||[];
-  const newItems = updated.items||[];
-  const key = it => `${it.productId}::${it.variant||''}`;
-  newItems.forEach(ni=>{
-    const oi = oldItems.find(o=>key(o)===key(ni));
-    if(!oi){
-      msgs.push(`إضافة منتج: ${ni.name}${ni.variant?' ('+ni.variant+')':''} (الكمية: ${ni.qty})`);
-    }else if(oi.qty !== ni.qty){
-      msgs.push(`تغيير كمية ${ni.name}${ni.variant?' ('+ni.variant+')':''} من ${oi.qty} إلى ${ni.qty}`);
-    }
-  });
-  oldItems.forEach(oi=>{
-    const ni = newItems.find(n=>key(n)===key(oi));
-    if(!ni){
-      msgs.push(`حذف منتج: ${oi.name}${oi.variant?' ('+oi.variant+')':''}`);
-    }
-  });
-  return msgs;
-}
-function logPrepActivity(message, orderId){
-  const now = new Date();
-  const roleLabel = currentRole==='admin' ? 'مدير' : (currentRole==='sales' ? 'موظف مبيعات' : 'غير معروف');
-  db.collection('activityLog').add({
-    message, orderId: orderId!=null?orderId:null,
-    userEmail: currentUserEmail || '-',
-    userRole: roleLabel,
-    context: 'prep',
-    createdAtTs: now.getTime(),
-    createdAtStr: todayStr(),
-    timeStr: now.toLocaleTimeString('ar-JO', {hour:'2-digit', minute:'2-digit'})
-  }).catch(()=>{});
-  showPrepActionNotice(message);
-}
-function showPrepActionNotice(message){
-  document.getElementById('prep-action-notice-text').textContent = message;
-  openModal('modal-prep-action-notice');
-}
-function togglePrepActivityLog(){
-  const wrap = document.getElementById('prep-activity-log-wrap');
-  const chevron = document.getElementById('prep-activity-chevron');
-  const isHidden = wrap.classList.contains('hidden');
-  if(isHidden){
-    renderPrepActivityLog();
-    wrap.classList.remove('hidden');
-    chevron.style.transform = 'rotate(180deg)';
-  }else{
-    wrap.classList.add('hidden');
-    chevron.style.transform = '';
-  }
-}
-function renderPrepActivityLog(){
-  const wrap = document.getElementById('prep-activity-log-wrap');
-  if(!wrap) return;
-  const entries = (state.activityLog||[]).filter(l=>l.context==='prep').slice().sort((a,b)=>(b.createdAtTs||0)-(a.createdAtTs||0));
-  if(entries.length===0){
-    wrap.innerHTML = `<div style="text-align:center;padding:16px;color:var(--muted);font-size:12px;font-weight:700;">لا توجد عمليات تجهيز مسجلة بعد</div>`;
-    return;
-  }
-  wrap.innerHTML = entries.map(l=>`
-    <div ${l.orderId?`onclick="viewOrder(${l.orderId})"`:''} style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid var(--border);${l.orderId?'cursor:pointer;':''}">
-      <div style="flex:1;min-width:0;text-align:right;">
-        <div style="font-weight:700;font-size:12px;">${escapeHtml(l.message)}</div>
-        <div style="font-size:10px;color:var(--muted);margin-top:2px;">${escapeHtml(l.userRole||'')} · ${l.createdAtStr} ${l.timeStr||''}</div>
-      </div>
-    </div>
-  `).join('');
 }
 function logActivity(message, orderId){
   const now = new Date();
@@ -3991,12 +3902,6 @@ async function saveOrderFormPage(){
       updateData.staleStatusNotified = false;
     }
     try{
-      if(!window._editReturnToPrep && ['جديد','قيد التجهيز','قيد التسليم'].includes(existing.status)){
-        const diffMessages = buildPrepEditDiffMessages(existing, updateData);
-        if(diffMessages.length>0){
-          logPrepActivity(`تعديل الطلب #${existing.id}: ${diffMessages.join('، ')}`, existing.id);
-        }
-      }
       await db.collection('orders').doc(String(existing.id)).update(updateData);
       logActivity(`تم تعديل الطلب #${existing.id} — أصبحت قيمة الطلب ${fmt(total)} ${state.settings.currency} (كانت ${fmt(prevTotal)} ${state.settings.currency})`, existing.id);
       showToast('تم حفظ التعديلات بنجاح');
@@ -4186,7 +4091,7 @@ function renderStatusWorkflow(o){
   </div>`;
   return stepperHtml + manualBtns;
 }
-const LOCKED_STATUSES = ['تم التسليم','ملغي','رفض استلام'];
+const LOCKED_STATUSES = ['تم التسليم','ملغي','رفض استلام','قيد التسليم'];
 function confirmStatusChange(id, status){
   const o = state.orders.find(x=>x.id===id);
   if(!o) return;
@@ -4661,8 +4566,6 @@ function openPrepOrdersScreen(){
   }
 }
 function renderPrepOrdersScreen(){
-  const logWrap = document.getElementById('prep-activity-log-wrap');
-  if(logWrap && !logWrap.classList.contains('hidden')) renderPrepActivityLog();
   const wrap = document.getElementById('prep-orders-content');
   if(prepViewDate){
     const archived = loadPrepHistoryForDate(prepViewDate);
@@ -4684,7 +4587,7 @@ function renderPrepOrdersScreen(){
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
     ${anyUnprinted?'طباعة جميع بوالص الشحن':'تم طباعة جميع البوالص ✓'}
   </button>`;
-  wrap.innerHTML = printAllBtn + orders.map(o=>buildPrepCardHtml(o)).join('') + `<button onclick="finishPrepOrders()" style="width:100%;padding:17px;border-radius:14px;background:var(--primary);color:#fff;font-weight:900;font-size:16px;margin-top:6px;">تم الانتهاء من تجهيز الطلبات</button>`;
+  wrap.innerHTML = printAllBtn + orders.map(o=>buildPrepCardHtml(o)).join('') + `<button onclick="finishPrepOrders()" style="width:100%;padding:17px;border-radius:14px;background:var(--primary);color:#fff;font-weight:900;font-size:16px;margin-top:6px;">تم تسليم الطلبات لشركة التوصيل</button>`;
 }
 let openPrepMenuId = null;
 function togglePrepMenu(id){
@@ -4728,7 +4631,7 @@ function buildPrepCardHtml(o){
   const statusLight = statusColor + '1f';
   const isSelected = selectedPrepCardId===o.id;
   const showEdit = (currentRole!=='prep' && !isLocked);
-  const statusBarText = o.status==='جديد' ? 'جديد' : (o.status==='قيد التجهيز' ? 'جاري تجهيز الطلب' : (o.status==='ملغي' ? 'ملغي' : (o.status==='رفض استلام' ? 'رفض استلام' : (o.status==='تم التسليم' ? 'تم التسليم' : 'تم تجهيز الطلب وتسليمه لشركة التوصيل'))));
+  const statusBarText = o.status==='جديد' ? 'جديد' : (o.status==='قيد التجهيز' ? 'جاري تجهيز الطلب' : (o.status==='تم التجهيز' ? 'تم التجهيز' : (o.status==='ملغي' ? 'ملغي' : (o.status==='رفض استلام' ? 'رفض استلام' : (o.status==='تم التسليم' ? 'تم التسليم' : 'تم تسليم الطلب لشركة التوصيل')))));
   const giftIconsHtml = o.giftWrap ? (o.giftWrapType==='تغليف ولادي وبناتي' ? `
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6FA5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4FA3F7" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
@@ -4860,30 +4763,47 @@ function printPrepOrder(id){
 }
 function togglePrepChecked(id, checked){
   const o = state.orders.find(x=>x.id===id);
-  if(!o || (o.status!=='قيد التجهيز' && o.status!=='قيد التسليم')) return;
+  if(!o || o.status!=='قيد التجهيز') return;
   if(!checked) return;
-  db.collection('orders').doc(String(id)).update({status:'قيد التسليم', statusUpdatedAtTs:Date.now(), staleStatusNotified:false}).then(()=>{
-    logActivity(`تم تغيير حالة الطلب #${id} إلى: قيد التسليم`, id);
+  db.collection('orders').doc(String(id)).update({status:'تم التجهيز', statusUpdatedAtTs:Date.now(), staleStatusNotified:false}).then(()=>{
+    logActivity(`تم تغيير حالة الطلب #${id} إلى: تم التجهيز`, id);
     renderPrepOrdersScreen();
   }).catch(()=>showToast('تعذر تحديث الحالة'));
 }
 function finishPrepOrders(){
   const orders = prepOrdersSnapshot.map(id=>state.orders.find(o=>o.id===id)).filter(Boolean);
-  const notPrepared = orders.find(o=>o.status==='جديد' || o.status==='قيد التجهيز');
-  if(notPrepared){
-    showToast(`الطلب #${notPrepared.id} لسا ما انطبع — يرجى تجهيزه أولاً`);
-    const card = document.getElementById('prep-card-'+notPrepared.id);
-    if(card){
-      card.scrollIntoView({behavior:'smooth', block:'center'});
-      card.style.boxShadow = '0 0 0 3px var(--red), 0 4px 18px rgba(30,20,90,.25)';
-      setTimeout(()=>{ if(card.id) card.style.boxShadow = ''; }, 1200);
-    }
+  const notReady = orders.filter(o=>o.status==='جديد' || o.status==='قيد التجهيز');
+  if(notReady.length>0){
+    showConfirm('طلبات لم تكتمل بعد', `يوجد ${notReady.length} طلب لم يكتمل تجهيزه بعد. هل تريد المتابعة وتسليم باقي الطلبات الجاهزة فقط؟`, ()=>{
+      closeModal('modal-confirm');
+      completeHandOffToDelivery();
+    }, 'كمل', 'وقف');
     return;
   }
-  savePrepHistoryForDate(todayISODate(), prepOrdersSnapshot);
-  prepOrdersSnapshot = [];
-  try{ localStorage.removeItem(getPrepOrdersStorageKey()); }catch(e){}
-  renderPrepOrdersScreen();
+  completeHandOffToDelivery();
+}
+function completeHandOffToDelivery(){
+  const orders = prepOrdersSnapshot.map(id=>state.orders.find(o=>o.id===id)).filter(Boolean);
+  const toHandOff = orders.filter(o=>o.status==='تم التجهيز');
+  const remaining = orders.filter(o=>o.status==='جديد' || o.status==='قيد التجهيز').map(o=>o.id);
+  if(toHandOff.length===0){ showToast('لا يوجد طلبات جاهزة للتسليم'); return; }
+  const batch = db.batch();
+  toHandOff.forEach(o=>{
+    batch.update(db.collection('orders').doc(String(o.id)), {status:'قيد التسليم', statusUpdatedAtTs:Date.now(), staleStatusNotified:false});
+  });
+  batch.commit().then(()=>{
+    toHandOff.forEach(o=>{
+      o.status = 'قيد التسليم';
+      logActivity(`تم تغيير حالة الطلب #${o.id} إلى: قيد التسليم (تسليم لشركة التوصيل)`, o.id);
+    });
+    savePrepHistoryForDate(todayISODate(), toHandOff.map(o=>o.id));
+    prepOrdersSnapshot = remaining;
+    try{
+      if(remaining.length>0) localStorage.setItem(getPrepOrdersStorageKey(), JSON.stringify(remaining));
+      else localStorage.removeItem(getPrepOrdersStorageKey());
+    }catch(e){}
+    renderPrepOrdersScreen();
+  }).catch(()=>showToast('تعذر تحديث حالة الطلبات'));
 }
 function buildWaybillContentHtml(o, copyNum){
   const company = o.companyId ? state.companies.find(c=>c.id===o.companyId) : null;
