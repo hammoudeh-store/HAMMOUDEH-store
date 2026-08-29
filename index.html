@@ -401,6 +401,7 @@ a{color:inherit;text-decoration:none;}
 .waybill-a6-mode .wb-logo div:nth-child(2){font-size:12px !important;}
 .waybill-a6-mode .wb-logo div:nth-child(3){font-size:8px !important;}
 .waybill-a6-mode .wb-logo div:nth-child(4){font-size:9px !important;}
+.waybill-a6-mode .wb-logo div:nth-child(5){font-size:8px !important;}
 .waybill-a6-mode .wb-order-num-label{font-size:8px !important;}
 .waybill-a6-mode .wb-order-num{font-size:20px !important;}
 .waybill-a6-mode .wb-small-line{font-size:8.5px !important;margin-top:2px !important;gap:3px !important;}
@@ -833,9 +834,6 @@ a{color:inherit;text-decoration:none;}
           <label id="of-channel-extra-label" style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">تفاصيل القناة</label>
           <div class="field-input"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span><input id="of-channel-other" placeholder="أدخل تفاصيل القناة"></div>
         </div>
-      </div>
-      <div class="form-row"><label>عدد الطرود</label>
-        <div class="field-input"><input id="of-package-count" type="number" min="1" value="1"></div>
       </div>
       <div class="form-row"><label>ملاحظات</label>
         <div class="field-input"><input id="of-notes" placeholder="أدخل ملاحظات عن الطلب (اختياري)"></div>
@@ -3568,7 +3566,6 @@ function openOrderFormPage(editId){
   document.getElementById('of-phone2').value = editingOrder ? (editingOrder.phone2||'') : '';
   document.getElementById('of-landmark').value = editingOrder ? (editingOrder.landmark||'') : '';
   document.getElementById('of-notes').value = editingOrder ? (editingOrder.notes||'') : '';
-  document.getElementById('of-package-count').value = editingOrder ? (editingOrder.packageCount||1) : 1;
   const deferredCheck = document.getElementById('of-deferred-check');
   const deferredDateWrap = document.getElementById('of-deferred-date-wrap');
   if(editingOrder && editingOrder.status==='مؤجل' && editingOrder.deferredUntil){
@@ -3870,7 +3867,6 @@ async function saveOrderFormPage(){
       channel: orderFormChannel, channelOther: channelOtherVal,
       paymentStatus: orderFormPaymentStatus,
       items, total, discount, delivery, giftWrap, giftWrapType, giftWrapOther, companyId: (document.getElementById('of-company').value ? Number(document.getElementById('of-company').value) : null),
-      packageCount: parseInt(document.getElementById('of-package-count').value)||1,
       notes: document.getElementById('of-notes').value.trim()
     };
     if(existing.status==='مؤجل' && isDeferred){
@@ -3905,7 +3901,7 @@ async function saveOrderFormPage(){
     channel: orderFormChannel, channelOther: channelOtherVal,
     paymentStatus: orderFormPaymentStatus,
     items, total, discount, delivery, giftWrap, giftWrapType, giftWrapOther, companyId: (document.getElementById('of-company').value ? Number(document.getElementById('of-company').value) : null), status: isDeferred ? 'مؤجل' : 'جديد',
-    packageCount: parseInt(document.getElementById('of-package-count').value)||1,
+    packageCount: 1,
     notes: document.getElementById('of-notes').value.trim(),
     createdAtStr: todayStr(), createdAtTs: now.getTime()
   };
@@ -4597,6 +4593,12 @@ document.addEventListener('click', ()=>{
     openPrepMenuId = null;
   }
 });
+function updatePrepPackageCount(id, val){
+  const qty = Math.max(1, parseInt(val)||1);
+  const order = state.orders.find(o=>o.id===id);
+  if(order) order.packageCount = qty;
+  db.collection('orders').doc(String(id)).update({packageCount: qty}).catch(()=>showToast('تعذر تحديث عدد الطرود'));
+}
 function buildPrepCardHtml(o){
   const hasBeenPrinted = o.status!=='جديد';
   const isFullyDone = o.status!=='جديد' && o.status!=='قيد التجهيز';
@@ -4658,6 +4660,10 @@ function buildPrepCardHtml(o){
         <button onclick="event.stopPropagation();printPrepOrder(${o.id})" style="padding:8px 12px;border-radius:9px;background:${statusLight};color:${statusColor};font-weight:800;font-size:10.5px;display:flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap;">
           طباعة<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
         </button>
+      </div>
+      <div onclick="event.stopPropagation()" style="display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:8px 10px 0;">
+        <span style="font-size:11px;font-weight:700;color:#1E1B3A;">عدد الطرود</span>
+        <input type="number" min="1" value="${o.packageCount||1}" onchange="updatePrepPackageCount(${o.id}, this.value)" style="width:52px;padding:5px;border:1.5px solid var(--border);border-radius:8px;text-align:center;font-weight:800;font-size:12px;font-family:'Tajawal',sans-serif;">
       </div>
       <div class="prep-items-scroll" style="display:flex;overflow-x:auto;overflow-y:hidden;gap:10px;padding:12px;background:var(--bg);border-radius:14px;margin:12px 10px 12px 10px;">
         ${o.items.map(it=>{
@@ -4782,6 +4788,7 @@ function buildWaybillContentHtml(o, copyNum){
         <div style="font-size:18px;font-weight:900;color:#1E1B3A;letter-spacing:0.5px;margin-top:3px;">HAMMOUDEH</div>
         <div style="font-size:14px;font-weight:700;color:#1E1B3A;margin-top:1px;">Baby &amp; Toys</div>
         <div style="font-size:14px;font-weight:800;color:#1E1B3A;margin-top:4px;">بوليصة شحن</div>
+        ${copyNum && copyNum>1 ? `<div style="font-size:13px;font-weight:900;color:#E5484D;margin-top:2px;">(ملحق)</div>` : ''}
       </div>
       <div style="flex-shrink:0;text-align:right;">
         <div style="font-size:11.5px;font-weight:700;color:#666;" class="wb-order-num-label">رقم الطلب</div>
@@ -4794,11 +4801,11 @@ function buildWaybillContentHtml(o, copyNum){
     ${hasFragileItems ? `<div style="background:#FCEBEC;color:#E5484D;border:1.7px solid #E5484D;border-radius:12px;padding:12px;text-align:center;font-weight:900;font-size:13.5px;margin-bottom:16px;" class="wb-fragile-warning">⚠️ يحتوي الطلب على منتجات قابلة للكسر — يُرجى التعامل بحذر</div>` : ''}
     <div style="font-weight:800;font-size:13px;color:#1E1B3A;display:flex;align-items:center;gap:6px;margin-bottom:6px;" class="wb-small-line">${ic.person}بيانات العميل</div>
     <div class="wb2-row"><span class="wb2-val">${escapeHtml(o.customerName||'بدون اسم')}</span><span class="wb2-label">${ic.person}الاسم</span></div>
-    <div class="wb2-row"><span class="wb2-val">${escapeHtml((o.governorate||o.city||'')+(o.area||o.address?' - '+(o.area||o.address):'')+(o.landmark?' - '+o.landmark:''))||'-'}${copyNum && copyNum>1 ? ` <span style="color:#E5484D;font-weight:900;">(ملحق)</span>` : ''}</span><span class="wb2-label">${ic.pin}العنوان</span></div>
+    <div class="wb2-row"><span class="wb2-val">${escapeHtml((o.governorate||o.city||'')+(o.area||o.address?' - '+(o.area||o.address):'')+(o.landmark?' - '+o.landmark:''))||'-'}</span><span class="wb2-label">${ic.pin}العنوان</span></div>
     <div class="wb2-row"><span class="wb2-val">${escapeHtml(o.phone)}</span><span class="wb2-label">${ic.phone}رقم الهاتف</span></div>
     ${o.phone2?`<div class="wb2-row"><span class="wb2-val">${escapeHtml(o.phone2)}</span><span class="wb2-label">${ic.phone}رقم بديل</span></div>`:''}
     ${o.notes?`<div class="wb2-row"><span class="wb2-val">${escapeHtml(o.notes)}</span><span class="wb2-label">${ic.notes}ملاحظات</span></div>`:''}
-    ${(o.packageCount||1)>1?`<div class="wb2-row"><span class="wb2-val">${o.packageCount}${copyNum?` (طرد ${copyNum} من ${o.packageCount})`:''}</span><span class="wb2-label">${ic.package}عدد الطرود</span></div>`:''}
+    <div class="wb2-row"><span class="wb2-val">${o.packageCount||1}${copyNum && (o.packageCount||1)>1 ? ` (طرد ${copyNum} من ${o.packageCount})` : ''}</span><span class="wb2-label">${ic.package}عدد الطرود</span></div>
     <div style="display:flex;align-items:center;justify-content:space-between;border-top:2px solid #1E1B3A;border-bottom:2px solid #1E1B3A;padding:14px 2px;margin:18px 0;" class="wb-total-row">
       <div style="font-weight:800;font-size:13.5px;color:#1E1B3A;" class="wb-total-label">قيمة الطلب شامل التوصيل</div>
       <div style="display:flex;align-items:center;gap:8px;font-size:${o.paymentStatus==='مدفوع مسبقاً'?'17':'23'}px;font-weight:900;color:#1E1B3A;" class="wb-total-amount">${o.paymentStatus==='مدفوع مسبقاً'?'مدفوع مسبقاً ✓':`${ic.card}${fmt(o.total)} ${state.settings.currency}`}</div>
