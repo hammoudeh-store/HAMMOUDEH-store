@@ -1760,7 +1760,8 @@ function defaultState(){
     notifications:[],
     activityLog:[],
     governorates:[],
-    areas:[]
+    areas:[],
+    prepHistory:{}
   };
 }
 state = defaultState();
@@ -1780,6 +1781,13 @@ function attachFirestoreListeners(){
     state.products = snap.docs.map(d=>Object.assign({}, d.data(), {id:Number(d.id)}));
     rerenderActiveView();
   }, err=>console.error('products listener', err)));
+
+  firestoreUnsubscribers.push(db.collection('prepHistory').onSnapshot(snap=>{
+    const map = {};
+    snap.docs.forEach(d=>{ map[d.id] = (d.data().orderIds)||[]; });
+    state.prepHistory = map;
+    if(prepViewDate) renderPrepOrdersScreen();
+  }, err=>console.error('prepHistory listener', err)));
 
   firestoreUnsubscribers.push(db.collection('companies').onSnapshot(snap=>{
     state.companies = snap.docs.map(d=>Object.assign({}, d.data(), {id:Number(d.id)}));
@@ -4336,16 +4344,20 @@ function getPrepHistoryStorageKey(date){
   return 'hammoudeh_prep_history_' + date;
 }
 function loadPrepHistoryForDate(date){
+  let local = [];
   try{
     const raw = localStorage.getItem(getPrepHistoryStorageKey(date));
-    return raw ? JSON.parse(raw) : [];
-  }catch(e){ return []; }
+    local = raw ? JSON.parse(raw) : [];
+  }catch(e){ local = []; }
+  const cloud = (state.prepHistory && state.prepHistory[date]) || [];
+  return Array.from(new Set([...local, ...cloud]));
 }
 function savePrepHistoryForDate(date, ids){
   try{
     const existing = loadPrepHistoryForDate(date);
     const merged = Array.from(new Set([...existing, ...ids]));
     localStorage.setItem(getPrepHistoryStorageKey(date), JSON.stringify(merged));
+    db.collection('prepHistory').doc(date).set({orderIds: merged}, {merge:true}).catch(()=>{});
   }catch(e){}
 }
 let prepViewDate = null;
