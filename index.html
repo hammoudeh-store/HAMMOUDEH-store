@@ -4609,6 +4609,14 @@ function closePrepMenu(id){
   if(menu) menu.classList.add('hidden');
   openPrepMenuId = null;
 }
+document.addEventListener('wheel', (e)=>{
+  const scrollEl = e.target.closest('.product-gallery, .prep-items-scroll');
+  if(!scrollEl) return;
+  if(scrollEl.scrollWidth <= scrollEl.clientWidth) return;
+  if(Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+  e.preventDefault();
+  scrollEl.scrollLeft -= e.deltaY;
+}, {passive:false});
 document.addEventListener('click', ()=>{
   if(openPrepMenuId!==null){
     const menu = document.getElementById('prep-menu-'+openPrepMenuId);
@@ -4630,6 +4638,7 @@ function buildPrepCardHtml(o){
   const statusColor = orderStatusColorVar(o.status);
   const statusLight = statusColor + '1f';
   const isSelected = selectedPrepCardId===o.id;
+  const prepDateStr = prepViewDate ? prepViewDate.split('-').reverse().join('/') : todayStr();
   const showEdit = (currentRole!=='prep' && !isLocked);
   const statusBarText = o.status==='جديد' ? 'جديد' : (o.status==='قيد التجهيز' ? 'جاري تجهيز الطلب' : (o.status==='تم التجهيز' ? 'تم التجهيز' : (o.status==='ملغي' ? 'ملغي' : (o.status==='رفض استلام' ? 'رفض استلام' : (o.status==='تم التسليم' ? 'تم التسليم' : 'تم تسليم الطلب لشركة التوصيل')))));
   const giftIconsHtml = o.giftWrap ? (o.giftWrapType==='تغليف ولادي وبناتي' ? `
@@ -4667,7 +4676,7 @@ function buildPrepCardHtml(o){
             <div style="font-size:8.5px;font-weight:700;color:#1E1B3A;">رقم الطلب</div>
             <div style="font-size:23px;font-weight:900;color:${statusColor};line-height:1.15;">#${o.id}</div>
             <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:2px;">
-              <span style="font-size:8.5px;font-weight:800;color:#1E1B3A;">${todayStr()}</span>
+              <span style="font-size:8.5px;font-weight:800;color:#1E1B3A;">${prepDateStr}</span>
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${statusColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/></svg>
             </div>
           </div>
@@ -4777,7 +4786,7 @@ function finishPrepOrders(){
     showConfirm('طلبات لم تكتمل بعد', `يوجد ${notReady.length} طلب لم يكتمل تجهيزه بعد. هل تريد المتابعة وتسليم باقي الطلبات الجاهزة فقط؟`, ()=>{
       closeModal('modal-confirm');
       completeHandOffToDelivery();
-    }, 'كمل', 'وقف');
+    }, 'نعم', 'لا');
     return;
   }
   completeHandOffToDelivery();
