@@ -1837,7 +1837,7 @@ function attachFirestoreListeners(){
   firestoreUnsubscribers.forEach(u=>u());
   firestoreUnsubscribers = [];
 
-  firestoreUnsubscribers.push(db.collection('orders').onSnapshot(snap=>{
+  firestoreUnsubscribers.push(db.collection('orders').orderBy('createdAtTs','desc').limit(1000).onSnapshot(snap=>{
     state.orders = snap.docs.map(d=>Object.assign({}, d.data(), {id:Number(d.id)}));
     runAllScheduledNotificationChecks();
     rerenderActiveView();
@@ -1863,7 +1863,7 @@ function attachFirestoreListeners(){
     rerenderActiveView();
   }, err=>console.error('companies listener', err)));
 
-  firestoreUnsubscribers.push(db.collection('notifications').onSnapshot(snap=>{
+  firestoreUnsubscribers.push(db.collection('notifications').orderBy('createdAtTs','desc').limit(300).onSnapshot(snap=>{
     state.notifications = snap.docs.map(d=>Object.assign({}, d.data(), {id:d.id}))
       .sort((a,b)=>(b.createdAtTs||0)-(a.createdAtTs||0));
     updateNotificationBadges();
@@ -3016,11 +3016,59 @@ function renderOrders(){
   list.sort((a,b)=> b.createdAtTs - a.createdAtTs);
 
   const wrap = document.getElementById('ord-list');
+  const archiveSearchHtml = q ? `
+    <div id="ord-archive-search-wrap" style="margin-top:14px;">
+      <button onclick="searchFullOrderArchive('${q.replace(/'/g,"\\'")}')" style="width:100%;padding:12px;border-radius:13px;background:#fff;border:1.5px dashed var(--primary);color:var(--primary);font-weight:800;font-size:12.5px;">
+        لم تجدي طلبك؟ ابحث في الأرشيف الكامل
+      </button>
+      <div id="ord-archive-search-results"></div>
+    </div>` : '';
   if(list.length===0){
-    wrap.innerHTML = `<div class="empty-state"><div class="em" style="display:flex;align-items:center;justify-content:center;"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4M18 2l-1.5 4"/><path d="M3.5 8h17l-1.2 12.2a2 2 0 0 1-2 1.8H6.7a2 2 0 0 1-2-1.8L3.5 8z"/><path d="M8 11a4 4 0 0 0 8 0"/></svg></div><div class="et">لا توجد طلبات</div><div class="es">جرّب تغيير الفلتر أو أضف طلباً جديداً</div></div>`;
+    wrap.innerHTML = `<div class="empty-state"><div class="em" style="display:flex;align-items:center;justify-content:center;"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2l1.5 4M18 2l-1.5 4"/><path d="M3.5 8h17l-1.2 12.2a2 2 0 0 1-2 1.8H6.7a2 2 0 0 1-2-1.8L3.5 8z"/><path d="M8 11a4 4 0 0 0 8 0"/></svg></div><div class="et">لا توجد طلبات</div><div class="es">جرّب تغيير الفلتر أو أضف طلباً جديداً</div></div>${archiveSearchHtml}`;
     return;
   }
-  wrap.innerHTML = `<div class="card-list">${list.map(o=>orderRowHtml(o)).join('')}</div>`;
+  wrap.innerHTML = `<div class="card-list">${list.map(o=>orderRowHtml(o)).join('')}</div>${archiveSearchHtml}`;
+}
+function searchFullOrderArchive(q){
+  const resultsBox = document.getElementById('ord-archive-search-results');
+  if(!resultsBox) return;
+  resultsBox.innerHTML = `<div style="text-align:center;padding:14px;color:var(--muted);font-size:12px;font-weight:700;">جاري البحث...</div>`;
+  const promises = [];
+  try{
+    if(/^\d+$/.test(q)){
+      promises.push(db.collection('orders').doc(q).get().then(doc=>doc.exists?[Object.assign({}, doc.data(), {id:Number(doc.id)})]:[]).catch(()=>[]));
+    }
+    if(q.length>=3){
+      promises.push(db.collection('orders').where('phone','>=',q).where('phone','<=',q+'\uf8ff').limit(30).get()
+        .then(snap=>snap.docs.map(d=>Object.assign({}, d.data(), {id:Number(d.id)}))).catch(()=>[]));
+    }
+  }catch(err){
+    resultsBox.innerHTML = `<div style="text-align:center;padding:14px;color:var(--muted);font-size:12px;font-weight:700;">تعذر إجراء البحث حالياً</div>`;
+    return;
+  }
+  if(promises.length===0){
+    resultsBox.innerHTML = `<div style="text-align:center;padding:14px;color:var(--muted);font-size:12px;font-weight:700;">لم يتم العثور على نتائج بالأرشيف الكامل</div>`;
+    return;
+  }
+  Promise.all(promises).then(resultsArrays=>{
+    const seen = new Set();
+    const merged = [];
+    resultsArrays.flat().forEach(o=>{
+      if(!seen.has(o.id)){ seen.add(o.id); merged.push(o); }
+    });
+    if(merged.length===0){
+      resultsBox.innerHTML = `<div style="text-align:center;padding:14px;color:var(--muted);font-size:12px;font-weight:700;">لم يتم العثور على نتائج بالأرشيف الكامل</div>`;
+      return;
+    }
+    merged.forEach(o=>{
+      const idx = state.orders.findIndex(x=>x.id===o.id);
+      if(idx===-1) state.orders.push(o);
+    });
+    merged.sort((a,b)=>(b.createdAtTs||0)-(a.createdAtTs||0));
+    resultsBox.innerHTML = `<div style="font-size:11.5px;font-weight:700;color:var(--muted);margin:10px 0 6px;">نتائج من الأرشيف الكامل:</div><div class="card-list">${merged.map(o=>orderRowHtml(o)).join('')}</div>`;
+  }).catch(()=>{
+    resultsBox.innerHTML = `<div style="text-align:center;padding:14px;color:var(--muted);font-size:12px;font-weight:700;">تعذر إجراء البحث حالياً</div>`;
+  });
 }
 
 let orderFormRows = [];
