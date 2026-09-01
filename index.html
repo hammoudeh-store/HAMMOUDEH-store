@@ -1834,7 +1834,8 @@ function defaultState(){
     activityLog:[],
     governorates:[],
     areas:[],
-    prepHistory:{}
+    prepHistory:{},
+    prepQueueToday:[]
   };
 }
 state = defaultState();
@@ -1861,6 +1862,16 @@ function attachFirestoreListeners(){
     state.prepHistory = map;
     if(prepViewDate) renderPrepOrdersScreen();
   }, err=>console.error('prepHistory listener', err)));
+
+  firestoreUnsubscribers.push(db.collection('prepQueue').doc(todayISODate()).onSnapshot(doc=>{
+    state.prepQueueToday = doc.exists ? (doc.data().orderIds||[]) : [];
+    const merged = Array.from(new Set([...(prepOrdersSnapshot||[]), ...state.prepQueueToday]));
+    if(merged.length !== (prepOrdersSnapshot||[]).length){
+      prepOrdersSnapshot = merged;
+      try{ localStorage.setItem(getPrepOrdersStorageKey(), JSON.stringify(prepOrdersSnapshot)); }catch(e){}
+      if(!prepViewDate && !document.getElementById('view-prep-orders').classList.contains('hidden')) renderPrepOrdersScreen();
+    }
+  }, err=>console.error('prepQueue listener', err)));
 
   firestoreUnsubscribers.push(db.collection('companies').onSnapshot(snap=>{
     state.companies = snap.docs.map(d=>Object.assign({}, d.data(), {id:Number(d.id)}));
@@ -4480,19 +4491,27 @@ function isValidPhoneLength(phone){
   return (phone||'').replace(/\D/g,'').length >= 10;
 }
 function todayISODate(){
-  return new Date().toISOString().slice(0,10);
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
 }
 function getPrepOrdersStorageKey(){
   return 'hammoudeh_prep_orders_' + todayISODate();
 }
 function loadPrepOrdersSnapshot(){
+  let local = [];
   try{
     const raw = localStorage.getItem(getPrepOrdersStorageKey());
-    return raw ? JSON.parse(raw) : [];
-  }catch(e){ return []; }
+    local = raw ? JSON.parse(raw) : [];
+  }catch(e){ local = []; }
+  const cloud = (state.prepQueueToday) || [];
+  return Array.from(new Set([...local, ...cloud]));
 }
 function savePrepOrdersSnapshot(){
   try{ localStorage.setItem(getPrepOrdersStorageKey(), JSON.stringify(prepOrdersSnapshot)); }catch(e){}
+  db.collection('prepQueue').doc(todayISODate()).set({orderIds: prepOrdersSnapshot}, {merge:true}).catch(()=>{});
 }
 function getPrepHistoryStorageKey(date){
   return 'hammoudeh_prep_history_' + date;
@@ -4731,13 +4750,8 @@ function openPrepOrdersScreen(){
   const dateInput = document.getElementById('prep-date-picker');
   if(dateInput) dateInput.value = '';
   prepOrdersSnapshot = loadPrepOrdersSnapshot();
-  const tracked = new Set(prepOrdersSnapshot);
-  state.orders.forEach(o=>{
-    if(o.status==='جديد' && !tracked.has(o.id)) prepOrdersSnapshot.push(o.id);
-  });
-  savePrepOrdersSnapshot();
   showView('view-prep-orders');
-  renderPrepOrdersScreen();
+  refreshPrepOrdersTracking();
   if(window._scrollToPrepOrderId){
     const targetId = window._scrollToPrepOrderId;
     window._scrollToPrepOrderId = null;
@@ -4993,6 +5007,7 @@ function completeHandOffToDelivery(){
       if(remaining.length>0) localStorage.setItem(getPrepOrdersStorageKey(), JSON.stringify(remaining));
       else localStorage.removeItem(getPrepOrdersStorageKey());
     }catch(e){}
+    db.collection('prepQueue').doc(todayISODate()).set({orderIds: remaining}).catch(()=>{});
     renderPrepOrdersScreen();
   }).catch(()=>showToast('تعذر تحديث حالة الطلبات'));
 }
