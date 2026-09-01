@@ -600,6 +600,7 @@ a{color:inherit;text-decoration:none;}
     <div id="menu-dropdown" class="menu-dropdown hidden">
       <button onclick="toggleMenu(true);openPrepOrdersScreen();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>طلبات اليوم</button>
       <button onclick="toggleMenu(true);openLowStockScreen();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.1-2.8-2.8L7 14.1"/></svg>قائمة المخزون المنخفضة</button>
+      <button data-role="admin-only" onclick="toggleMenu(true);openStatusManagerGate();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>إدارة حالات الطلبات</button>
       <button onclick="navigate('settings')" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>الإعدادات</button>
       <button class="danger" onclick="logout()" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>تسجيل الخروج</button>
     </div>
@@ -812,6 +813,11 @@ a{color:inherit;text-decoration:none;}
       </div>
       <div class="form-row"><label>رقم الهاتف</label>
         <div class="field-input"><span class="field-icon-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B4FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><input id="of-phone" placeholder="أدخل رقم الهاتف" onblur="checkPhoneForExistingCustomer()"></div>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:9px;cursor:pointer;width:fit-content;">
+          <input id="of-whatsapp-only" type="checkbox" style="width:15px;height:15px;flex-shrink:0;">
+          <span style="font-size:13px;font-weight:700;">WhatsApp Only</span>
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.05-1.35A10 10 0 1 0 12 2zm0 18.2a8.16 8.16 0 0 1-4.17-1.14l-.3-.18-3.1.83.83-3.02-.2-.31A8.2 8.2 0 1 1 12 20.2zm4.52-6.13c-.25-.12-1.45-.72-1.68-.8-.22-.08-.39-.12-.55.12-.16.25-.63.8-.77.96-.14.16-.28.18-.53.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.23-1.46-1.37-1.7-.14-.25-.02-.38.11-.5.11-.11.25-.28.37-.42.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.43.06-.65.31-.22.25-.86.84-.86 2.04 0 1.2.88 2.36 1 2.52.12.16 1.73 2.64 4.2 3.7.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.47-.28z"/></svg>
+        </label>
       </div>
       <div class="form-row"><label>رقم الهاتف البديل <span style="color:var(--muted);font-weight:400;">(اختياري)</span></label>
         <div class="field-input"><span class="field-icon-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B4FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><input id="of-phone2" placeholder="أدخل رقم بديل"></div>
@@ -836,6 +842,10 @@ a{color:inherit;text-decoration:none;}
         <div id="of-channel-other-wrap" class="hidden" style="margin-top:10px;">
           <label id="of-channel-extra-label" style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">تفاصيل القناة</label>
           <div class="field-input"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span><input id="of-channel-other" placeholder="أدخل تفاصيل القناة"></div>
+        </div>
+        <div id="of-whatsapp-number-wrap" class="hidden" style="margin-top:10px;">
+          <label style="display:block;font-size:13px;font-weight:700;margin-bottom:6px;">رقم واتساب <span style="color:var(--muted);font-weight:400;">(اختياري)</span></label>
+          <div class="field-input"><span class="icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.05-1.35A10 10 0 1 0 12 2zm0 18.2a8.16 8.16 0 0 1-4.17-1.14l-.3-.18-3.1.83.83-3.02-.2-.31A8.2 8.2 0 1 1 12 20.2zm4.52-6.13c-.25-.12-1.45-.72-1.68-.8-.22-.08-.39-.12-.55.12-.16.25-.63.8-.77.96-.14.16-.28.18-.53.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.23-1.46-1.37-1.7-.14-.25-.02-.38.11-.5.11-.11.25-.28.37-.42.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.43.06-.65.31-.22.25-.86.84-.86 2.04 0 1.2.88 2.36 1 2.52.12.16 1.73 2.64 4.2 3.7.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.47-.28z"/></svg></span><input id="of-whatsapp-number" type="tel" placeholder="أدخل رقم واتساب إن كان مختلفاً"></div>
         </div>
       </div>
       <div class="form-row"><label>ملاحظات</label>
@@ -1216,6 +1226,10 @@ a{color:inherit;text-decoration:none;}
         <input type="date" id="prep-date-picker" onchange="viewPrepHistoryForDate(this.value)" style="flex:1;border:none;font-family:Arial,Helvetica,sans-serif;font-size:13.5px;font-weight:700;color:var(--text);">
         <button onclick="document.getElementById('prep-date-picker').value='';viewPrepHistoryForDate('');" style="flex-shrink:0;color:var(--muted);font-size:11px;font-weight:700;">اليوم</button>
       </div>
+      <button onclick="printTodayOrdersManifest()" style="width:100%;padding:12px;border-radius:13px;background:#fff;border:1.5px solid var(--primary);color:var(--primary);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:14px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6M9 9h1"/></svg>
+        كشف بطلبات اليوم
+      </button>
       <div id="prep-orders-content"></div>
     </div>
   </div>
@@ -1254,6 +1268,21 @@ a{color:inherit;text-decoration:none;}
         <input id="low-stock-search" placeholder="ابحث عن منتج بالاسم أو الرمز..." oninput="renderLowStockScreen()">
       </div>
       <div id="low-stock-product-list"></div>
+    </div>
+  </div>
+
+  <div id="view-status-manager" class="view hidden">
+    <div class="subheader">
+      <button class="back-btn" onclick="navigate('home')">←</button>
+      <h1>إدارة حالات الطلبات</h1>
+      <div class="sub-actions"></div>
+    </div>
+    <div class="content" style="padding-bottom:40px;">
+      <div class="search-bar" style="margin-bottom:14px;">
+        <span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+        <input id="status-manager-search" placeholder="ابحث برقم الطلب أو الاسم أو رقم الهاتف..." oninput="renderStatusManagerList()">
+      </div>
+      <div id="status-manager-list"></div>
     </div>
   </div>
 
@@ -1485,6 +1514,20 @@ a{color:inherit;text-decoration:none;}
     </div>
   </div>
 </div>
+
+<div id="modal-status-gate" class="overlay hidden">
+  <div class="modal-sheet">
+    <div class="modal-head"><h3>تأكيد الهوية</h3><button class="modal-close" onclick="closeModal('modal-status-gate')">✕</button></div>
+    <div id="status-gate-msg" style="font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:14px;line-height:1.6;">هذه الشاشة حساسة — الرجاء إدخال كلمة مرور حساب المدير للمتابعة</div>
+    <div class="form-row"><label>كلمة المرور</label><input id="status-gate-pass" type="password" onkeydown="if(event.key==='Enter'){event.preventDefault();confirmStatusGatePassword();}"></div>
+    <div id="status-gate-err" class="hidden" style="color:var(--red);font-size:12px;font-weight:700;margin-bottom:10px;"></div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="cancelStatusGatePassword()">إلغاء</button>
+      <button class="btn-fill" onclick="confirmStatusGatePassword()">تأكيد</button>
+    </div>
+  </div>
+</div>
+
 
 <div id="modal-storename" class="overlay hidden">
   <div class="modal-sheet">
@@ -2289,15 +2332,18 @@ function orderRowHtml(o){
 }
 function escapeHtml(s){ return (s||'').toString().replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function copyPhoneNumber(phone){
+  copyTextGeneric(phone, 'تم نسخ الرقم', 'تعذر نسخ الرقم');
+}
+function copyTextGeneric(text, successMsg, failMsg){
   const fallback = ()=>{
     const ta = document.createElement('textarea');
-    ta.value = phone; ta.style.position='fixed'; ta.style.opacity='0';
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
     document.body.appendChild(ta); ta.select();
-    try{ document.execCommand('copy'); showToast('تم نسخ الرقم'); }catch(e){ showToast('تعذر نسخ الرقم'); }
+    try{ document.execCommand('copy'); showToast(successMsg); }catch(e){ showToast(failMsg); }
     document.body.removeChild(ta);
   };
   if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(phone).then(()=>showToast('تم نسخ الرقم')).catch(fallback);
+    navigator.clipboard.writeText(text).then(()=>showToast(successMsg)).catch(fallback);
   }else{ fallback(); }
 }
 function formatPhoneIntl(phone){
@@ -3315,6 +3361,7 @@ function renderChannelRow(){
     label.textContent = 'تفاصيل القناة';
     input.placeholder = 'أدخل تفاصيل القناة';
   }
+  document.getElementById('of-whatsapp-number-wrap').classList.toggle('hidden', orderFormChannel!=='WhatsApp');
 }
 function selectChannel(id){
   orderFormChannel = id;
@@ -3587,6 +3634,7 @@ function openOrderFormPage(editId){
   document.getElementById('of-name').value = editingOrder ? (editingOrder.customerName||'') : '';
   document.getElementById('of-phone').value = editingOrder ? (editingOrder.phone||'') : '';
   document.getElementById('of-phone2').value = editingOrder ? (editingOrder.phone2||'') : '';
+  document.getElementById('of-whatsapp-only').checked = editingOrder ? !!editingOrder.whatsappOnly : false;
   document.getElementById('of-landmark').value = editingOrder ? (editingOrder.landmark||'') : '';
   document.getElementById('of-notes').value = editingOrder ? (editingOrder.notes||'') : '';
   const deferredCheck = document.getElementById('of-deferred-check');
@@ -3617,6 +3665,7 @@ function openOrderFormPage(editId){
     document.getElementById('of-area').innerHTML = '<option value="">اختر المنطقة</option>';
   }
   document.getElementById('of-channel-other').value = editingOrder ? (editingOrder.channelOther||'') : '';
+  document.getElementById('of-whatsapp-number').value = editingOrder ? (editingOrder.whatsappNumber||'') : '';
   orderFormChannel = editingOrder ? (editingOrder.channel||'') : '';
   renderChannelRow();
   orderFormPaymentStatus = editingOrder ? (editingOrder.paymentStatus||'غير مدفوع') : 'غير مدفوع';
@@ -3873,6 +3922,7 @@ async function saveOrderFormPage(){
   const total = Math.max(0, itemsTotal - discount + delivery);
   const address = area + (landmark ? (' - قرب ' + landmark) : '');
   const channelOtherVal = (orderFormChannel==='Other'||orderFormChannel==='Messenger'||orderFormChannel==='Instagram')?channelOther:'';
+  const whatsappNumberVal = orderFormChannel==='WhatsApp' ? document.getElementById('of-whatsapp-number').value.trim() : '';
   const isDeferred = document.getElementById('of-deferred-check').checked;
   const deferredDate = document.getElementById('of-deferred-date').value;
   if(isDeferred && !deferredDate){ showToast('الرجاء اختيار تاريخ التسليم للطلب المؤجل'); return; }
@@ -3887,7 +3937,8 @@ async function saveOrderFormPage(){
     const updateData = {
       customerName:name, phone, phone2, governorate, area, landmark,
       city:governorate, address,
-      channel: orderFormChannel, channelOther: channelOtherVal,
+      channel: orderFormChannel, channelOther: channelOtherVal, whatsappNumber: whatsappNumberVal,
+      whatsappOnly: document.getElementById('of-whatsapp-only').checked,
       paymentStatus: orderFormPaymentStatus,
       items, total, discount, delivery, giftWrap, giftWrapType, giftWrapOther, companyId: (document.getElementById('of-company').value ? Number(document.getElementById('of-company').value) : null),
       notes: document.getElementById('of-notes').value.trim()
@@ -3921,7 +3972,8 @@ async function saveOrderFormPage(){
   const order = {
     customerName:name, phone, phone2, governorate, area, landmark,
     city:governorate, address,
-    channel: orderFormChannel, channelOther: channelOtherVal,
+    channel: orderFormChannel, channelOther: channelOtherVal, whatsappNumber: whatsappNumberVal,
+    whatsappOnly: document.getElementById('of-whatsapp-only').checked,
     paymentStatus: orderFormPaymentStatus,
     items, total, discount, delivery, giftWrap, giftWrapType, giftWrapOther, companyId: (document.getElementById('of-company').value ? Number(document.getElementById('of-company').value) : null), status: isDeferred ? 'مؤجل' : 'جديد',
     packageCount: 1,
@@ -4004,9 +4056,12 @@ function viewOrder(id){
       ${o.channel?(()=>{
         const ch = ORDER_CHANNELS.find(c=>c.id===o.channel);
         let label = o.channel;
+        let copyVal = '';
         if(o.channel==='Other') label = o.channelOther||'أخرى';
-        else if(o.channel==='Messenger' && o.channelOther) label = `Messenger (${o.channelOther})`;
-        return `<div class="detail-line"><span class="k">قناة الطلب</span><span class="v" style="display:flex;align-items:center;gap:8px;">${escapeHtml(label)}${ch?`<span style="width:26px;height:26px;border-radius:50%;background:${ch.color};display:flex;align-items:center;justify-content:center;flex-shrink:0;">${ch.icon}</span>`:''}</span></div>`;
+        else if(o.channel==='Messenger' && o.channelOther){ label = `Messenger (${o.channelOther})`; copyVal = o.channelOther; }
+        else if(o.channel==='Instagram' && o.channelOther){ label = `Instagram (${o.channelOther})`; copyVal = o.channelOther; }
+        else if(o.channel==='WhatsApp' && o.whatsappNumber){ label = `WhatsApp (${o.whatsappNumber})`; copyVal = o.whatsappNumber; }
+        return `<div class="detail-line"><span class="k">قناة الطلب</span><span class="v" style="display:flex;align-items:center;gap:8px;">${copyVal?`<button onclick="event.stopPropagation();copyTextGeneric('${escapeHtml(copyVal).replace(/'/g,"\\'")}', 'تم النسخ', 'تعذر النسخ')" style="width:26px;height:26px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--muted);" title="نسخ"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>`:''}${escapeHtml(label)}${ch?`<span style="width:26px;height:26px;border-radius:50%;background:${ch.color};display:flex;align-items:center;justify-content:center;flex-shrink:0;">${ch.icon}</span>`:''}</span></div>`;
       })():''}
       ${o.paymentStatus?`<div class="detail-line"><span class="k">حالة الدفع</span><span class="v">${escapeHtml(o.paymentStatus)}</span></div>`:''}
       <div class="detail-line"><span class="k">المحافظة</span><span class="v">${escapeHtml(o.governorate||o.city||'-')}</span></div>
@@ -4420,6 +4475,78 @@ function loadLowStockList(){
 function saveLowStockList(){
   try{ localStorage.setItem('hammoudeh_low_stock_list', JSON.stringify(lowStockList)); }catch(e){}
 }
+const ALL_ORDER_STATUSES = ['جديد','قيد التجهيز','تم التجهيز','قيد التسليم','تم التسليم','ملغي','رفض استلام','مؤجل'];
+let statusGatePendingCallback = null;
+function openStatusGatePassword(message, onSuccess){
+  statusGatePendingCallback = onSuccess;
+  document.getElementById('status-gate-msg').textContent = message;
+  document.getElementById('status-gate-pass').value = '';
+  document.getElementById('status-gate-err').classList.add('hidden');
+  openModal('modal-status-gate');
+  setTimeout(()=>{ const inp = document.getElementById('status-gate-pass'); if(inp) inp.focus(); }, 50);
+}
+const STATUS_GATE_PIN = '0000';
+function confirmStatusGatePassword(){
+  const pass = document.getElementById('status-gate-pass').value;
+  const errBox = document.getElementById('status-gate-err');
+  errBox.classList.add('hidden');
+  if(!pass){ errBox.textContent='الرجاء إدخال كلمة المرور'; errBox.classList.remove('hidden'); return; }
+  if(pass !== STATUS_GATE_PIN){
+    errBox.textContent = 'كلمة المرور غير صحيحة';
+    errBox.classList.remove('hidden');
+    return;
+  }
+  closeModal('modal-status-gate');
+  const cb = statusGatePendingCallback;
+  statusGatePendingCallback = null;
+  if(cb) cb();
+}
+function cancelStatusGatePassword(){
+  statusGatePendingCallback = null;
+  closeModal('modal-status-gate');
+}
+function openStatusManagerGate(){
+  openStatusGatePassword('هذه الشاشة حساسة — الرجاء إدخال كلمة مرور حساب المدير للمتابعة', ()=>{
+    document.getElementById('status-manager-search').value = '';
+    showView('view-status-manager');
+    renderStatusManagerList();
+  });
+}
+function renderStatusManagerList(){
+  const q = (document.getElementById('status-manager-search').value||'').trim().toLowerCase();
+  const list = state.orders.filter(o=> !q || String(o.id).includes(q) || (o.customerName||'').toLowerCase().includes(q) || (o.phone||'').includes(q))
+    .slice().sort((a,b)=>(b.createdAtTs||0)-(a.createdAtTs||0));
+  document.getElementById('status-manager-list').innerHTML = list.map(o=>{
+    const statusColor = orderStatusColorVar(o.status);
+    return `<div style="background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:10px;box-shadow:0 4px 12px -8px rgba(30,20,90,.2);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div style="font-weight:800;font-size:13px;">#${o.id} — ${escapeHtml(o.customerName||'بدون اسم')}</div>
+        <span class="status-pill ${statusClass(o.status)}">${orderStatusIcon(o.status)}${escapeHtml(o.status)}</span>
+      </div>
+      <div style="font-size:11.5px;color:var(--muted);margin-bottom:10px;">${escapeHtml(o.phone||'')} · ${o.createdAtStr||''}</div>
+      <select onchange="changeOrderStatusManually(${o.id}, this.value)" style="width:100%;padding:9px;border:1.5px solid var(--border);border-radius:10px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:12.5px;background:#fff;">
+        <option value="">-- تغيير الحالة إلى --</option>
+        ${ALL_ORDER_STATUSES.map(s=>`<option value="${s}" ${s===o.status?'disabled':''}>${s}</option>`).join('')}
+      </select>
+    </div>`;
+  }).join('');
+}
+function changeOrderStatusManually(id, newStatus){
+  if(!newStatus) return;
+  const o = state.orders.find(x=>x.id===id);
+  if(!o) return;
+  showConfirm('تأكيد تغيير الحالة', `هل تريد تغيير حالة الطلب #${id} من "${o.status}" إلى "${newStatus}"؟`, ()=>{
+    closeModal('modal-confirm');
+    openStatusGatePassword(`الرجاء إدخال كلمة المرور لتأكيد تغيير حالة الطلب #${id} إلى "${newStatus}"`, ()=>{
+      db.collection('orders').doc(String(id)).update({status:newStatus, statusUpdatedAtTs:Date.now(), staleStatusNotified:false}).then(()=>{
+        logActivity(`تم تغيير حالة الطلب #${id} يدوياً من "${o.status}" إلى "${newStatus}" (إدارة الحالات)`, id);
+        o.status = newStatus;
+        showToast('تم تغيير الحالة بنجاح');
+        renderStatusManagerList();
+      }).catch(()=>showToast('تعذر تحديث الحالة'));
+    });
+  });
+}
 function openLowStockScreen(){
   loadLowStockList();
   lowStockPendingKey = null;
@@ -4814,6 +4941,51 @@ function completeHandOffToDelivery(){
     renderPrepOrdersScreen();
   }).catch(()=>showToast('تعذر تحديث حالة الطلبات'));
 }
+function printTodayOrdersManifest(){
+  const orders = prepOrdersSnapshot.map(id=>state.orders.find(o=>o.id===id)).filter(Boolean);
+  if(orders.length===0){ showToast('لا يوجد طلبات اليوم لعرضها'); return; }
+  printDeliveryManifest(orders);
+}
+function printDeliveryManifest(orders){
+  window._printReturnToPrep = true;
+  document.querySelector('.wb-head').style.display = 'none';
+  document.getElementById('view-waybill').classList.remove('waybill-a6-mode');
+  const channelLabel = (o)=>{
+    if(!o.channel) return '-';
+    if(o.channel==='Other') return o.channelOther || 'أخرى';
+    if(o.channel==='Messenger') return o.channelOther ? `Messenger (${o.channelOther})` : 'Messenger';
+    if(o.channel==='Instagram') return o.channelOther ? `Instagram (${o.channelOther})` : 'Instagram';
+    if(o.channel==='WhatsApp') return o.whatsappNumber ? `WhatsApp (${o.whatsappNumber})` : 'WhatsApp';
+    return o.channel;
+  };
+  const rows = orders.map(o=>`
+    <tr>
+      <td style="padding:8px 6px;border-bottom:1px solid #ddd;font-weight:800;">#${o.id}</td>
+      <td style="padding:8px 6px;border-bottom:1px solid #ddd;">${escapeHtml(o.phone||'')}</td>
+      <td style="padding:8px 6px;border-bottom:1px solid #ddd;">${escapeHtml([o.governorate||o.city, o.area].filter(Boolean).join(' - '))}</td>
+      <td style="padding:8px 6px;border-bottom:1px solid #ddd;font-weight:800;">${escapeHtml(channelLabel(o))}</td>
+    </tr>`).join('');
+  document.getElementById('waybill-content').innerHTML = `
+    <div style="text-align:center;margin-bottom:16px;">
+      <div style="font-size:16px;font-weight:900;color:#1E1B3A;">كشف تسليم الطلبات لشركة التوصيل</div>
+      <div style="font-size:13px;font-weight:700;color:#666;margin-top:4px;">${todayStr()}</div>
+      <div style="font-size:11.5px;font-weight:700;color:#666;margin-top:2px;">عدد الطلبات: ${orders.length}</div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;text-align:right;">
+      <thead>
+        <tr style="background:#f2f2f2;">
+          <th style="padding:8px 6px;border-bottom:2px solid #1E1B3A;">رقم الطلب</th>
+          <th style="padding:8px 6px;border-bottom:2px solid #1E1B3A;">رقم الهاتف</th>
+          <th style="padding:8px 6px;border-bottom:2px solid #1E1B3A;">العنوان</th>
+          <th style="padding:8px 6px;border-bottom:2px solid #1E1B3A;">قناة الطلب</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+  showView('view-waybill');
+  renderPrepOrdersScreen();
+}
 function buildWaybillContentHtml(o, copyNum){
   const company = o.companyId ? state.companies.find(c=>c.id===o.companyId) : null;
   const hasFragileItems = o.items.some(it=>it.fragile);
@@ -4851,7 +5023,7 @@ function buildWaybillContentHtml(o, copyNum){
     <div style="font-weight:800;font-size:13px;color:#1E1B3A;display:flex;align-items:center;gap:6px;margin-bottom:6px;" class="wb-small-line">${ic.person}بيانات العميل</div>
     <div class="wb2-row"><span class="wb2-val">${escapeHtml(o.customerName||'بدون اسم')}</span><span class="wb2-label">${ic.person}الاسم</span></div>
     <div class="wb2-row"><span class="wb2-val">${escapeHtml((o.governorate||o.city||'')+(o.area||o.address?' - '+(o.area||o.address):'')+(o.landmark?' - '+o.landmark:''))||'-'}</span><span class="wb2-label">${ic.pin}العنوان</span></div>
-    <div class="wb2-row"><span class="wb2-val">${escapeHtml(o.phone)}</span><span class="wb2-label">${ic.phone}رقم الهاتف</span></div>
+    <div class="wb2-row"><span class="wb2-val">${escapeHtml(o.phone)}${o.whatsappOnly?` <span style="color:#1E1B3A;font-weight:900;">— الرجاء التواصل على الواتساب فقط</span>`:''}</span><span class="wb2-label">${ic.phone}رقم الهاتف</span></div>
     ${o.phone2?`<div class="wb2-row"><span class="wb2-val">${escapeHtml(o.phone2)}</span><span class="wb2-label">${ic.phone}رقم بديل</span></div>`:''}
     ${o.notes?`<div class="wb2-row"><span class="wb2-val">${escapeHtml(o.notes)}</span><span class="wb2-label">${ic.notes}ملاحظات</span></div>`:''}
     <div class="wb2-row"><span class="wb2-val">${o.packageCount||1}${copyNum && (o.packageCount||1)>1 ? ` (طرد ${copyNum} من ${o.packageCount})` : ''}</span><span class="wb2-label">${ic.package}عدد الطرود</span></div>
