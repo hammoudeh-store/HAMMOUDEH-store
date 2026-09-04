@@ -600,6 +600,7 @@ a{color:inherit;text-decoration:none;}
     <div id="menu-dropdown" class="menu-dropdown hidden">
       <button onclick="toggleMenu(true);openPrepOrdersScreen();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>طلبات اليوم</button>
       <button onclick="toggleMenu(true);openLowStockScreen();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.1-2.8-2.8L7 14.1"/></svg>قائمة المخزون المنخفضة</button>
+      <button onclick="toggleMenu(true);openManualWaybillScreen();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>طباعة بوليصة شحن</button>
       <button data-role="admin-only" onclick="toggleMenu(true);openStatusManagerGate();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>إدارة حالات الطلبات</button>
       <button onclick="navigate('settings')" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>الإعدادات</button>
       <button class="danger" onclick="logout()" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>تسجيل الخروج</button>
@@ -822,6 +823,17 @@ a{color:inherit;text-decoration:none;}
       <div class="form-row"><label>رقم الهاتف البديل <span style="color:var(--muted);font-weight:400;">(اختياري)</span></label>
         <div class="field-input"><span class="field-icon-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B4FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><input id="of-phone2" placeholder="أدخل رقم بديل"></div>
       </div>
+      <div class="form-row">
+        <label for="of-multi-address-check" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" id="of-multi-address-check" style="width:18px;height:18px;accent-color:var(--primary);flex-shrink:0;" onchange="toggleMultiAddressMode()">
+          <span style="font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:6px;">عنوان متعدد<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/><path d="M14 3.5a9 9 0 0 1 4 7.5c0 4.5-4.5 8.5-6 10"/></svg></span>
+        </label>
+      </div>
+      <div id="of-multi-address-wrap" class="hidden">
+        <div id="of-multi-address-list"></div>
+        <button type="button" onclick="addMultiAddressRow()" style="width:100%;padding:11px;border-radius:12px;background:#fff;border:1.5px dashed var(--primary);color:var(--primary);font-weight:800;font-size:12.5px;margin-bottom:14px;">+ إضافة عنوان آخر</button>
+      </div>
+      <div id="of-single-address-wrap">
       <div class="of-grid2" style="gap:6px;">
         <div class="form-row"><label>المحافظة</label>
           <div class="field-input" style="padding:4px 6px;gap:4px;"><span class="field-icon-badge" style="width:28px;height:28px;border-radius:8px;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:#8355F0;"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 7 12 8 12s8-6.75 8-12c0-4.42-3.58-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></span><select id="of-governorate" onchange="onGovernorateChange()" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;-webkit-appearance:none;appearance:none;padding:0;">
@@ -833,6 +845,7 @@ a{color:inherit;text-decoration:none;}
             <option value="">اختر المنطقة</option>
           </select></div>
         </div>
+      </div>
       </div>
       <div class="form-row"><label>معلم قريب <span style="color:var(--muted);font-weight:400;">(اختياري)</span></label>
         <div class="field-input"><span class="field-icon-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B4FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M4 16v2a2 2 0 0 0 2 2h2M20 8V6a2 2 0 0 0-2-2h-2M20 16v2a2 2 0 0 1-2 2h-2"/><circle cx="12" cy="12" r="3"/></svg></span><input id="of-landmark" placeholder="أقرب معلم لموقعك"></div>
@@ -876,6 +889,12 @@ a{color:inherit;text-decoration:none;}
             <div class="field-input"><input id="of-giftwrap-other" placeholder="أدخل تفاصيل التغليف"></div>
           </div>
         </div>
+      </div>
+      <div class="form-row">
+        <label for="of-attach-gift-check" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <input type="checkbox" id="of-attach-gift-check" style="width:18px;height:18px;accent-color:var(--primary);flex-shrink:0;">
+          <span style="font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:6px;">إرفاق هدية مع الطلب<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></span>
+        </label>
       </div>
     </div>
 
@@ -1293,13 +1312,59 @@ a{color:inherit;text-decoration:none;}
     </div>
   </div>
 
+  <div id="view-manual-waybill" class="view hidden">
+    <div class="subheader">
+      <button class="back-btn" onclick="navigate('home')">←</button>
+      <h1>طباعة بوليصة شحن</h1>
+      <div class="sub-actions"></div>
+    </div>
+    <div class="content" style="padding-bottom:40px;">
+      <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:14px;line-height:1.7;">
+        أدخل بيانات البوليصة يدوياً — لن يتم حفظها كطلب، سيتم طباعتها فقط.
+      </div>
+      <div class="form-row"><label>اسم العميل</label>
+        <div class="field-input"><input id="mw-name" placeholder="أدخل اسم العميل (اختياري)"></div>
+      </div>
+      <div class="form-row"><label>رقم الهاتف</label>
+        <div class="field-input"><input id="mw-phone" placeholder="أدخل رقم الهاتف"></div>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:9px;cursor:pointer;width:fit-content;">
+          <input id="mw-whatsapp-only" type="checkbox" style="width:15px;height:15px;flex-shrink:0;">
+          <span style="font-size:13px;font-weight:700;">WhatsApp Only</span>
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.05-1.35A10 10 0 1 0 12 2zm0 18.2a8.16 8.16 0 0 1-4.17-1.14l-.3-.18-3.1.83.83-3.02-.2-.31A8.2 8.2 0 1 1 12 20.2zm4.52-6.13c-.25-.12-1.45-.72-1.68-.8-.22-.08-.39-.12-.55.12-.16.25-.63.8-.77.96-.14.16-.28.18-.53.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.23-1.46-1.37-1.7-.14-.25-.02-.38.11-.5.11-.11.25-.28.37-.42.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.43.06-.65.31-.22.25-.86.84-.86 2.04 0 1.2.88 2.36 1 2.52.12.16 1.73 2.64 4.2 3.7.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.45-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.47-.28z"/></svg>
+        </label>
+      </div>
+      <div class="form-row"><label>المحافظة</label>
+        <div class="field-input"><select id="mw-governorate"><option value="">اختر المحافظة</option></select></div>
+      </div>
+      <div class="form-row"><label>المنطقة</label>
+        <div class="field-input"><input id="mw-area" placeholder="أدخل اسم المنطقة"></div>
+      </div>
+      <div class="form-row"><label>معلم قريب <span style="color:var(--muted);font-weight:400;">(اختياري)</span></label>
+        <div class="field-input"><input id="mw-landmark" placeholder="أقرب معلم لموقعك"></div>
+      </div>
+      <div class="form-row"><label>شركة التوصيل</label>
+        <div class="field-input"><select id="mw-company"><option value="">بدون شركة توصيل</option></select></div>
+      </div>
+      <div class="form-row"><label>قيمة الطلب</label>
+        <div class="field-input"><input id="mw-total" type="number" min="0" placeholder="أدخل قيمة الطلب"></div>
+      </div>
+      <div class="form-row"><label>عدد الطرود</label>
+        <div class="field-input"><input id="mw-package-count" type="number" min="1" value="1"></div>
+      </div>
+      <div class="form-row"><label>ملاحظات <span style="color:var(--muted);font-weight:400;">(اختياري)</span></label>
+        <div class="field-input"><input id="mw-notes" placeholder="أدخل ملاحظات (اختياري)"></div>
+      </div>
+      <button class="of-save-btn" style="width:100%;margin-top:8px;" onclick="printManualWaybill()">طباعة البوليصة</button>
+    </div>
+  </div>
+
   <div id="view-waybill" class="view hidden waybill-a6-mode">
     <div class="wb-head">
       <div class="bn">HAMMOUDEH — Baby & Toys</div>
     </div>
     <div id="waybill-content"></div>
     <div class="wb-actions no-print">
-      <button class="btn-outline" onclick="window._printReturnToPrep ? openPrepOrdersScreen() : navigate('order-detail')">رجوع</button>
+      <button class="btn-outline" onclick="window._manualWaybillMode ? showView('view-manual-waybill') : (window._printReturnToPrep ? openPrepOrdersScreen() : navigate('order-detail'))">رجوع</button>
       <button class="btn-fill" onclick="triggerWaybillPrint()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> طباعة</button>
     </div>
     <div class="no-print" style="text-align:center;font-size:11px;color:var(--muted);font-weight:700;padding:10px 20px 4px;line-height:1.7;">
@@ -1864,10 +1929,11 @@ function attachFirestoreListeners(){
   }, err=>console.error('prepHistory listener', err)));
 
   firestoreUnsubscribers.push(db.collection('prepQueue').doc(todayISODate()).onSnapshot(doc=>{
-    state.prepQueueToday = doc.exists ? (doc.data().orderIds||[]) : [];
-    const merged = Array.from(new Set([...(prepOrdersSnapshot||[]), ...state.prepQueueToday]));
-    if(merged.length !== (prepOrdersSnapshot||[]).length){
-      prepOrdersSnapshot = merged;
+    const cloudIds = doc.exists ? (doc.data().orderIds||[]) : [];
+    state.prepQueueToday = cloudIds;
+    const same = prepOrdersSnapshot && prepOrdersSnapshot.length===cloudIds.length && prepOrdersSnapshot.every(id=>cloudIds.includes(id));
+    if(!same){
+      prepOrdersSnapshot = cloudIds.slice();
       try{ localStorage.setItem(getPrepOrdersStorageKey(), JSON.stringify(prepOrdersSnapshot)); }catch(e){}
       if(!prepViewDate && !document.getElementById('view-prep-orders').classList.contains('hidden')) renderPrepOrdersScreen();
     }
@@ -3332,7 +3398,7 @@ async function saveExchangeReturnOrder(){
       city:o.governorate||'', address:o.address||'',
       channel:o.channel||'', channelOther:o.channelOther||'',
       paymentStatus:'غير مدفوع',
-      items:newItems, total:Math.abs(priceDifference), companyId:null, status:'جديد',
+      items:newItems, total:Math.abs(priceDifference), companyId:(state.companies.find(c=>c.isDefault)||{}).id||null, status:'جديد',
       notes:'', createdAtStr: todayStr(), createdAtTs: now.getTime(),
       orderType:'تبديل', linkedOrderId:o.id, returnedItems, priceDifference, discount, deliveryFee, returnViaCourier
     };
@@ -3346,7 +3412,7 @@ async function saveExchangeReturnOrder(){
       city:o.governorate||'', address:o.address||'',
       channel:o.channel||'', channelOther:o.channelOther||'',
       paymentStatus:'مسترد',
-      items:[], total:refundAmount, companyId:null, status:'جديد',
+      items:[], total:refundAmount, companyId:(state.companies.find(c=>c.isDefault)||{}).id||null, status:'جديد',
       notes:'', createdAtStr: todayStr(), createdAtTs: now.getTime(),
       orderType:'إرجاع', linkedOrderId:o.id, returnedItems, returnedValue, discount, deliveryDeduction:fee, refundAmount, returnViaCourier
     };
@@ -3670,7 +3736,65 @@ function sendInstantDeliveryWhatsApp(order){
   const waUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(msg)}`;
   window.open(waUrl, '_blank');
 }
+let orderFormMultiAddresses = [];
+function toggleMultiAddressMode(){
+  const isMulti = document.getElementById('of-multi-address-check').checked;
+  document.getElementById('of-multi-address-wrap').classList.toggle('hidden', !isMulti);
+  document.getElementById('of-single-address-wrap').classList.toggle('hidden', isMulti);
+  if(isMulti && orderFormMultiAddresses.length===0){
+    addMultiAddressRow();
+  }
+}
+function addMultiAddressRow(){
+  orderFormMultiAddresses.push({governorate:'', area:'', timeFrom:'', timeTo:''});
+  renderMultiAddressRows();
+}
+function removeMultiAddressRow(idx){
+  orderFormMultiAddresses.splice(idx,1);
+  if(orderFormMultiAddresses.length===0) addMultiAddressRow();
+  else renderMultiAddressRows();
+}
+function updateMultiAddressField(idx, field, value){
+  if(orderFormMultiAddresses[idx]) orderFormMultiAddresses[idx][field] = value;
+}
+function renderMultiAddressRows(){
+  const wrap = document.getElementById('of-multi-address-list');
+  const govOptions = (state.governorates||[]).filter(g=>g.status!=='غير نشطة').map(g=>`<option value="${escapeHtml(g.name)}">${escapeHtml(g.name)}</option>`).join('');
+  wrap.innerHTML = orderFormMultiAddresses.map((row, idx)=>`
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <span style="font-weight:800;font-size:12.5px;color:var(--primary);">عنوان ${idx+1}</span>
+        ${orderFormMultiAddresses.length>1?`<button type="button" onclick="removeMultiAddressRow(${idx})" style="color:var(--red);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>`:''}
+      </div>
+      <div class="of-grid2" style="gap:6px;margin-bottom:8px;">
+        <div class="field-input" style="padding:8px 10px;"><select onchange="updateMultiAddressField(${idx},'governorate',this.value)" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;-webkit-appearance:none;appearance:none;padding:0;">
+          <option value="">اختر المحافظة</option>${govOptions}
+        </select></div>
+        <div class="field-input" style="padding:8px 10px;"><input placeholder="المنطقة" onchange="updateMultiAddressField(${idx},'area',this.value)" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;padding:0;"></div>
+      </div>
+      <div class="of-grid2" style="gap:6px;">
+        <div class="form-row" style="margin:0;"><label style="font-size:11px;">من الساعة</label><div class="field-input" style="padding:6px 8px;"><input type="time" onchange="updateMultiAddressField(${idx},'timeFrom',this.value)" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:Arial,Helvetica,sans-serif;padding:0;"></div></div>
+        <div class="form-row" style="margin:0;"><label style="font-size:11px;">إلى الساعة</label><div class="field-input" style="padding:6px 8px;"><input type="time" onchange="updateMultiAddressField(${idx},'timeTo',this.value)" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:Arial,Helvetica,sans-serif;padding:0;"></div></div>
+      </div>
+    </div>
+  `).join('');
+  // restore values into the freshly-rendered inputs
+  const rows = wrap.children;
+  orderFormMultiAddresses.forEach((row, idx)=>{
+    const rowEl = rows[idx];
+    if(!rowEl) return;
+    const govSel = rowEl.querySelector('select');
+    const areaInp = rowEl.querySelectorAll('input')[0];
+    const fromInp = rowEl.querySelectorAll('input')[1];
+    const toInp = rowEl.querySelectorAll('input')[2];
+    if(govSel) govSel.value = row.governorate;
+    if(areaInp) areaInp.value = row.area;
+    if(fromInp) fromInp.value = row.timeFrom;
+    if(toInp) toInp.value = row.timeTo;
+  });
+}
 function openOrderFormPage(editId){
+  isSavingOrder = false;
   if(editId){
     const target = state.orders.find(o=>o.id===editId);
     if(target && LOCKED_STATUSES.includes(target.status)){
@@ -3700,6 +3824,10 @@ function openOrderFormPage(editId){
   document.getElementById('of-name').value = editingOrder ? (editingOrder.customerName||'') : '';
   document.getElementById('of-phone').value = editingOrder ? (editingOrder.phone||'') : '';
   document.getElementById('of-phone2').value = editingOrder ? (editingOrder.phone2||'') : '';
+  orderFormMultiAddresses = (editingOrder && editingOrder.multipleAddresses) ? JSON.parse(JSON.stringify(editingOrder.multipleAddresses)) : [];
+  document.getElementById('of-multi-address-check').checked = orderFormMultiAddresses.length>0;
+  toggleMultiAddressMode();
+  if(orderFormMultiAddresses.length>0) renderMultiAddressRows();
   document.getElementById('of-whatsapp-only').checked = editingOrder ? !!editingOrder.whatsappOnly : false;
   document.getElementById('of-landmark').value = editingOrder ? (editingOrder.landmark||'') : '';
   document.getElementById('of-notes').value = editingOrder ? (editingOrder.notes||'') : '';
@@ -3717,6 +3845,7 @@ function openOrderFormPage(editId){
   document.getElementById('of-giftwrap-check').checked = !!(editingOrder && editingOrder.giftWrap);
   document.getElementById('of-giftwrap-type').value = (editingOrder && editingOrder.giftWrapType) ? editingOrder.giftWrapType : 'تغليف ولادي';
   document.getElementById('of-giftwrap-other').value = (editingOrder && editingOrder.giftWrapOther) ? editingOrder.giftWrapOther : '';
+  document.getElementById('of-attach-gift-check').checked = !!(editingOrder && editingOrder.attachGift);
   syncGiftWrapUI();
   document.getElementById('of-discount').value = editingOrder ? (editingOrder.discount||0) : 0;
   document.getElementById('of-delivery').value = editingOrder ? (editingOrder.delivery||0) : 0;
@@ -3958,15 +4087,19 @@ function toggleRowFragile(pid, checked){
   if(!row) return;
   row.fragile = checked;
 }
+let isSavingOrder = false;
 async function saveOrderFormPage(){
+  if(isSavingOrder) return;
   if(orderFormType!=='بيع'){
     return saveExchangeReturnOrder();
   }
   const name = document.getElementById('of-name').value.trim();
   const phone = document.getElementById('of-phone').value.trim();
   const phone2 = document.getElementById('of-phone2').value.trim();
-  const governorate = document.getElementById('of-governorate').value;
-  const area = document.getElementById('of-area').value;
+  const isMultiAddress = document.getElementById('of-multi-address-check').checked;
+  const multipleAddresses = isMultiAddress ? orderFormMultiAddresses.filter(r=>r.governorate||r.area) : null;
+  const governorate = isMultiAddress ? ((multipleAddresses&&multipleAddresses[0]&&multipleAddresses[0].governorate)||'') : document.getElementById('of-governorate').value;
+  const area = isMultiAddress ? ((multipleAddresses&&multipleAddresses[0]&&multipleAddresses[0].area)||'') : document.getElementById('of-area').value;
   const landmark = document.getElementById('of-landmark').value.trim();
   const channelOther = document.getElementById('of-channel-other').value.trim();
   const validRows = orderFormRows.filter(r=>r.productId && r.qty>0);
@@ -3993,20 +4126,33 @@ async function saveOrderFormPage(){
   const deferredDate = document.getElementById('of-deferred-date').value;
   if(isDeferred && !deferredDate){ showToast('الرجاء اختيار تاريخ التسليم للطلب المؤجل'); return; }
   const giftWrap = document.getElementById('of-giftwrap-check').checked;
+  const attachGift = document.getElementById('of-attach-gift-check').checked;
   const giftWrapType = giftWrap ? document.getElementById('of-giftwrap-type').value : null;
   const giftWrapOther = (giftWrap && giftWrapType==='تغليف آخر') ? document.getElementById('of-giftwrap-other').value.trim() : '';
+
+  isSavingOrder = true;
+  const saveBtn = document.getElementById('of-main-save-btn');
+  const saveBtnLabel = document.getElementById('of-save-btn-label');
+  const prevLabel = saveBtnLabel ? saveBtnLabel.textContent : '';
+  if(saveBtn) saveBtn.disabled = true;
+  if(saveBtnLabel) saveBtnLabel.textContent = 'جاري الحفظ...';
+  const resetSaveBtn = ()=>{
+    isSavingOrder = false;
+    if(saveBtn) saveBtn.disabled = false;
+    if(saveBtnLabel) saveBtnLabel.textContent = prevLabel;
+  };
 
   if(editingOrderId){
     const existing = state.orders.find(o=>o.id===editingOrderId);
     if(!existing){ showToast('تعذر إيجاد الطلب'); return; }
     const prevTotal = existing.total;
     const updateData = {
-      customerName:name, phone, phone2, governorate, area, landmark,
+      customerName:name, phone, phone2, governorate, area, landmark, multipleAddresses,
       city:governorate, address,
       channel: orderFormChannel, channelOther: channelOtherVal, whatsappNumber: whatsappNumberVal,
       whatsappOnly: document.getElementById('of-whatsapp-only').checked,
       paymentStatus: orderFormPaymentStatus,
-      items, total, discount, delivery, giftWrap, giftWrapType, giftWrapOther, companyId: (document.getElementById('of-company').value ? Number(document.getElementById('of-company').value) : null),
+      items, total, discount, delivery, giftWrap, giftWrapType, giftWrapOther, attachGift, companyId: (document.getElementById('of-company').value ? Number(document.getElementById('of-company').value) : null),
       notes: document.getElementById('of-notes').value.trim()
     };
     if(existing.status==='مؤجل' && isDeferred){
@@ -4022,6 +4168,7 @@ async function saveOrderFormPage(){
       await db.collection('orders').doc(String(existing.id)).update(updateData);
       logActivity(`تم تعديل الطلب #${existing.id} — أصبحت قيمة الطلب ${fmt(total)} ${state.settings.currency} (كانت ${fmt(prevTotal)} ${state.settings.currency})`, existing.id);
       showToast('تم حفظ التعديلات بنجاح');
+      resetSaveBtn();
       const savedId = existing.id;
       editingOrderId = null;
       if(window._editReturnToPrep){
@@ -4030,18 +4177,18 @@ async function saveOrderFormPage(){
       }else{
         viewOrder(savedId);
       }
-    }catch(err){ showToast('تعذر حفظ التعديلات'); }
+    }catch(err){ showToast('تعذر حفظ التعديلات'); resetSaveBtn(); }
     return;
   }
 
   const now = new Date();
   const order = {
-    customerName:name, phone, phone2, governorate, area, landmark,
+    customerName:name, phone, phone2, governorate, area, landmark, multipleAddresses,
     city:governorate, address,
     channel: orderFormChannel, channelOther: channelOtherVal, whatsappNumber: whatsappNumberVal,
     whatsappOnly: document.getElementById('of-whatsapp-only').checked,
     paymentStatus: orderFormPaymentStatus,
-    items, total, discount, delivery, giftWrap, giftWrapType, giftWrapOther, companyId: (document.getElementById('of-company').value ? Number(document.getElementById('of-company').value) : null), status: isDeferred ? 'مؤجل' : 'جديد',
+    items, total, discount, delivery, giftWrap, giftWrapType, giftWrapOther, attachGift, companyId: (document.getElementById('of-company').value ? Number(document.getElementById('of-company').value) : null), status: isDeferred ? 'مؤجل' : 'جديد',
     packageCount: 1,
     notes: document.getElementById('of-notes').value.trim(),
     createdAtStr: todayStr(), createdAtTs: now.getTime()
@@ -4063,9 +4210,11 @@ async function saveOrderFormPage(){
       addNotification(`طلب جديد بقيمة ${fmt(total)} ${state.settings.currency} — طلب #${newId}`, newId);
     }
     showToast('تمت إضافة الطلب بنجاح');
+    resetSaveBtn();
     navigate('orders');
   }catch(err){
     showToast('تعذر حفظ الطلب');
+    resetSaveBtn();
   }
 }
 
@@ -4213,10 +4362,14 @@ function renderStatusWorkflow(o){
   return stepperHtml + manualBtns;
 }
 const LOCKED_STATUSES = ['تم التسليم','ملغي','رفض استلام','قيد التسليم'];
+function isNaturalStatusProgression(fromStatus, toStatus){
+  if(fromStatus==='قيد التسليم' && ['تم التسليم','ملغي','رفض استلام'].includes(toStatus)) return true;
+  return false;
+}
 function confirmStatusChange(id, status){
   const o = state.orders.find(x=>x.id===id);
   if(!o) return;
-  if(LOCKED_STATUSES.includes(o.status) && o.status!==status){
+  if(LOCKED_STATUSES.includes(o.status) && o.status!==status && !isNaturalStatusProgression(o.status, status)){
     showConfirm(
       'هل حدث هذا عن طريق الخطأ؟',
       `الطلب حالياً بحالة "${o.status}" وهي حالة نهائية. هل أنت متأكد أنك تريد تغييرها إلى "${status}"؟`,
@@ -4237,7 +4390,7 @@ let returnPickerState = [];
 function handleDeliveredClick(id){
   const o = state.orders.find(x=>x.id===id);
   if(!o) return;
-  if(LOCKED_STATUSES.includes(o.status) && o.status!=='تم التسليم'){
+  if(LOCKED_STATUSES.includes(o.status) && o.status!=='تم التسليم' && !isNaturalStatusProgression(o.status, 'تم التسليم')){
     showConfirm(
       'هل حدث هذا عن طريق الخطأ؟',
       `الطلب حالياً بحالة "${o.status}" وهي حالة نهائية. هل أنت متأكد أنك تريد تغييرها إلى "تم التسليم"؟`,
@@ -4291,7 +4444,7 @@ function handleRefusedClick(id){
       viewOrder(id);
     }).catch(()=>showToast('تعذر حفظ التغيير'));
   };
-  if(LOCKED_STATUSES.includes(o.status) && o.status!=='رفض استلام'){
+  if(LOCKED_STATUSES.includes(o.status) && o.status!=='رفض استلام' && !isNaturalStatusProgression(o.status, 'رفض استلام')){
     showConfirm(
       'هل حدث هذا عن طريق الخطأ؟',
       `الطلب حالياً بحالة "${o.status}" وهي حالة نهائية. هل أنت متأكد أنك تريد تغييرها إلى "رفض استلام"؟`,
@@ -4305,7 +4458,7 @@ function handleRefusedClick(id){
 function handleCancelClick(id){
   const o = state.orders.find(x=>x.id===id);
   if(!o) return;
-  if(LOCKED_STATUSES.includes(o.status) && o.status!=='ملغي'){
+  if(LOCKED_STATUSES.includes(o.status) && o.status!=='ملغي' && !isNaturalStatusProgression(o.status, 'ملغي')){
     showConfirm(
       'هل حدث هذا عن طريق الخطأ؟',
       `الطلب حالياً بحالة "${o.status}" وهي حالة نهائية. هل أنت متأكد أنك تريد تغييرها إلى "ملغي"؟`,
@@ -4621,6 +4774,57 @@ function changeOrderStatusManually(id, newStatus){
     });
   });
 }
+function openManualWaybillScreen(){
+  document.getElementById('mw-name').value = '';
+  document.getElementById('mw-phone').value = '';
+  document.getElementById('mw-whatsapp-only').checked = false;
+  document.getElementById('mw-area').value = '';
+  document.getElementById('mw-landmark').value = '';
+  document.getElementById('mw-total').value = '';
+  document.getElementById('mw-package-count').value = '1';
+  document.getElementById('mw-notes').value = '';
+  const govSel = document.getElementById('mw-governorate');
+  govSel.innerHTML = '<option value="">اختر المحافظة</option>' + (state.governorates||[]).filter(g=>g.status!=='غير نشطة').map(g=>`<option value="${escapeHtml(g.name)}">${escapeHtml(g.name)}</option>`).join('');
+  const compSel = document.getElementById('mw-company');
+  const defaultCompany = (state.companies||[]).find(c=>c.isDefault);
+  compSel.innerHTML = '<option value="">بدون شركة توصيل</option>' + (state.companies||[]).filter(c=>c.id!==0).map(c=>`<option value="${c.id}">${escapeHtml(c.name)}${c.isDefault?' (افتراضي)':''}</option>`).join('');
+  if(defaultCompany) compSel.value = defaultCompany.id;
+  showView('view-manual-waybill');
+}
+function printManualWaybill(){
+  const phone = document.getElementById('mw-phone').value.trim();
+  if(!phone){ showToast('الرجاء إدخال رقم الهاتف'); return; }
+  const companyIdRaw = document.getElementById('mw-company').value;
+  const fakeOrder = {
+    id: 'يدوي',
+    customerName: document.getElementById('mw-name').value.trim(),
+    phone: phone,
+    whatsappOnly: document.getElementById('mw-whatsapp-only').checked,
+    governorate: document.getElementById('mw-governorate').value,
+    city: document.getElementById('mw-governorate').value,
+    area: document.getElementById('mw-area').value.trim(),
+    address: '',
+    landmark: document.getElementById('mw-landmark').value.trim(),
+    companyId: companyIdRaw ? Number(companyIdRaw) : null,
+    total: parseFloat(document.getElementById('mw-total').value) || 0,
+    packageCount: parseInt(document.getElementById('mw-package-count').value) || 1,
+    notes: document.getElementById('mw-notes').value.trim(),
+    items: [],
+    orderType: 'بيع',
+    paymentStatus: '',
+    createdAtStr: todayStr()
+  };
+  window._printReturnToPrep = false;
+  window._manualWaybillMode = true;
+  document.querySelector('.wb-head').style.display = '';
+  const copies = Math.max(1, fakeOrder.packageCount);
+  let html = '';
+  for(let i=1;i<=copies;i++){
+    html += `<div style="${i>1?'page-break-before:always;':''}">${buildWaybillContentHtml(fakeOrder, i)}</div>`;
+  }
+  document.getElementById('waybill-content').innerHTML = html;
+  showView('view-waybill');
+}
 function openLowStockScreen(){
   loadLowStockList();
   lowStockPendingKey = null;
@@ -4889,9 +5093,15 @@ function buildPrepCardHtml(o){
           طباعة<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
         </button>
       </div>
-      <div onclick="event.stopPropagation()" style="display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:8px 10px 0;">
-        <span style="font-size:11px;font-weight:700;color:#1E1B3A;">عدد الطرود</span>
-        <input type="number" min="1" value="${o.packageCount||1}" onchange="updatePrepPackageCount(${o.id}, this.value)" style="width:52px;padding:5px;border:1.5px solid var(--border);border-radius:8px;text-align:center;font-weight:800;font-size:12px;font-family:'Tajawal',sans-serif;">
+      <div onclick="event.stopPropagation()" style="display:flex;align-items:center;justify-content:${o.attachGift?'space-between':'flex-end'};gap:8px;margin:8px 10px 0;">
+        ${o.attachGift ? `<div style="display:flex;align-items:center;gap:5px;color:#E5484D;font-weight:900;font-size:11.5px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
+          إرفاق هدية مع الطلب
+        </div>` : ''}
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:11px;font-weight:700;color:#1E1B3A;">عدد الطرود</span>
+          <input type="number" min="1" value="${o.packageCount||1}" onchange="updatePrepPackageCount(${o.id}, this.value)" style="width:52px;padding:5px;border:1.5px solid var(--border);border-radius:8px;text-align:center;font-weight:800;font-size:12px;font-family:'Tajawal',sans-serif;">
+        </div>
       </div>
       <div class="prep-items-scroll" style="display:flex;overflow-x:auto;overflow-y:hidden;gap:10px;padding:12px;background:var(--bg);border-radius:14px;margin:12px 10px 12px 10px;">
         ${o.items.map(it=>{
@@ -4922,6 +5132,7 @@ function editPrepOrder(id){
   openOrderFormPage(id);
 }
 function printAllPrepOrders(){
+  window._manualWaybillMode = false;
   const orders = prepOrdersSnapshot.map(id=>state.orders.find(o=>o.id===id)).filter(o=>o && o.status==='جديد');
   if(orders.length===0) return;
   const batch = db.batch();
@@ -5017,6 +5228,7 @@ function printTodayOrdersManifest(){
   printDeliveryManifest(orders);
 }
 function printDeliveryManifest(orders){
+  window._manualWaybillMode = false;
   window._printReturnToPrep = true;
   document.querySelector('.wb-head').style.display = 'none';
   document.getElementById('view-waybill').classList.remove('waybill-a6-mode');
@@ -5056,6 +5268,17 @@ function printDeliveryManifest(orders){
   showView('view-waybill');
   renderPrepOrdersScreen();
 }
+function formatTime12Hour(timeStr){
+  if(!timeStr) return '';
+  const parts = timeStr.split(':');
+  const h = parseInt(parts[0]);
+  const m = parts[1] || '00';
+  if(isNaN(h)) return timeStr;
+  const period = h>=12 ? 'م' : 'ص';
+  let h12 = h % 12;
+  if(h12===0) h12 = 12;
+  return `${h12}:${String(m).padStart(2,'0')} ${period}`;
+}
 function buildWaybillContentHtml(o, copyNum){
   const company = o.companyId ? state.companies.find(c=>c.id===o.companyId) : null;
   const hasFragileItems = o.items.some(it=>it.fragile);
@@ -5073,6 +5296,7 @@ function buildWaybillContentHtml(o, copyNum){
     card: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#1E1B3A" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>'
   };
   return `
+    ${(o.orderType==='تبديل'||o.orderType==='إرجاع') ? `<div style="text-align:center;background:#1E1B3A;color:#fff;padding:10px;border-radius:10px;font-weight:900;font-size:18px;margin-bottom:14px;letter-spacing:1px;">${o.orderType==='تبديل'?'طلب تبديل':'طلب إرجاع'}</div>` : ''}
     <div style="display:flex;flex-direction:row-reverse;align-items:center;justify-content:space-between;gap:10px;padding-bottom:16px;border-bottom:1.5px dashed #1E1B3A;margin-bottom:16px;" class="wb-header-block">
       <div style="flex-shrink:0;text-align:center;" class="wb-logo">
         <div style="font-size:15px;font-weight:900;color:#1E1B3A;white-space:nowrap;">متجر حموده للألعاب ومستلزمات الأطفال</div>
@@ -5092,7 +5316,10 @@ function buildWaybillContentHtml(o, copyNum){
     ${hasFragileItems ? `<div style="background:#FCEBEC;color:#E5484D;border:1.7px solid #E5484D;border-radius:12px;padding:12px;text-align:center;font-weight:900;font-size:13.5px;margin-bottom:16px;" class="wb-fragile-warning">⚠️ يحتوي الطلب على منتجات قابلة للكسر — يُرجى التعامل بحذر</div>` : ''}
     <div style="font-weight:800;font-size:13px;color:#1E1B3A;display:flex;align-items:center;gap:6px;margin-bottom:6px;" class="wb-small-line">${ic.person}بيانات العميل</div>
     <div class="wb2-row"><span class="wb2-val">${escapeHtml(o.customerName||'بدون اسم')}</span><span class="wb2-label">${ic.person}الاسم</span></div>
-    <div class="wb2-row"><span class="wb2-val">${escapeHtml((o.governorate||o.city||'')+(o.area||o.address?' - '+(o.area||o.address):'')+(o.landmark?' - '+o.landmark:''))||'-'}</span><span class="wb2-label">${ic.pin}العنوان</span></div>
+    ${(o.multipleAddresses && o.multipleAddresses.length>0) ? o.multipleAddresses.map((a,idx)=>{
+      const timeRange = (a.timeFrom||a.timeTo) ? ` (من ${formatTime12Hour(a.timeFrom)||'-'} إلى ${formatTime12Hour(a.timeTo)||'-'})` : '';
+      return `<div class="wb2-row"><span class="wb2-val">${escapeHtml([a.governorate, a.area].filter(Boolean).join(' - '))}${timeRange}</span><span class="wb2-label">${ic.pin}عنوان ${idx+1}</span></div>`;
+    }).join('') : `<div class="wb2-row"><span class="wb2-val">${escapeHtml((o.governorate||o.city||'')+(o.area||o.address?' - '+(o.area||o.address):'')+(o.landmark?' - '+o.landmark:''))||'-'}</span><span class="wb2-label">${ic.pin}العنوان</span></div>`}
     <div class="wb2-row"><span class="wb2-val">${escapeHtml(o.phone)}${o.whatsappOnly?` <span style="color:#1E1B3A;font-weight:900;">— الرجاء التواصل على الواتساب فقط</span>`:''}</span><span class="wb2-label">${ic.phone}رقم الهاتف</span></div>
     ${o.phone2?`<div class="wb2-row"><span class="wb2-val">${escapeHtml(o.phone2)}</span><span class="wb2-label">${ic.phone}رقم بديل</span></div>`:''}
     ${o.notes?`<div class="wb2-row"><span class="wb2-val">${escapeHtml(o.notes)}</span><span class="wb2-label">${ic.notes}ملاحظات</span></div>`:''}
@@ -5119,6 +5346,7 @@ function triggerWaybillPrint(){
 function printWaybill(){
   const o = state.orders.find(x=>x.id===window._currentOrderId);
   if(!o) return;
+  window._manualWaybillMode = false;
   document.querySelector('.wb-head').style.display = '';
   const copies = Math.max(1, parseInt(o.packageCount)||1);
   let html = '';
