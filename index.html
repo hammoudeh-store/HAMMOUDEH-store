@@ -5009,6 +5009,32 @@ function closePrepMenu(id){
   if(menu) menu.classList.add('hidden');
   openPrepMenuId = null;
 }
+const PHONE_INPUT_IDS = ['of-phone','of-phone2','qd-phone','cm-phone','mw-phone','home-order-search','ord-search','status-manager-search'];
+function normalizePhoneString(str){
+  const arabicDigits = '٠١٢٣٤٥٦٧٨٩';
+  let result = String(str).replace(/[٠-٩]/g, d => arabicDigits.indexOf(d));
+  let digitsOnly = result.replace(/[^0-9]/g, '');
+  if(digitsOnly.startsWith('00962')) digitsOnly = '0' + digitsOnly.slice(5);
+  else if(digitsOnly.startsWith('962') && digitsOnly.length>=12) digitsOnly = '0' + digitsOnly.slice(3);
+  return digitsOnly;
+}
+document.addEventListener('input', (e)=>{
+  const el = e.target;
+  if(!el || !PHONE_INPUT_IDS.includes(el.id)) return;
+  if(el.dataset._normalizingPhone) return;
+  const normalized = normalizePhoneString(el.value);
+  if(normalized===el.value) return;
+  el.dataset._normalizingPhone = '1';
+  const oldLen = el.value.length;
+  const oldPos = el.selectionStart!=null ? el.selectionStart : oldLen;
+  el.value = normalized;
+  const newPos = Math.max(0, oldPos - (oldLen - normalized.length));
+  if(el.setSelectionRange){
+    try{ el.setSelectionRange(newPos, newPos); }catch(err){}
+  }
+  delete el.dataset._normalizingPhone;
+  el.dispatchEvent(new Event('input', {bubbles:true}));
+});
 document.addEventListener('wheel', (e)=>{
   const scrollEl = e.target.closest('.product-gallery, .prep-items-scroll');
   if(!scrollEl) return;
