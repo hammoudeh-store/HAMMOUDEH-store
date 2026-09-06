@@ -3808,7 +3808,7 @@ function openOrderFormPage(editId){
   document.getElementById('of-type-selector').classList.toggle('hidden', !!editingOrder);
   selectOrderType('بيع');
 
-  orderFormRows = editingOrder ? editingOrder.items.map(it=>({productId:it.productId, qty:it.qty, fragile:!!it.fragile})) : [{productId:'', qty:1}];
+  orderFormRows = editingOrder ? editingOrder.items.map(it=>({productId:it.productId, qty:it.qty, fragile:!!it.fragile, variant:it.variant||undefined, variantImage:it.variantImage||undefined, variantPrice:it.variantPrice!=null?it.variantPrice:undefined})) : [{productId:'', qty:1}];
   document.getElementById('of-order-number').textContent = editingOrder ? ('#'+editingOrder.id) : '#...';
   populateCompanySelect(editingOrder ? editingOrder.companyId : null);
   if(!editingOrder){
