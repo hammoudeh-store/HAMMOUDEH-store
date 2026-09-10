@@ -601,6 +601,7 @@ a{color:inherit;text-decoration:none;}
       <button onclick="toggleMenu(true);openPrepOrdersScreen();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>طلبات اليوم</button>
       <button onclick="toggleMenu(true);openLowStockScreen();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.1-2.8-2.8L7 14.1"/></svg>قائمة المخزون المنخفضة</button>
       <button onclick="toggleMenu(true);openManualWaybillScreen();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>طباعة بوليصة شحن</button>
+      <button onclick="toggleMenu(true);openCategoryProductManager();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>إدارة الفئات والمنتجات</button>
       <button data-role="admin-only" onclick="toggleMenu(true);openStatusManagerGate();" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>إدارة حالات الطلبات</button>
       <button onclick="navigate('settings')" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>الإعدادات</button>
       <button class="danger" onclick="logout()" style="display:flex;align-items:center;gap:8px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>تسجيل الخروج</button>
@@ -834,17 +835,12 @@ a{color:inherit;text-decoration:none;}
         <button type="button" onclick="addMultiAddressRow()" style="width:100%;padding:11px;border-radius:12px;background:#fff;border:1.5px dashed var(--primary);color:var(--primary);font-weight:800;font-size:12.5px;margin-bottom:14px;">+ إضافة عنوان آخر</button>
       </div>
       <div id="of-single-address-wrap">
-      <div class="of-grid2" style="gap:6px;">
-        <div class="form-row"><label>المحافظة</label>
-          <div class="field-input" style="padding:4px 6px;gap:4px;"><span class="field-icon-badge" style="width:28px;height:28px;border-radius:8px;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:#8355F0;"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 7 12 8 12s8-6.75 8-12c0-4.42-3.58-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></span><select id="of-governorate" onchange="onGovernorateChange()" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;-webkit-appearance:none;appearance:none;padding:0;">
-            <option value="">اختر المحافظة</option>
-          </select></div>
-        </div>
-        <div class="form-row"><label style="display:flex;align-items:center;justify-content:space-between;">المنطقة<button type="button" onclick="openAddAreaInlineModal('of')" style="width:20px;height:20px;border-radius:50%;background:var(--primary-light);color:var(--primary);font-weight:900;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">+</button></label>
-          <div class="field-input" style="padding:4px 6px;gap:4px;"><span class="field-icon-badge" style="width:28px;height:28px;border-radius:8px;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" style="fill:#8355F0;"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 7 12 8 12s8-6.75 8-12c0-4.42-3.58-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></span><select id="of-area" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;-webkit-appearance:none;appearance:none;padding:0;">
-            <option value="">اختر المنطقة</option>
-          </select></div>
-        </div>
+      <div class="form-row" style="position:relative;">
+        <label>العنوان</label>
+        <div class="field-input"><span class="field-icon-badge"><svg width="18" height="18" viewBox="0 0 24 24" style="fill:#8355F0;"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 7 12 8 12s8-6.75 8-12c0-4.42-3.58-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></span><input id="of-area-search" placeholder="ابحث عن اسم المنطقة..." autocomplete="off" oninput="searchAreaLive(this.value)" onfocus="searchAreaLive(this.value)"></div>
+        <div id="of-area-search-results" class="hidden" style="position:absolute;top:100%;right:0;left:0;z-index:20;background:#fff;border:1.5px solid var(--border);border-radius:12px;margin-top:4px;max-height:220px;overflow-y:auto;box-shadow:0 8px 20px -6px rgba(30,20,90,.25);"></div>
+        <select id="of-governorate" class="hidden"><option value="">اختر المحافظة</option></select>
+        <select id="of-area" class="hidden"><option value="">اختر المنطقة</option></select>
       </div>
       </div>
       <div class="form-row"><label>معلم قريب <span style="color:var(--muted);font-weight:400;">(اختياري)</span></label>
@@ -1028,17 +1024,12 @@ a{color:inherit;text-decoration:none;}
       <div class="form-row"><label>رقم الهاتف البديل <span style="color:var(--muted);font-weight:400;">(اختياري)</span></label>
         <div class="field-input"><span class="field-icon-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B4FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><input id="qd-phone2" placeholder="أدخل رقم بديل"></div>
       </div>
-      <div class="of-grid2" style="gap:6px;">
-        <div class="form-row"><label>المحافظة</label>
-          <div class="field-input" style="padding:5px 8px;gap:5px;"><span class="field-icon-badge" style="width:24px;height:24px;border-radius:7px;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" style="fill:#8355F0;"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 7 12 8 12s8-6.75 8-12c0-4.42-3.58-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></span><select id="qd-governorate" onchange="onQuickGovernorateChange()" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;-webkit-appearance:none;appearance:none;padding:0;">
-            <option value="">اختر المحافظة</option>
-          </select></div>
-        </div>
-        <div class="form-row"><label style="display:flex;align-items:center;justify-content:space-between;">المنطقة<button type="button" onclick="openAddAreaInlineModal('qd')" style="width:20px;height:20px;border-radius:50%;background:var(--primary-light);color:var(--primary);font-weight:900;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">+</button></label>
-          <div class="field-input" style="padding:5px 8px;gap:5px;"><span class="field-icon-badge" style="width:24px;height:24px;border-radius:7px;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" style="fill:#8355F0;"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 7 12 8 12s8-6.75 8-12c0-4.42-3.58-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></span><select id="qd-area" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;-webkit-appearance:none;appearance:none;padding:0;">
-            <option value="">اختر المنطقة</option>
-          </select></div>
-        </div>
+      <div class="form-row" style="position:relative;">
+        <label>العنوان</label>
+        <div class="field-input"><span class="field-icon-badge"><svg width="18" height="18" viewBox="0 0 24 24" style="fill:#8355F0;"><path d="M12 2C7.58 2 4 5.58 4 10c0 5.25 7 12 8 12s8-6.75 8-12c0-4.42-3.58-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></span><input id="qd-area-search" placeholder="ابحث عن اسم المنطقة..." autocomplete="off" oninput="searchQdAreaLive(this.value)" onfocus="searchQdAreaLive(this.value)"></div>
+        <div id="qd-area-search-results" class="hidden" style="position:absolute;top:100%;right:0;left:0;z-index:20;background:#fff;border:1.5px solid var(--border);border-radius:12px;margin-top:4px;max-height:220px;overflow-y:auto;box-shadow:0 8px 20px -6px rgba(30,20,90,.25);"></div>
+        <select id="qd-governorate" class="hidden"><option value="">اختر المحافظة</option></select>
+        <select id="qd-area" class="hidden"><option value="">اختر المنطقة</option></select>
       </div>
       <div class="form-row"><label>معلم قريب <span style="color:var(--muted);font-weight:400;">(اختياري)</span></label>
         <div class="field-input"><span class="field-icon-badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5B4FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M4 16v2a2 2 0 0 0 2 2h2M20 8V6a2 2 0 0 0-2-2h-2M20 16v2a2 2 0 0 1-2 2h-2"/><circle cx="12" cy="12" r="3"/></svg></span><input id="qd-landmark" placeholder="أقرب معلم لموقعك"></div>
@@ -1239,7 +1230,7 @@ a{color:inherit;text-decoration:none;}
   <div id="view-prep-orders" class="view hidden">
     <div class="subheader">
       <button class="back-btn" id="prep-back-btn" onclick="navigate('home')">←</button>
-      <h1>تجهيز طلبات اليوم</h1>
+      <h1>تجهيز طلبات اليوم <span id="prep-order-count-badge" style="background:var(--primary-light);color:var(--primary);font-size:12px;font-weight:800;padding:3px 10px;border-radius:20px;margin-right:6px;">0</span></h1>
       <div class="sub-actions">
         <button class="icon-btn" id="prep-logout-btn" onclick="logout()" style="display:none;" title="تسجيل الخروج"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></button>
         <button class="icon-btn" onclick="refreshPrepOrdersTracking()" title="تحديث"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></button>
@@ -1355,6 +1346,29 @@ a{color:inherit;text-decoration:none;}
         <div class="field-input"><input id="mw-notes" placeholder="أدخل ملاحظات (اختياري)"></div>
       </div>
       <button class="of-save-btn" style="width:100%;margin-top:8px;" onclick="printManualWaybill()">طباعة البوليصة</button>
+    </div>
+  </div>
+
+  <div id="view-category-product-manager" class="view hidden">
+    <div class="subheader">
+      <button class="back-btn" onclick="navigate('home')">←</button>
+      <h1>إدارة الفئات والمنتجات</h1>
+    </div>
+    <div class="content" style="padding-bottom:40px;">
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <button id="cpm-tab-categories" onclick="switchCPMTab('categories')" style="flex:1;padding:11px;border-radius:12px;background:var(--primary);color:#fff;font-weight:800;font-size:13px;">الفئات</button>
+        <button id="cpm-tab-products" onclick="switchCPMTab('products')" style="flex:1;padding:11px;border-radius:12px;background:#fff;border:1.5px solid var(--border);color:var(--text);font-weight:800;font-size:13px;">المنتجات</button>
+      </div>
+      <div id="cpm-categories-panel">
+        <div id="cpm-categories-list"></div>
+      </div>
+      <div id="cpm-products-panel" class="hidden">
+        <div class="search-bar" style="margin-bottom:14px;">
+          <span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+          <input id="cpm-product-search" placeholder="ابحث عن منتج بالاسم أو الرمز..." oninput="renderCPMProductsList()">
+        </div>
+        <div id="cpm-products-list"></div>
+      </div>
     </div>
   </div>
 
@@ -1525,6 +1539,21 @@ a{color:inherit;text-decoration:none;}
   </div>
 </div>
 
+<div id="modal-add-area-full" class="overlay hidden">
+  <div class="modal-sheet">
+    <div class="modal-head"><h3>إضافة منطقة جديدة</h3><button class="modal-close" onclick="closeModal('modal-add-area-full')">✕</button></div>
+    <div class="form-row">
+      <label>المحافظة</label>
+      <div class="field-input"><select id="add-area-full-gov"><option value="">اختر المحافظة</option></select></div>
+    </div>
+    <div class="form-row">
+      <label>المنطقة</label>
+      <input id="add-area-full-name" placeholder="مثال: حي النزهة" onkeydown="if(event.key==='Enter'){event.preventDefault();saveAreaFull();}">
+    </div>
+    <button class="btn-fill" style="width:100%;" onclick="saveAreaFull()">حفظ المنطقة</button>
+  </div>
+</div>
+
 <div id="modal-variant-picker" class="overlay hidden">
   <div class="modal-sheet">
     <div class="modal-head"><h3>اختر الشكل أو اللون</h3><button class="modal-close" onclick="closeModal('modal-variant-picker')">✕</button></div>
@@ -1590,7 +1619,7 @@ a{color:inherit;text-decoration:none;}
 <div id="modal-status-gate" class="overlay hidden">
   <div class="modal-sheet">
     <div class="modal-head"><h3>تأكيد الهوية</h3><button class="modal-close" onclick="closeModal('modal-status-gate')">✕</button></div>
-    <div id="status-gate-msg" style="font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:14px;line-height:1.6;">هذه الشاشة حساسة — الرجاء إدخال كلمة مرور حساب المدير للمتابعة</div>
+    <div id="status-gate-msg" style="font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:14px;line-height:1.6;">الرجاء إدخال كلمة المرور الخاصة بمدير النظام للمتابعة</div>
     <div class="form-row"><label>كلمة المرور</label><input id="status-gate-pass" type="password" onkeydown="if(event.key==='Enter'){event.preventDefault();confirmStatusGatePassword();}"></div>
     <div id="status-gate-err" class="hidden" style="color:var(--red);font-size:12px;font-weight:700;margin-bottom:10px;"></div>
     <div class="modal-actions">
@@ -1809,7 +1838,7 @@ let state = null;
 
 const STATUSES = ['جديد','قيد التجهيز','قيد التسليم','تم التسليم','ملغي','رفض استلام'];
 const JORDAN_AREAS = {
-  'عمان': ['الجبيهة','خلدا','الصويفية','عبدون','تلاع العلي','ماركا','جبل الحسين','الرابية','دابوق','ياجوز','أم أذينة','الدوار السابع'],
+  'عمان': ['الجبيهة','خلدا','الصويفية','عبدون','تلاع العلي','ماركا','جبل الحسين','الرابية','دابوق','ياجوز','أم أذينة','الدوار السابع','جبل عمان','جبل اللويبدة','الشميساني','وادي صقرة','أم السماق','طبربور','النصر','القويسمة','ناعور','سحاب','الجويدة','المقابلين','أبو نصير','شفا بدران','الجندويل','بدر الجديدة','الهاشمي الشمالي','الهاشمي الجنوبي','النزهة','ضاحية الرشيد','ضاحية الياسمين','أبو علندا','زهران','ماركا الشمالية','ماركا الجنوبية','وادي السير','بيادر وادي السير','صويلح','خريبة السوق','الجبل الأخضر','عين الباشا','طارق','حي نزال','الأشرفية','راس العين','وسط البلد','خلة الروم','المدينة الرياضية','تلاع العلي الشمالي','إسكان الجامعة الأردنية','المصفاة','القصور','أم الحيران','مرج الحمام','أم رمانة','خلة السوق','الرجم','إسكان البتراوي','حي الأمير محمد','حي الأميرة بسمة','سيل حسبان','زقاق الشيخ','أبو راشد','الكرسي','المطار','الجيزة','شارع الجامعة','شارع مكة','شارع الملكة رانيا','شارع وصفي التل','شارع الأردن','الرونق','المهاجرين','الكمالية','أم نوارة','خلدا الجنوبية','عرجان','المنارة','الموقر','دير غبار','الجاردنز','اليرموك','العبدلي','بدر','بسمان','البنيات','اليادودة','جاوا','الرجيب'],
   'إربد': ['الحي الشرقي','الحي الغربي','الرمثا','إربد الجديدة','الحصن'],
   'الزرقاء': ['الزرقاء الجديدة','الرصيفة','الهاشمية','الضليل'],
   'البلقاء': ['السلط','دير علا','الفحيص'],
@@ -1822,6 +1851,26 @@ const JORDAN_AREAS = {
   'عجلون': ['عجلون','كفرنجة'],
   'مادبا': ['مادبا','ذيبان']
 };
+async function addMissingAmmanAreas(){
+  const ammanGov = state.governorates.find(g=>g.name==='عمان');
+  if(!ammanGov){ showToast('لم يتم العثور على محافظة عمان'); return; }
+  const existingNames = new Set((state.areas||[]).filter(a=>a.governorateId===ammanGov.id).map(a=>a.name));
+  const toAdd = JORDAN_AREAS['عمان'].filter(name=>!existingNames.has(name));
+  if(toAdd.length===0){ showToast('كل الأحياء موجودة أصلاً'); return; }
+  try{
+    const batch = db.batch();
+    let nextId = await getNextId('area', 1);
+    toAdd.forEach(name=>{
+      batch.set(db.collection('areas').doc(String(nextId)), {name, status:'نشطة', notes:'', governorateId:ammanGov.id});
+      nextId++;
+    });
+    await db.collection('settings').doc('counters').set({area: nextId}, {merge:true});
+    await batch.commit();
+    showToast(`تمت إضافة ${toAdd.length} حي جديد لمحافظة عمان`);
+  }catch(err){
+    showToast('تعذر إضافة الأحياء');
+  }
+}
 function seedGovernoratesAndAreas(){
   const govNames = Object.keys(JORDAN_AREAS);
   let govId = 1, areaId = 1;
@@ -1987,14 +2036,20 @@ function attachFirestoreListeners(){
 function refreshPrepOrdersTracking(){
   if(prepViewDate) return;
   const tracked = new Set(prepOrdersSnapshot);
-  let added = false;
+  let changed = false;
   state.orders.forEach(o=>{
     if(o.status==='جديد' && !tracked.has(o.id)){
       prepOrdersSnapshot.push(o.id);
-      added = true;
+      changed = true;
     }
   });
-  if(added) savePrepOrdersSnapshot();
+  const beforeLen = prepOrdersSnapshot.length;
+  prepOrdersSnapshot = prepOrdersSnapshot.filter(id=>{
+    const o = state.orders.find(x=>x.id===id);
+    return !o || o.status!=='ملغي';
+  });
+  if(prepOrdersSnapshot.length!==beforeLen) changed = true;
+  if(changed) savePrepOrdersSnapshot();
   renderPrepOrdersScreen();
 }
 function rerenderActiveView(){
@@ -3553,6 +3608,8 @@ function openInstantDeliveryPage(){
   const govSel = document.getElementById('qd-governorate');
   govSel.innerHTML = '<option value="">اختر المحافظة</option>' + getActiveGovernorates().map(g=>`<option value="${g.name}">${g.name}</option>`).join('');
   document.getElementById('qd-area').innerHTML = '<option value="">اختر المنطقة</option>';
+  document.getElementById('qd-area-search').value = '';
+  document.getElementById('qd-area-search-results').classList.add('hidden');
   document.getElementById('qd-product-search').value='';
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   renderQuickChannelRow();
@@ -3759,40 +3816,66 @@ function updateMultiAddressField(idx, field, value){
 }
 function renderMultiAddressRows(){
   const wrap = document.getElementById('of-multi-address-list');
-  const govOptions = (state.governorates||[]).filter(g=>g.status!=='غير نشطة').map(g=>`<option value="${escapeHtml(g.name)}">${escapeHtml(g.name)}</option>`).join('');
-  wrap.innerHTML = orderFormMultiAddresses.map((row, idx)=>`
+  wrap.innerHTML = orderFormMultiAddresses.map((row, idx)=>{
+    const displayVal = row.area ? `${row.governorate} - ${row.area}` : (row.governorate||'');
+    return `
     <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <span style="font-weight:800;font-size:12.5px;color:var(--primary);">عنوان ${idx+1}</span>
         ${orderFormMultiAddresses.length>1?`<button type="button" onclick="removeMultiAddressRow(${idx})" style="color:var(--red);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></button>`:''}
       </div>
-      <div class="of-grid2" style="gap:6px;margin-bottom:8px;">
-        <div class="field-input" style="padding:8px 10px;"><select onchange="updateMultiAddressField(${idx},'governorate',this.value)" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;-webkit-appearance:none;appearance:none;padding:0;">
-          <option value="">اختر المحافظة</option>${govOptions}
-        </select></div>
-        <div class="field-input" style="padding:8px 10px;"><input placeholder="المنطقة" onchange="updateMultiAddressField(${idx},'area',this.value)" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;padding:0;"></div>
+      <div style="position:relative;margin-bottom:8px;">
+        <div class="field-input" style="padding:8px 10px;"><input id="multi-address-search-${idx}" placeholder="ابحث عن اسم المنطقة..." autocomplete="off" value="${escapeHtml(displayVal)}" oninput="searchMultiAddressLive(${idx}, this.value)" onfocus="searchMultiAddressLive(${idx}, this.value)" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:'Tajawal',sans-serif;padding:0;"></div>
+        <div id="multi-address-results-${idx}" class="hidden" style="position:absolute;top:100%;right:0;left:0;z-index:20;background:#fff;border:1.5px solid var(--border);border-radius:12px;margin-top:4px;max-height:200px;overflow-y:auto;box-shadow:0 8px 20px -6px rgba(30,20,90,.25);"></div>
       </div>
       <div class="of-grid2" style="gap:6px;">
-        <div class="form-row" style="margin:0;"><label style="font-size:11px;">من الساعة</label><div class="field-input" style="padding:6px 8px;"><input type="time" onchange="updateMultiAddressField(${idx},'timeFrom',this.value)" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:Arial,Helvetica,sans-serif;padding:0;"></div></div>
-        <div class="form-row" style="margin:0;"><label style="font-size:11px;">إلى الساعة</label><div class="field-input" style="padding:6px 8px;"><input type="time" onchange="updateMultiAddressField(${idx},'timeTo',this.value)" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:Arial,Helvetica,sans-serif;padding:0;"></div></div>
+        <div class="form-row" style="margin:0;"><label style="font-size:11px;">من الساعة</label><div class="field-input" style="padding:6px 8px;"><input type="time" value="${row.timeFrom||''}" onchange="updateMultiAddressField(${idx},'timeFrom',this.value)" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:Arial,Helvetica,sans-serif;padding:0;"></div></div>
+        <div class="form-row" style="margin:0;"><label style="font-size:11px;">إلى الساعة</label><div class="field-input" style="padding:6px 8px;"><input type="time" value="${row.timeTo||''}" onchange="updateMultiAddressField(${idx},'timeTo',this.value)" style="border:none;outline:none;background:transparent;flex:1;min-width:0;width:100%;font-family:Arial,Helvetica,sans-serif;padding:0;"></div></div>
       </div>
     </div>
-  `).join('');
-  // restore values into the freshly-rendered inputs
-  const rows = wrap.children;
-  orderFormMultiAddresses.forEach((row, idx)=>{
-    const rowEl = rows[idx];
-    if(!rowEl) return;
-    const govSel = rowEl.querySelector('select');
-    const areaInp = rowEl.querySelectorAll('input')[0];
-    const fromInp = rowEl.querySelectorAll('input')[1];
-    const toInp = rowEl.querySelectorAll('input')[2];
-    if(govSel) govSel.value = row.governorate;
-    if(areaInp) areaInp.value = row.area;
-    if(fromInp) fromInp.value = row.timeFrom;
-    if(toInp) toInp.value = row.timeTo;
-  });
+  `;
+  }).join('');
 }
+function searchMultiAddressLive(idx, query){
+  const resultsBox = document.getElementById('multi-address-results-'+idx);
+  if(!resultsBox) return;
+  const q = (query||'').trim().toLowerCase();
+  const addNewBtn = `<div onclick="event.stopPropagation();openAddAreaFullModal(${idx})" style="padding:11px 14px;cursor:pointer;color:var(--primary);font-weight:800;font-size:13px;display:flex;align-items:center;gap:6px;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+    إضافة منطقة جديدة
+  </div>`;
+  if(!q){ resultsBox.classList.add('hidden'); resultsBox.innerHTML=''; return; }
+  const matches = (state.areas||[]).filter(a => a.status!=='غير نشطة' && (a.name||'').toLowerCase().includes(q));
+  if(matches.length===0){
+    resultsBox.innerHTML = `<div style="padding:12px;text-align:center;color:var(--muted);font-size:12.5px;font-weight:700;border-bottom:1px solid var(--border);">لا توجد نتائج مطابقة</div>` + addNewBtn;
+    resultsBox.classList.remove('hidden');
+    return;
+  }
+  resultsBox.innerHTML = matches.map(a=>{
+    const gov = state.governorates.find(g=>g.id===a.governorateId);
+    const govName = gov ? gov.name : '';
+    return `<div onclick="event.stopPropagation();selectMultiAddressResult(${idx}, ${a.id})" style="padding:11px 14px;cursor:pointer;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;">${escapeHtml(govName)} - ${escapeHtml(a.name)}</div>`;
+  }).join('') + addNewBtn;
+  resultsBox.classList.remove('hidden');
+}
+function selectMultiAddressResult(idx, areaId){
+  const area = (state.areas||[]).find(a=>a.id===areaId);
+  if(!area) return;
+  const gov = state.governorates.find(g=>g.id===area.governorateId);
+  if(!gov) return;
+  orderFormMultiAddresses[idx].governorate = gov.name;
+  orderFormMultiAddresses[idx].area = area.name;
+  document.getElementById('multi-address-results-'+idx).classList.add('hidden');
+  renderMultiAddressRows();
+}
+document.addEventListener('click', (e)=>{
+  document.querySelectorAll('[id^="multi-address-results-"]').forEach(box=>{
+    if(box.classList.contains('hidden')) return;
+    if(e.target.closest('[id^="multi-address-results-"]')) return;
+    if(e.target.tagName==='INPUT' && e.target.closest('div[style*="position:relative"]')) return;
+    box.classList.add('hidden');
+  });
+});
 function openOrderFormPage(editId){
   isSavingOrder = false;
   if(editId){
@@ -3856,9 +3939,12 @@ function openOrderFormPage(editId){
     const areas = getAreasForGovName(editingOrder.governorate, true).map(a=>a.name);
     document.getElementById('of-area').innerHTML = '<option value="">اختر المنطقة</option>' + areas.map(a=>`<option value="${a}">${a}</option>`).join('');
     document.getElementById('of-area').value = editingOrder.area || '';
+    document.getElementById('of-area-search').value = editingOrder.area ? `${editingOrder.governorate} - ${editingOrder.area}` : editingOrder.governorate;
   }else{
     document.getElementById('of-area').innerHTML = '<option value="">اختر المنطقة</option>';
+    document.getElementById('of-area-search').value = '';
   }
+  document.getElementById('of-area-search-results').classList.add('hidden');
   document.getElementById('of-channel-other').value = editingOrder ? (editingOrder.channelOther||'') : '';
   document.getElementById('of-whatsapp-number').value = editingOrder ? (editingOrder.whatsappNumber||'') : '';
   orderFormChannel = editingOrder ? (editingOrder.channel||'') : '';
@@ -3887,6 +3973,137 @@ function populateCompanySelect(selectedId){
     sel.value = defaultCompany.id;
   }
 }
+let addAreaFullContext = null;
+function openAddAreaFullModal(ctx){
+  addAreaFullContext = (ctx!=null) ? ctx : null;
+  let prefillName = '';
+  if(addAreaFullContext==='qd') prefillName = (document.getElementById('qd-area-search').value||'').trim();
+  else if(addAreaFullContext!=null) prefillName = (document.getElementById('multi-address-search-'+addAreaFullContext).value||'').trim();
+  else prefillName = (document.getElementById('of-area-search').value||'').trim();
+  const govSel = document.getElementById('add-area-full-gov');
+  govSel.innerHTML = '<option value="">اختر المحافظة</option>' + getActiveGovernorates().map(g=>`<option value="${g.name}">${g.name}</option>`).join('');
+  document.getElementById('add-area-full-name').value = prefillName;
+  if(addAreaFullContext==='qd') document.getElementById('qd-area-search-results').classList.add('hidden');
+  else if(addAreaFullContext!=null) document.getElementById('multi-address-results-'+addAreaFullContext).classList.add('hidden');
+  else document.getElementById('of-area-search-results').classList.add('hidden');
+  openModal('modal-add-area-full');
+}
+async function saveAreaFull(){
+  const govName = document.getElementById('add-area-full-gov').value;
+  const govObj = state.governorates.find(g=>g.name===govName);
+  if(!govObj){ showToast('الرجاء اختيار المحافظة'); return; }
+  const name = document.getElementById('add-area-full-name').value.trim();
+  if(!name){ showToast('الرجاء إدخال اسم المنطقة'); return; }
+  const applySelection = (areaId)=>{
+    if(addAreaFullContext==='qd') selectQdAreaSearchResult(areaId);
+    else if(addAreaFullContext!=null) selectMultiAddressResult(addAreaFullContext, areaId);
+    else selectAreaSearchResult(areaId);
+  };
+  const existing = (state.areas||[]).find(a=>a.governorateId===govObj.id && a.name===name);
+  if(existing){
+    closeModal('modal-add-area-full');
+    applySelection(existing.id);
+    return;
+  }
+  try{
+    const newId = await getNextId('area', 1);
+    await db.collection('areas').doc(String(newId)).set({name, status:'نشطة', notes:'', governorateId:govObj.id});
+    state.areas.push({id:newId, name, status:'نشطة', notes:'', governorateId:govObj.id});
+    closeModal('modal-add-area-full');
+    showToast('تمت إضافة المنطقة بنجاح');
+    applySelection(newId);
+  }catch(err){
+    showToast('تعذر إضافة المنطقة');
+  }
+}
+function searchQdAreaLive(query){
+  const resultsBox = document.getElementById('qd-area-search-results');
+  if(!resultsBox) return;
+  const q = (query||'').trim().toLowerCase();
+  const addNewBtn = `<div onclick="event.stopPropagation();openAddAreaFullModal('qd')" style="padding:11px 14px;cursor:pointer;color:var(--primary);font-weight:800;font-size:13px;display:flex;align-items:center;gap:6px;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+    إضافة منطقة جديدة
+  </div>`;
+  if(!q){ resultsBox.classList.add('hidden'); resultsBox.innerHTML=''; return; }
+  const matches = (state.areas||[]).filter(a => a.status!=='غير نشطة' && (a.name||'').toLowerCase().includes(q));
+  if(matches.length===0){
+    resultsBox.innerHTML = `<div style="padding:12px;text-align:center;color:var(--muted);font-size:12.5px;font-weight:700;border-bottom:1px solid var(--border);">لا توجد نتائج مطابقة</div>` + addNewBtn;
+    resultsBox.classList.remove('hidden');
+    return;
+  }
+  resultsBox.innerHTML = matches.map(a=>{
+    const gov = state.governorates.find(g=>g.id===a.governorateId);
+    const govName = gov ? gov.name : '';
+    return `<div onclick="event.stopPropagation();selectQdAreaSearchResult(${a.id})" style="padding:11px 14px;cursor:pointer;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;">${escapeHtml(govName)} - ${escapeHtml(a.name)}</div>`;
+  }).join('') + addNewBtn;
+  resultsBox.classList.remove('hidden');
+}
+function selectQdAreaSearchResult(areaId){
+  const area = (state.areas||[]).find(a=>a.id===areaId);
+  if(!area) return;
+  const gov = state.governorates.find(g=>g.id===area.governorateId);
+  if(!gov) return;
+  const govSel = document.getElementById('qd-governorate');
+  govSel.innerHTML = `<option value="${escapeHtml(gov.name)}">${escapeHtml(gov.name)}</option>`;
+  govSel.value = gov.name;
+  const areaSel = document.getElementById('qd-area');
+  areaSel.innerHTML = `<option value="${escapeHtml(area.name)}">${escapeHtml(area.name)}</option>`;
+  areaSel.value = area.name;
+  document.getElementById('qd-area-search').value = `${gov.name} - ${area.name}`;
+  document.getElementById('qd-area-search-results').classList.add('hidden');
+  document.getElementById('qd-delivery').value = (gov.deliveryFee!=null) ? gov.deliveryFee : 2;
+  renderQuickSelectedList();
+}
+document.addEventListener('click', (e)=>{
+  const resultsBox = document.getElementById('qd-area-search-results');
+  if(!resultsBox || resultsBox.classList.contains('hidden')) return;
+  if(e.target.id==='qd-area-search') return;
+  resultsBox.classList.add('hidden');
+});
+function searchAreaLive(query){
+  const resultsBox = document.getElementById('of-area-search-results');
+  if(!resultsBox) return;
+  const q = (query||'').trim().toLowerCase();
+  const addNewBtn = `<div onclick="event.stopPropagation();openAddAreaFullModal()" style="padding:11px 14px;cursor:pointer;color:var(--primary);font-weight:800;font-size:13px;display:flex;align-items:center;gap:6px;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+    إضافة منطقة جديدة
+  </div>`;
+  if(!q){ resultsBox.classList.add('hidden'); resultsBox.innerHTML=''; return; }
+  const matches = (state.areas||[]).filter(a => a.status!=='غير نشطة' && (a.name||'').toLowerCase().includes(q));
+  if(matches.length===0){
+    resultsBox.innerHTML = `<div style="padding:12px;text-align:center;color:var(--muted);font-size:12.5px;font-weight:700;border-bottom:1px solid var(--border);">لا توجد نتائج مطابقة</div>` + addNewBtn;
+    resultsBox.classList.remove('hidden');
+    return;
+  }
+  resultsBox.innerHTML = matches.map(a=>{
+    const gov = state.governorates.find(g=>g.id===a.governorateId);
+    const govName = gov ? gov.name : '';
+    return `<div onclick="event.stopPropagation();selectAreaSearchResult(${a.id})" style="padding:11px 14px;cursor:pointer;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;">${escapeHtml(govName)} - ${escapeHtml(a.name)}</div>`;
+  }).join('') + addNewBtn;
+  resultsBox.classList.remove('hidden');
+}
+function selectAreaSearchResult(areaId){
+  const area = (state.areas||[]).find(a=>a.id===areaId);
+  if(!area) return;
+  const gov = state.governorates.find(g=>g.id===area.governorateId);
+  if(!gov) return;
+  const govSel = document.getElementById('of-governorate');
+  govSel.innerHTML = `<option value="${escapeHtml(gov.name)}">${escapeHtml(gov.name)}</option>`;
+  govSel.value = gov.name;
+  const areaSel = document.getElementById('of-area');
+  areaSel.innerHTML = `<option value="${escapeHtml(area.name)}">${escapeHtml(area.name)}</option>`;
+  areaSel.value = area.name;
+  document.getElementById('of-area-search').value = `${gov.name} - ${area.name}`;
+  document.getElementById('of-area-search-results').classList.add('hidden');
+  document.getElementById('of-delivery').value = (gov.deliveryFee!=null) ? gov.deliveryFee : 2;
+  renderSelectedProductsList();
+}
+document.addEventListener('click', (e)=>{
+  const resultsBox = document.getElementById('of-area-search-results');
+  if(!resultsBox || resultsBox.classList.contains('hidden')) return;
+  if(e.target.id==='of-area-search') return;
+  resultsBox.classList.add('hidden');
+});
 function onGovernorateChange(){
   const gov = document.getElementById('of-governorate').value;
   const areaSel = document.getElementById('of-area');
@@ -4566,9 +4783,21 @@ function confirmReceiveReturn(id){
   }, 'نعم، تم الاستلام', 'إلغاء');
 }
 
+function dateToISOLocal(ts){
+  const d = new Date(ts);
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
 function setOrderStatus(id, status){
+  const existing = state.orders.find(x=>x.id===id);
+  const prevStatus = existing ? existing.status : null;
   db.collection('orders').doc(String(id)).update({status, statusUpdatedAtTs:Date.now(), staleStatusNotified:false}).then(()=>{
     logActivity(`تم تغيير حالة الطلب #${id} إلى: ${status}`, id);
+    if(prevStatus==='قيد التسليم' && status==='ملغي' && existing && existing.createdAtTs){
+      savePrepHistoryForDate(dateToISOLocal(existing.createdAtTs), [id]);
+    }
     viewOrder(id);
     showToast('تم تحديث حالة الطلب إلى: ' + status);
   }).catch(()=>showToast('تعذر تحديث الحالة'));
@@ -4733,7 +4962,7 @@ function cancelStatusGatePassword(){
   closeModal('modal-status-gate');
 }
 function openStatusManagerGate(){
-  openStatusGatePassword('هذه الشاشة حساسة — الرجاء إدخال كلمة مرور حساب المدير للمتابعة', ()=>{
+  openStatusGatePassword('الرجاء إدخال كلمة المرور الخاصة بمدير النظام للمتابعة', ()=>{
     document.getElementById('status-manager-search').value = '';
     showView('view-status-manager');
     renderStatusManagerList();
@@ -4762,17 +4991,129 @@ function changeOrderStatusManually(id, newStatus){
   if(!newStatus) return;
   const o = state.orders.find(x=>x.id===id);
   if(!o) return;
+  const prevStatus = o.status;
   showConfirm('تأكيد تغيير الحالة', `هل تريد تغيير حالة الطلب #${id} من "${o.status}" إلى "${newStatus}"؟`, ()=>{
     closeModal('modal-confirm');
     openStatusGatePassword(`الرجاء إدخال كلمة المرور لتأكيد تغيير حالة الطلب #${id} إلى "${newStatus}"`, ()=>{
       db.collection('orders').doc(String(id)).update({status:newStatus, statusUpdatedAtTs:Date.now(), staleStatusNotified:false}).then(()=>{
-        logActivity(`تم تغيير حالة الطلب #${id} يدوياً من "${o.status}" إلى "${newStatus}" (إدارة الحالات)`, id);
+        logActivity(`تم تغيير حالة الطلب #${id} يدوياً من "${prevStatus}" إلى "${newStatus}" (إدارة الحالات)`, id);
+        if(prevStatus==='قيد التسليم' && newStatus==='ملغي' && o.createdAtTs){
+          savePrepHistoryForDate(dateToISOLocal(o.createdAtTs), [id]);
+        }
         o.status = newStatus;
         showToast('تم تغيير الحالة بنجاح');
         renderStatusManagerList();
       }).catch(()=>showToast('تعذر تحديث الحالة'));
     });
   });
+}
+function openCategoryProductManager(){
+  openStatusGatePassword('الرجاء إدخال كلمة المرور الخاصة بمدير النظام للمتابعة', ()=>{
+    showView('view-category-product-manager');
+    switchCPMTab('categories');
+  });
+}
+function switchCPMTab(tab){
+  const catBtn = document.getElementById('cpm-tab-categories');
+  const prodBtn = document.getElementById('cpm-tab-products');
+  const catPanel = document.getElementById('cpm-categories-panel');
+  const prodPanel = document.getElementById('cpm-products-panel');
+  if(tab==='categories'){
+    catBtn.style.background = 'var(--primary)'; catBtn.style.color = '#fff'; catBtn.style.border = 'none';
+    prodBtn.style.background = '#fff'; prodBtn.style.color = 'var(--text)'; prodBtn.style.border = '1.5px solid var(--border)';
+    catPanel.classList.remove('hidden');
+    prodPanel.classList.add('hidden');
+    renderCPMCategoriesList();
+  }else{
+    prodBtn.style.background = 'var(--primary)'; prodBtn.style.color = '#fff'; prodBtn.style.border = 'none';
+    catBtn.style.background = '#fff'; catBtn.style.color = 'var(--text)'; catBtn.style.border = '1.5px solid var(--border)';
+    prodPanel.classList.remove('hidden');
+    catPanel.classList.add('hidden');
+    renderCPMProductsList();
+  }
+}
+function renderCPMCategoriesList(){
+  const wrap = document.getElementById('cpm-categories-list');
+  const cats = state.categories||[];
+  if(cats.length===0){
+    wrap.innerHTML = `<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px;font-weight:700;">لا توجد فئات بعد</div>`;
+    return;
+  }
+  wrap.innerHTML = cats.map((c,idx)=>`
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;display:flex;gap:10px;align-items:center;">
+      <div style="flex:1;min-width:0;">
+        <input id="cpm-cat-name-${idx}" value="${escapeHtml(c.name)}" style="width:100%;border:1.5px solid var(--border);border-radius:9px;padding:8px 10px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13px;margin-bottom:6px;">
+        <input id="cpm-cat-code-${idx}" value="${escapeHtml(c.code)}" maxlength="3" style="width:100%;border:1.5px solid var(--border);border-radius:9px;padding:8px 10px;font-family:Arial;font-weight:800;font-size:12px;text-transform:uppercase;">
+      </div>
+      <button onclick="saveCPMCategory(${idx})" style="flex-shrink:0;padding:10px 14px;border-radius:10px;background:var(--primary);color:#fff;font-weight:800;font-size:12px;">حفظ</button>
+    </div>
+  `).join('');
+}
+async function saveCPMCategory(idx){
+  const newName = document.getElementById('cpm-cat-name-'+idx).value.trim();
+  const newCode = document.getElementById('cpm-cat-code-'+idx).value.trim().toUpperCase();
+  if(!newName){ showToast('الرجاء إدخال اسم الفئة'); return; }
+  if(newCode.length!==3 || !/^[A-Z]{3}$/.test(newCode)){ showToast('رمز الفئة يجب أن يتكون من 3 حروف إنجليزية'); return; }
+  const list = state.categories.slice();
+  const otherHasCode = list.some((c,i)=>i!==idx && c.code===newCode);
+  if(otherHasCode){ showToast('رمز الفئة مستخدم لفئة أخرى'); return; }
+  list[idx] = {name:newName, code:newCode, status:list[idx].status};
+  try{
+    await db.collection('settings').doc('categories').set({list});
+    state.categories = list;
+    showToast('تم حفظ الفئة بنجاح');
+  }catch(err){
+    showToast('تعذر حفظ الفئة');
+  }
+}
+function renderCPMProductsList(){
+  const wrap = document.getElementById('cpm-products-list');
+  const q = (document.getElementById('cpm-product-search').value||'').trim().toLowerCase();
+  const products = state.products.filter(p=> !q || p.name.toLowerCase().includes(q) || (p.code||'').toLowerCase().includes(q));
+  if(products.length===0){
+    wrap.innerHTML = `<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px;font-weight:700;">لا توجد منتجات</div>`;
+    return;
+  }
+  const catOptions = (state.categories||[]).map(c=>`<option value="${c.code}">${escapeHtml(c.name)}</option>`).join('');
+  wrap.innerHTML = products.map(p=>{
+    const currentCat = (state.categories||[]).find(c=>c.name===p.category);
+    return `<div style="background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;">
+      <div style="font-weight:800;font-size:13.5px;margin-bottom:2px;">${escapeHtml(p.name)}</div>
+      <div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:8px;">الرمز الحالي: ${escapeHtml(p.code||'-')}</div>
+      <select onchange="changeCPMProductCategory(${p.id}, this.value)" style="width:100%;border:1.5px solid var(--border);border-radius:9px;padding:8px 10px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13px;">
+        <option value="">اختر الفئة</option>
+        ${catOptions}
+      </select>
+    </div>`;
+  }).join('');
+  products.forEach(p=>{
+    const currentCat = (state.categories||[]).find(c=>c.name===p.category);
+    const sel = wrap.querySelector(`select[onchange="changeCPMProductCategory(${p.id}, this.value)"]`);
+    if(sel && currentCat) sel.value = currentCat.code;
+  });
+}
+async function changeCPMProductCategory(productId, newCatCode){
+  if(!newCatCode) return;
+  const product = state.products.find(p=>p.id===productId);
+  if(!product) return;
+  const newCat = (state.categories||[]).find(c=>c.code===newCatCode);
+  if(!newCat) return;
+  if(product.category===newCat.name){ return; }
+  try{
+    let nextNum = await getNextCategoryProductNumber(newCatCode);
+    let newCode = newCatCode + String(nextNum).padStart(4,'0');
+    while(state.products.some(p=>p.id!==productId && p.code===newCode)){
+      nextNum = await getNextCategoryProductNumber(newCatCode);
+      newCode = newCatCode + String(nextNum).padStart(4,'0');
+    }
+    await db.collection('products').doc(String(productId)).update({category:newCat.name, code:newCode});
+    product.category = newCat.name;
+    product.code = newCode;
+    showToast(`تم نقل المنتج إلى فئة "${newCat.name}" — الرمز الجديد: ${newCode}`);
+    renderCPMProductsList();
+  }catch(err){
+    showToast('تعذر تغيير فئة المنتج');
+  }
 }
 function openManualWaybillScreen(){
   document.getElementById('mw-name').value = '';
@@ -4967,9 +5308,11 @@ function openPrepOrdersScreen(){
 }
 function renderPrepOrdersScreen(){
   const wrap = document.getElementById('prep-orders-content');
+  const countBadge = document.getElementById('prep-order-count-badge');
   if(prepViewDate){
     const archived = loadPrepHistoryForDate(prepViewDate);
     const orders = archived.map(id=>state.orders.find(o=>o.id===id)).filter(Boolean);
+    if(countBadge) countBadge.textContent = orders.length;
     if(orders.length===0){
       wrap.innerHTML = `<div class="empty-state" style="padding:70px 20px;text-align:center;"><div class="et" style="font-size:15px;font-weight:800;">لا توجد طلبات محفوظة لهذا التاريخ</div></div>`;
       return;
@@ -4978,6 +5321,7 @@ function renderPrepOrdersScreen(){
     return;
   }
   const orders = prepOrdersSnapshot.map(id=>state.orders.find(o=>o.id===id)).filter(Boolean);
+  if(countBadge) countBadge.textContent = orders.length;
   if(orders.length===0){
     wrap.innerHTML = `<div class="empty-state" style="padding:90px 20px;text-align:center;"><div class="et" style="font-size:16px;font-weight:800;">لا يوجد طلبات جديدة لتجهيزها</div></div>`;
     return;
