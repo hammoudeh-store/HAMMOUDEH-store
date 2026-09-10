@@ -649,7 +649,7 @@ a{color:inherit;text-decoration:none;}
         <div style="width:28px;height:28px;border-radius:50%;background:var(--red-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E5484D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-5-5 5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v3"/></svg>
         </div>
-        <div style="font-weight:800;font-size:13.5px;">مرتجعات معلقة مع شركة التوصيل</div>
+        <div style="font-weight:800;font-size:13.5px;display:flex;align-items:center;gap:6px;">مرتجعات معلقة مع شركة التوصيل<span id="home-pending-returns-count" style="background:var(--red-bg);color:#E5484D;font-size:11px;font-weight:800;padding:2px 9px;border-radius:20px;"></span></div>
       </div>
       <div id="home-pending-returns-preview"></div>
       <div style="text-align:center;margin-top:8px;">
@@ -2406,6 +2406,7 @@ function renderHome(){
     returnsCard.classList.add('hidden');
   }else{
     returnsCard.classList.remove('hidden');
+    document.getElementById('home-pending-returns-count').textContent = pendingReturns.length;
     document.getElementById('home-pending-returns-preview').innerHTML = orderRowHtml(pendingReturns[0]);
   }
 }
@@ -4941,21 +4942,23 @@ function openStatusGatePassword(message, onSuccess){
   openModal('modal-status-gate');
   setTimeout(()=>{ const inp = document.getElementById('status-gate-pass'); if(inp) inp.focus(); }, 50);
 }
-const STATUS_GATE_PIN = '0000';
 function confirmStatusGatePassword(){
   const pass = document.getElementById('status-gate-pass').value;
   const errBox = document.getElementById('status-gate-err');
   errBox.classList.add('hidden');
   if(!pass){ errBox.textContent='الرجاء إدخال كلمة المرور'; errBox.classList.remove('hidden'); return; }
-  if(pass !== STATUS_GATE_PIN){
+  const user = auth ? auth.currentUser : null;
+  if(!user){ errBox.textContent='تعذر التحقق من الهوية'; errBox.classList.remove('hidden'); return; }
+  const cred = firebase.auth.EmailAuthProvider.credential(user.email, pass);
+  user.reauthenticateWithCredential(cred).then(()=>{
+    closeModal('modal-status-gate');
+    const cb = statusGatePendingCallback;
+    statusGatePendingCallback = null;
+    if(cb) cb();
+  }).catch(()=>{
     errBox.textContent = 'كلمة المرور غير صحيحة';
     errBox.classList.remove('hidden');
-    return;
-  }
-  closeModal('modal-status-gate');
-  const cb = statusGatePendingCallback;
-  statusGatePendingCallback = null;
-  if(cb) cb();
+  });
 }
 function cancelStatusGatePassword(){
   statusGatePendingCallback = null;
