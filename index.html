@@ -5060,7 +5060,7 @@ async function saveCPMCategory(idx){
   const list = state.categories.slice();
   const otherHasCode = list.some((c,i)=>i!==idx && c.code===newCode);
   if(otherHasCode){ showToast('رمز الفئة مستخدم لفئة أخرى'); return; }
-  list[idx] = {name:newName, code:newCode, status:list[idx].status};
+  list[idx] = {name:newName, code:newCode, status:list[idx].status||'نشطة'};
   try{
     await db.collection('settings').doc('categories').set({list});
     state.categories = list;
